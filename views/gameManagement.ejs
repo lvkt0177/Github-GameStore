@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<meta name="Description" content="Enter your description here"/>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.1.0/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+<link href="https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/admin.css">
+<link rel="icon" type="image/png" href="https://upload.wikimedia.org/wikipedia/commons/9/91/PlayStation_App_Icon.jpg">
+
+<title>Game List</title>
+</head>
+<body>
+
+    <%- include('partials/headerAdmin.ejs') %>
+    
+
+    <section class="addNewSth">
+        <div class="container">
+            <form action="" method="post" enctype="multipart/form-data">
+                <div class="row">
+                    <div class="col col-md-12">
+                        <h3>Add New Game</h3>
+                    </div>
+                    <div class="col col-md-6 mt-3">
+                        <label for="" class="label-label">Name Game</label>
+                        <input type="text" name="name" id="" class="form-control" required>
+                    </div>
+                    
+                    <div class="col col-md-6 mt-3">
+                        <label for="" class="label-label">Category</label>
+                        <input type="text" name="category" id="" class="form-control" required>
+                    </div>
+                    <div class="col col-md-6 mt-3">
+                        <label for="" class="label-label">Image game</label>
+                        <input type="file" name="image" id="" class="form-control" accept="image/jpg" required>
+                    </div>
+                    <div class="col col-md-6 mt-3">
+                        <label for="" class="label-label">Price</label>
+                        <input type="text" name="price" id="" class="form-control" required>
+                    </div>
+                    <div class="col col-md-6 mt-3">
+                        <label for="date" class="label-label">Launch Date</label>
+                        <input type="date" name="date" id="" class="form-control" required>
+                    </div>
+                    <div class="col col-md-12 mt-3">
+                        <label for="" class="label-label">Description</label>
+                        <textarea id="description" name="description" rows="4" cols="56" class="form-control" required></textarea>
+                    </div>
+                    <div class="">
+                        <button class="btn bg-green text-light mt-4 me-3" style="width: 130px;height: 40px;"><i class="fa-solid fa-check text-light me-3"></i>Confirm</button>
+                        <button type="button" class="btn bg-danger text-light mt-4 cancle" style="width: 130px;height: 40px;"><i class="fa-solid fa-x me-3"></i>Cancle</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </section>
+
+<!-- 
+     <section class="changeSth">
+        <div class="container">
+            <form action="" method="post" enctype="multipart/form-data">
+
+                <div class="row">
+                    <div class="col col-md-12">
+                        <h3>Add New Game</h3>
+                    </div>
+                    <div class="col col-md-6 mt-3">
+                        <label for="" class="label-label">Name Game</label>
+                        <input type="text" name="name" id="name" class="form-control" required>
+                    </div>
+                    
+                    <div class="col col-md-6 mt-3">
+                        <label for="" class="label-label">Category</label>
+                        <input type="text" name="category" id="category" class="form-control" required>
+                    </div>
+                    <div class="col col-md-6 mt-3">
+                        <label for="" class="label-label">Image game</label>
+                        <input type="file" name="image" id="image" class="form-control" accept="image/jpg" required>
+                    </div>
+                    <div class="col col-md-6 mt-3">
+                        <label for="" class="label-label">Price</label>
+                        <input type="text" name="price" id="price" class="form-control" required>
+                    </div>
+                    <div class="col col-md-6 mt-3">
+                        <label for="date" class="label-label">Launch Date</label>
+                        <input type="date" name="date" id="date" class="form-control" required>
+                    </div>
+                    <div class="col col-md-12 mt-3">
+                        <label for="" class="label-label">Description</label>
+                        <textarea id="description" name="description" rows="4" cols="56" class="form-control" required></textarea>
+                    </div>
+                    <div class="">
+                        <button class="btn bg-green text-light mt-4 me-3" style="width: 130px;height: 40px;"><i class="fa-solid fa-check text-light me-3"></i>Confirm</button>
+                        <button type="button" class="btn bg-danger text-light mt-4 cancle" style="width: 130px;height: 40px;"><i class="fa-solid fa-x me-3"></i>Cancle</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </section> -->
+
+    <section>
+        <div class="container-fluid">
+            <div class="row">
+                <%- include('partials/navbarAdmin.ejs') %>
+
+                <div class="col col-md-10 mt-5 text-center">
+                    <div class="head">
+                        <h2>Game List</h2>
+                    </div>
+
+                    <div class="add text-start mt-3 mb-4">
+                        <button class="addGame bg-green text-light px-3 py-2 bd-rd-05 "><i class="fa fa-plus" aria-hidden="true"></i> Add Game</button>
+                    </div>
+
+                    <div class="list">
+                        <table class="table table-light text-dark table-hover text-start f-fm">
+                            <thead class="thead-light fs-4">
+                                <tr>
+                                    <th>#</th>
+                                    <th>Image</th>
+                                    <th>Name Product</th>
+                                    <th>Category</th>
+                                    <th>Price</th>
+                                    <th>Launch Date</th>
+                                    <th>Dashboard</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <% data.forEach(item => { %>
+                                    <tr>
+                                        <th><%= item.ID %></th>
+                                        <th><img src="/imageGame/<%= item.hinhNen %>" class="bd-rd" style="width: 60px;height: 60px;" alt=""></th>
+                                        <th class="pt-4"><%= item.tenGame %></th>
+                                        <th class="pt-4"><%= item.theLoai %></th>
+                                        <th class="pt-4">$<%= item.gia %></th>
+                                        <th class="pt-4"><%= item.ngayRaMat.toDateString() %></th>
+                                        <th class="pt-4">
+                                            <button class="btn btn-warning"><i class="fa fa-eye text-light" aria-hidden="true"></i></button>
+                                            <button class="btn bg-green  change" value="<%= item.ID %>"><i class="fa fa-pen text-light" aria-hidden="true"></i></button>
+                                            <form action="/playstation/admin/gameManagement/delete/<%= item.ID %>" class="d-inline" method="post" onsubmit="return confirm('You want to remove it?')">
+                                                <button class="btn btn-danger px-3"><i class="fa fa-trash text-light" aria-hidden="true"></i></button>
+                                            </form>
+                                        </th>
+                                    </tr>
+                                <% }) %>
+                            </tbody>
+                        </table>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+
+
+
+<script>
+
+
+    var addGames = document.querySelector('.addGame');
+    var boxAdd = document.querySelector('.addNewSth');
+    var cancleBox = document.querySelector('.cancle');
+    var btn_Change = document.querySelectorAll('.change')
+    
+    addGames.addEventListener('click',()=>{
+            boxAdd.style.display = 'block';
+    })
+    cancleBox.addEventListener('click',()=>{
+            boxAdd.style.display = 'none';
+    })
+
+    
+    console.log(dataList);
+    btn_Change.forEach(item =>{
+        item.addEventListener('click',()=>{
+            // fetch(`/playstation/admin/gameManagement?id=${item.value}`)
+            //     .then(response => response.json())
+            //     .then(data =>{
+            //         console.log("Z:  " + data.ID);
+            //     })
+            var a = dataList.find(d => d.ID = item.value)
+        })
+    })
+    
+  
+
+
+</script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.9.2/umd/popper.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.1.0/js/bootstrap.min.js"></script>
+</body>
+</html>

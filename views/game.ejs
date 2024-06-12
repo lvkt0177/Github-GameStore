@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<meta name="Description" content="Enter your description here"/>
+
+<%- include('partials/link') %>
+
+<title>Game</title>
+</head>
+<body style="background-color: rgb(33, 37, 41) !important; ">
+    <%- include('partials/navbar') %>
+
+    <section class="bg-product text-light mt-5">
+        <div class="container">
+            <div class="row">
+
+                
+                <div class="col col-md-12 col-lg-4 col-xs-4 form-game mb-5">
+                    <form action="" method="post">
+                        <span class="tittle fs-1 mb-4">Categories</span><br><br>
+
+                        <% data.category.forEach(item => { %>
+                            <input class="form-check-input check" type="checkbox" name="category" value="<%= item.theLoai %>" id="">
+                            <span class="form-check-label ms-4 fs-5 text-light"><%= item.theLoai %></span>
+                            <p class="m-1"></p>
+                            <br>
+                        <% }) %>
+                            
+
+
+                        <br>
+                        <!-- <span class="tittle fs-1 mb-4">Platforms</span> -->
+                            <input class="btn-submit" type="submit" value="Find">
+                    </form>
+                </div>
+
+                <!-- List game -->
+                <div class="col col-12 col-md-12 col-lg-8 px-4 col-sm-12">
+                    <div class="row">
+                        <div class="col col-lg-12">
+                            <a href="" class="link-img-head">
+                                <img src="/imageGame/spider_1.jpg" alt="" class="img-fluid img-head link-game" style="border-radius: 2rem;width: 900px; height: 450px;">
+                            </a>
+                        </div>
+
+                        <!------------>
+                        <div class="col col-12 col-md-12 col-lg-12 col-sm-12">
+                            <div class="row align-item d-flex justify-content-center">
+                                <% data.game.forEach(item => { %>
+                                    <div class="col col-6 col-md-6 col-lg-6 my-4 col-sm-6 col-xl-4">
+                                        <a href="" class="link-game">
+                                            <div class="img-game">
+                                                <img src="/imageGame/<%= item.hinhNen %>" alt="">
+                                            </div>
+                                            <div class="contact mt-5">
+                                                <h5 class="text-light"><%= item.tenGame %></h5>
+                                                <p class="text-light"><%= item.theLoai %></p>
+                                                <b class="text-warning">$<%= item.gia %></b>
+                                            </div>
+                                        </a>
+                                    </div>
+                                <% }) %>
+                            </div>
+                        </div>
+                        
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+<script>
+    var img_head = document.querySelector('.img-head');
+    
+    img_head.addEventListener('mouseover',()=>{
+        img_head.src = "/imageGame/gif_spider.webp";
+        img_head.style.width = '900px';
+        img_head.style.height = '450px';
+    })
+
+    img_head.addEventListener('mouseout',()=>{
+        img_head.src = "/imageGame/spider_1.jpg";
+    })
+    
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.9.2/umd/popper.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.1.0/js/bootstrap.min.js"></script>
+</body>
+</html>

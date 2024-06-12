@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<meta name="Description" content="Enter your description here"/>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.6.0/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+<script src="https://cdn.tiny.cloud/1/tgfa89yfovqhkmb41kw9f6bt8v5pq9wjirve8sjq9yzonmej/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
+
+<title>Title</title>
+</head>
+<body>
+
+<section class="bg-light mt-5"> 
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col col-md-2">
+                    <h1>TOOLS</h1>
+                </div>
+                
+                <div class="col col-md-10">
+                    <!-- <form action="" method="post">
+                        <textarea id="mytextarea" value=""  name="content"></textarea>
+                        <button id="submitBtn" class="btn btn-success px-5 mt-5">Gửi</button>
+                    </form> -->
+                    
+                </div>
+            </div>
+        </div>
+    </section>
+
+<script>
+    var content = document.querySelector('.text');
+        
+</script>
+<script>
+    tinymce.init({
+        selector: 'textarea#mytextarea',
+        plugins: 'autolink lists link image',
+        toolbar: 'undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | outdent indent | link image',
+        height: 900, // Chiều cao của vùng soạn thảo
+        width: 1200
+    });
+
+  
+
+</script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.slim.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.1/umd/popper.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.6.0/js/bootstrap.min.js"></script>
+</body>
+</html>

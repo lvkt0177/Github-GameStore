@@ -1,0 +1,115 @@
+:root{
+    --bg-color: rgb(44, 36, 73);
+    --bg-dashboar: rgb(35,28,62);
+    --font: "Montserrat",sans-serif;
+    --color-hover: rgb(244, 92, 97);
+}
+
+
+body{
+    padding: 0;
+    margin: 0;
+    background-color: var(--bg-color);
+    color: #ffff;
+    font-family: var(--font);
+}
+
+.header{
+    border-bottom: 2px solid rgb(64, 54, 102);
+}
+
+.dashboard{
+    background-color: var(--bg-dashboar);
+}
+
+.admin{
+    display: flex;
+    justify-content: space-around;
+}
+
+.admin p{
+    margin-top: 2rem;
+    font-size: 16px;
+}
+
+
+.detail-Admin img{
+    border-radius: 50%;
+    border: 3px solid rgb(24, 88, 162);
+}
+
+.link-dashboard{
+    padding: 2rem 0 1rem 0;
+    background-color: rgba(40, 21, 114, 0.293);
+    border-radius: 1rem;
+}
+
+.link-dashboard ul{
+    display: flex;
+    flex-direction: column;
+}
+
+a{
+    text-decoration: none;
+    color: #ffff;
+}
+
+a:hover{
+    color: var(--color-hover);
+}
+
+li{
+    list-style: none;
+    margin-top: 1.4rem;
+}
+
+.link:hover{
+    border-right: 4px solid var(--color-hover);
+}
+
+.cl-green{
+    color: rgb(37, 214, 120);
+}
+
+
+.bg-green{
+    background-color: rgb(27, 202, 109);
+}
+
+.cl-yellow{
+    color: rgb(229, 170, 51);
+}
+
+.cl-red{
+    color: rgb(239, 100, 100);
+}
+
+.bg-spDark{
+    background-color: rgba(75, 67, 108, 0.293);
+}
+
+.bd-rd{
+    border-radius: 1rem;
+}
+
+.bd-rd-05{
+    border-radius: 0.5rem;
+}
+
+.f-fm{
+    font-family: "Raleway", sans-serif;
+}
+
+/* Add */
+
+.addNewSth,
+.changeSth{
+    display: none;
+    padding: 5rem;
+    background-color: rgb(57, 47, 94);
+    position: fixed;
+    top: 20%;
+    left: 15%;
+    overflow: auto;
+    border-radius: 1rem;
+}

@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<meta name="Description" content="Enter your description here"/>
+
+
+<%- include('partials/link') %>
+
+<title>Home - Game Store</title>
+</head>
+<body>
+
+    <%- include('partials/navbar') %>
+<!---------------------------------------------------------------->
+
+    <section class="slide">
+        <div class="container-fluid p-0">
+                <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
+                     <div class="carousel-indicators">
+                       <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+                       <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1" aria-label="Slide 2"></button>
+                       <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2" aria-label="Slide 3"></button>
+                       <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="3" aria-label="Slide 4"></button>
+                       <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="4" aria-label="Slide 5"></button>
+                     </div>
+
+                     <div class="carousel-inner">
+                       <div class="carousel-item active">
+                         <img src=" /imageGame/god_of_war.jpg" class="d-block w-100 h-100" alt="...">
+                       </div>
+
+                       <div class="carousel-item">
+                         <img src=" /imageGame/ronin.jpg" class="d-block w-100 h-100" alt="...">
+                       </div>
+
+                       <div class="carousel-item">
+                         <img src=" /imageGame/spider.jpg" class="d-block w-100 h-100" alt="...">
+                       </div>
+
+                       <div class="carousel-item">
+                         <img src=" /imageGame/ring.jpg" class="d-block w-100 h-100" alt="...">
+                       </div>
+
+                       <div class="carousel-item">
+                         <img src=" /imageGame/z5.jpg" class="d-block w-100 h-100" alt="...">
+                       </div>
+
+                     </div>
+
+                     <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
+                       <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                       <span class="visually-hidden">Previous</span>
+                     </button>
+
+                     <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
+                       <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                       <span class="visually-hidden">Next</span>
+                     </button>
+
+                </div>
+        </div>
+    </section>
+
+
+
+    <section class="product-ps">
+        <div class="container">
+            <div class="row">
+                            <!-- <div class="col col-lg-6 col-md-12 col-sm-12 py-5 col-sm-12 col-12"> --> 
+                            <!-- <div class="col col-lg-6 col-md-12 col-sm-12 col-12"> -->
+                            <!-- Show 1 display -->
+
+                    <div class="col col-lg-12">
+                            <div class="row">
+                                <!-- Slider -->
+                                <div class="slider-for">
+                                        
+                                    <% data.devices.forEach(item => { %>
+                                        <!-- (1) -->
+                                        <div class="col col-lg-12">
+                                            <div class="row">
+                                                
+                                                <div class="col col-lg-5 info-device">
+                                                    <h4 class="mb-3">Introducing the PS5 console and accessories</h4>
+                                                    <p class="text-primary"><%= item.TENSP %></p>
+                                                    <p class="mb-5"><%= item.MOTA %></p>
+                                                    <a href="" class="text-decoration-none">Find out more</a>
+                                                </div>
+    
+                                                <div class="col col-lg-7">
+                                                    <img src="/imageProduct/<%= item.HINHANH %>" alt="" class="img-fluid">
+                                                  
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                        <!-- (1) -->
+                                    <% }) %>
+
+                                </div>
+                                <!-- Slider -->
+                            </div>
+                            <!-- row -->
+                    </div>
+                    <!-- col -->
+
+                    <div class="col col-lg-12 my-3">
+                        <div class="slider-nav">
+                            <% data.devices.forEach(item => { %>
+                                <div class="my-5 mx-3 img-slider">
+                                    <img src="/imageProduct/<%= item.HINHANH %>" class="shadow img-fluid rounded-3" alt=""> 
+                                    <div class="text-center mt-3">
+                                        <p><%= item.TENSP %></p>
+                                    </div>
+                                </div> 
+                            <% }) %>
+
+                        </div>
+                    </div>
+                    <!-- Click choose and show -->
+                        
+            </div>
+        </div>
+    </section>
+        
+    <section class="best-game pt-5 pb-5">
+        <div class="container">
+            <div class="title-best-game text-center text-light">
+                    <h2>Great PS4 & PS5 games out now or coming soon</h2>
+            </div>
+
+            <div class="btn-game text-center pt-4">
+                    <button class="py-2 btn_new">New releases</button>
+                    <button class="py-2 btn_cs">Coming soon</button>
+                
+            </div>
+
+            <!-- New -->
+            <div class=" row game-new">
+                    <% data.dataPopular.forEach(item => { %>
+                        <div class="col col-10 col-xl-3 col-lg-4 col-md-6 l-game mt-5 col-sm-12 text-center">
+                            <a href="#" class="">
+                                <div class="info-game text-start">
+                                    <h2><%= item.tenGame %></h2>
+                                    <p>Genra: <%= item.theLoai %></p>
+                                </div>
+                                <div class="bg-game">
+                                    <img class="l-game-img" src="/imageGame/<%= item.hinhNen %>" alt="" style="width: 300px;height: 230px;">
+                                </div>
+                            </a>
+                        </div>
+                    <% }) %> 
+                </div>
+            
+
+                <!-- Coming Soon -->
+            <div class="row game-cs">
+                <% data.dataUC.forEach(item => { %>
+                    <div class="col col-12 col-xl-3 col-lg-4 col-md-6 l-game mt-5 col-sm-12">
+                        <a href="#" class="">
+                            <div class="info-game text-start">
+                                <h2><%= item.tenGame %></h2>
+                                <p>Genra: <%= item.theLoai %></p>
+                            </div>
+                            <img src=" /imageGame/<%= item.hinhNen %>" alt="" style="width: 300px;height: 230px;">
+                        </a>
+                    </div>
+
+                <% }) %>
+            </div>
+        <!-- container -->
+        </div>
+    </section>
+
+
+     <section class="virtual-reality pt-5">
+        <div class="bg-virtual-reality">
+            <div class="container">
+                <div class="row">
+                    <div class="text-content text-vr col col-md-12 text-light">
+                        <h2 class="mb-3">Feel a New Real</h2>
+                        <p class="mb-5">Immerse yourself in epic worlds that go beyond reality, with the ground- breaking PlayStation VR2 headset and PlayStation VR2 Sense controller</p>
+                        <a href="" class="text-decoration-none">Find out more</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <section class="this-month">
+        <div class="bg-this-month pt-5">
+            <div class="container">
+                <div class="text-content text-this-month mb-5">
+                    <h2 class="mb-3">THIS MONTH ON PLAYSTATION</h2>
+                    <p class="mb-5">Check out this month's biggest releases along with dedicated features, guides and more.</p>
+                    <a href="/game" class="text-decoration-none">Find out more</a>
+                </div>
+
+                <div class="row p-5 text-light shadow show-item">
+                    
+                    <% data.pNews.forEach(item => { %>
+                        <div class="col col-lg-4 col-sm-12 col-lg-4 col-md-8 col-12">
+                            <div class="img-month">
+                                <a href="">
+                                    <img src="/imageNews/<%= item.HINHANH %>" alt="" class="img-fluid ">
+                                </a>
+                            </div>
+                            <div class="text-center pt-5">
+                                <h5><%= item.TIEUDE %></h5>
+                                <p><%= item.TOMTAT %></p>
+                            </div>
+                        </div>
+                    <% }) %>
+
+                </div>
+            </div>
+    </div>
+</section>
+    <section class="news bg-light py-5">
+        <div class="title text-center py-5">
+            <h2>The latest news from PlayStation Blog</h2>
+        </div>
+        <div class="container">
+     
+                <div class="row  list-news">
+                    <% data.news.forEach(item => { %>
+
+                        <div class="col col-sm-12 col-sm-4 new d-block shadow mb-5" style="height: 450px;">
+                            <a href="" class="text-decoration-none text-dark">
+                                <div class="new-img">
+                                    <img src=" /imageGame/<%= item.HINHANH %>" alt="" class="img-news img-fluid" style="width: 1000px;height: 250px;">
+                                </div>
+                                <div class="new-text p-4">
+                                    <h5><%= item.TIEUDE %></h5>
+                                    <p><%= item.TOMTAT %></p>
+                                </div>
+                            </a>
+                        </div>
+
+                    <% }) %>
+                
+                </div>
+        </div>
+    </section>
+
+
+
+    <section class="social-media py-5 bg-light shadow-lg">
+        <div class="container">
+            <div class="tittle-social-media text-dark text-center">
+                <h2>Follow us on Social media</h2>
+            </div>
+            <div class="row p-5 text-center">
+                <div class="icon col col-12 col-md-3 col-lg-3 text-center col-sm-6">
+                    <a href="#" class="text-light btn btn-dark border border-light icon-sm text-center" style="width: 150px;"><i class="fa fa-twitter" aria-hidden="true"></i></a>
+                </div>
+
+                <div class="icon col col-12 col-md-3 col-lg-3 text-center col-sm-6">
+                    <a href="#" class="text-light btn btn-dark border border-light icon-sm text-center" style="width: 150px;"><i class="fa fa-instagram " aria-hidden="true"></i></a>
+                </div>
+
+                <div class="icon col col-12 col-md-3 col-lg-3 text-center col-sm-6">
+                    <a href="#" class="text-light btn btn-dark border border-light icon-sm text-center" style="width: 150px;"><i class="fa fa-instagram " aria-hidden="true"></i></a>
+                </div>
+
+                <div class="icon col col-12 col-md-3 col-lg-3 text-center col-sm-6">
+                    <a href="#" class="text-light btn btn-dark border border-light icon-sm text-center" style="width: 150px;"><i class="fa fa-youtube " aria-hidden="true"></i></a>
+                </div>
+
+
+            </div>
+        </div>
+    </section>
+
+    
+<script src="https://kit.fontawesome.com/1946f9078a.js" crossorigin="anonymous"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.9.2/umd/popper.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.1.0/js/bootstrap.min.js"></script>
+<script src="/slick.min.js"></script>
+
+<script>
+    var btn_New = document.querySelector('.btn_new');
+    var btn_Cs = document.querySelector('.btn_cs');
+
+    var e_New = document.querySelector('.game-new');
+    var e_gameCS = document.querySelector('.game-cs');
+
+    //Bars
+    var count_bars = 0;
+
+
+    $(document).ready(function()
+    {{
+        $('.list-news').slick({
+          slidesToShow: 3,
+          slidesToScroll: 1,
+          autoplay: true,
+          autoplaySpeed: 2000,
+          centerMode: true
+        });
+	
+    }})
+
+    $(window).resize(function(){
+    if ($(window).width() < 1200) { // Kiểm tra nếu chiều rộng của màn hình nhỏ 
+        $('.list-news').slick('slickSetOption', 'slidesToShow', 1, true); // Thay đổi slidesToShow thành 1
+    } else {
+        $('.list-news').slick('slickSetOption', 'slidesToShow', 3, true); // Nếu không, giữ nguyên slidesToShow là 3
+
+    }
+    });
+    
+
+
+    btn_New.classList.add('btn_click');
+
+    e_New.classList.add('e_flex');
+    e_gameCS.classList.add('e_none');
+
+
+    btn_New.addEventListener('click',()=>{
+        e_New.classList.remove('e_none');
+        e_New.classList.add('e_flex');
+
+        e_gameCS.classList.remove('e_flex');
+        e_gameCS.classList.add('e_none');
+
+        btn_New.classList.add('btn_click');
+        btn_Cs.classList.remove('btn_click');
+    }) 
+    // Else
+    btn_Cs.addEventListener('click',()=>{
+        e_gameCS.classList.remove('e_none');
+        e_gameCS.classList.add('e_flex');
+
+        e_New.classList.remove('e_flex');
+        e_New.classList.add('e_none');
+
+        btn_Cs.classList.add('btn_click');
+        btn_New.classList.remove('btn_click');
+    }) 
+
+
+     $('.slider-for').slick(
+        {
+            slidesToShow: 1,
+            slidesToScroll: 1,
+            arrows: false,
+            fade: true,
+            asNavFor: '.slider-nav'
+        });
+
+    $('.slider-nav').slick(
+        {
+            slidesToShow: 3,
+            slidesToScroll: 1,
+            asNavFor: '.slider-for',
+            dots: true,
+            centerMode: true,
+            focusOnSelect: true
+        });
+
+
+</script>
+</body>
+</html>
