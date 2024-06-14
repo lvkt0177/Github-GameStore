@@ -206,6 +206,17 @@ app.get('/playstation/admin/gameManagement', (req, res) => {
     conn.end();
 })
 
+app.get('/playstation/admin/gameManagement/:id', (req, res) => {
+    var conn = connection.create();
+    conn.connect();
+    var params = req.params.id;
+    conn.query("Select * From gameproduct Where ID = ?",params, (err, result) => {
+        if (err) throw err;
+        res.send(result[0]);
+    })
+    conn.end();
+})
+
 
 app.post('/playstation/admin/gameManagement',upload.single('image'), (req, res) => {
     var idMax = 0;

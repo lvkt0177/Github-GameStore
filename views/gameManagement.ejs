@@ -62,7 +62,7 @@
         </div>
     </section>
 
-<!-- 
+
      <section class="changeSth">
         <div class="container">
             <form action="" method="post" enctype="multipart/form-data">
@@ -73,28 +73,28 @@
                     </div>
                     <div class="col col-md-6 mt-3">
                         <label for="" class="label-label">Name Game</label>
-                        <input type="text" name="name" id="name" class="form-control" required>
+                        <input type="text" value="" name="name" id="name" class="form-control" required>
                     </div>
                     
                     <div class="col col-md-6 mt-3">
                         <label for="" class="label-label">Category</label>
-                        <input type="text" name="category" id="category" class="form-control" required>
+                        <input type="text" value="" name="category" id="category" class="form-control" required>
                     </div>
                     <div class="col col-md-6 mt-3">
                         <label for="" class="label-label">Image game</label>
-                        <input type="file" name="image" id="image" class="form-control" accept="image/jpg" required>
+                        <input type="file" value="" name="image" id="image" class="form-control" accept="image/jpg" required>
                     </div>
                     <div class="col col-md-6 mt-3">
                         <label for="" class="label-label">Price</label>
-                        <input type="text" name="price" id="price" class="form-control" required>
+                        <input type="text" value="" name="price" id="price" class="form-control" required>
                     </div>
                     <div class="col col-md-6 mt-3">
                         <label for="date" class="label-label">Launch Date</label>
-                        <input type="date" name="date" id="date" class="form-control" required>
+                        <input type="date" value="" name="date" id="date" class="form-control" required>
                     </div>
                     <div class="col col-md-12 mt-3">
                         <label for="" class="label-label">Description</label>
-                        <textarea id="description" name="description" rows="4" cols="56" class="form-control" required></textarea>
+                        <textarea id="description" value="" name="description" rows="4" cols="56" class="form-control" required></textarea>
                     </div>
                     <div class="">
                         <button class="btn bg-green text-light mt-4 me-3" style="width: 130px;height: 40px;"><i class="fa-solid fa-check text-light me-3"></i>Confirm</button>
@@ -103,7 +103,7 @@
                 </div>
             </form>
         </div>
-    </section> -->
+    </section>
 
     <section>
         <div class="container-fluid">
@@ -133,17 +133,18 @@
                                 </tr>
                             </thead>
                             <tbody>
+
                                 <% data.forEach(item => { %>
                                     <tr>
-                                        <th><%= item.ID %></th>
+                                        <th class="idSP"><%= item.ID %></th>
                                         <th><img src="/imageGame/<%= item.hinhNen %>" class="bd-rd" style="width: 60px;height: 60px;" alt=""></th>
                                         <th class="pt-4"><%= item.tenGame %></th>
                                         <th class="pt-4"><%= item.theLoai %></th>
                                         <th class="pt-4">$<%= item.gia %></th>
                                         <th class="pt-4"><%= item.ngayRaMat.toDateString() %></th>
                                         <th class="pt-4">
-                                            <button class="btn btn-warning"><i class="fa fa-eye text-light" aria-hidden="true"></i></button>
-                                            <button class="btn bg-green  change" value="<%= item.ID %>"><i class="fa fa-pen text-light" aria-hidden="true"></i></button>
+                                            <button  class="btn btn-warning"><i class="fa fa-eye text-light" aria-hidden="true"></i></button>
+                                            <button onclick="getProductDetails('<%= item.ID %>')" class="btn bg-green change" value="<%= item.ID %>"><i class="fa fa-pen text-light" aria-hidden="true"></i></button>
                                             <form action="/playstation/admin/gameManagement/delete/<%= item.ID %>" class="d-inline" method="post" onsubmit="return confirm('You want to remove it?')">
                                                 <button class="btn btn-danger px-3"><i class="fa fa-trash text-light" aria-hidden="true"></i></button>
                                             </form>
@@ -167,9 +168,11 @@
 
 
     var addGames = document.querySelector('.addGame');
+    var changeGames = document.querySelector('.changeSth');
     var boxAdd = document.querySelector('.addNewSth');
     var cancleBox = document.querySelector('.cancle');
-    var btn_Change = document.querySelectorAll('.change')
+    var btn_Change = document.querySelectorAll('.change');
+
     
     addGames.addEventListener('click',()=>{
             boxAdd.style.display = 'block';
@@ -179,19 +182,22 @@
     })
 
     
-    console.log(dataList);
-    btn_Change.forEach(item =>{
-        item.addEventListener('click',()=>{
-            // fetch(`/playstation/admin/gameManagement?id=${item.value}`)
-            //     .then(response => response.json())
-            //     .then(data =>{
-            //         console.log("Z:  " + data.ID);
-            //     })
-            var a = dataList.find(d => d.ID = item.value)
-        })
-    })
-    
+
+    function getProductDetails(id) {
+            fetch(`/playstation/admin/gameManagement/${id}`)
+                .then(response => response.json())
+                .then(data => {
+                    alert(`
+                        Product ID: ${data.ID}\n
+                        Product Name: ${data.tenGame}\n
+                        
+                        Product Description: ${data.theLoai}
+                    `);
+                })
+                .catch(error => console.error('Error:', error));
+        }
   
+
 
 
 </script>
