@@ -164,13 +164,25 @@
                                         <th class="pt-4"><%= item.theLoai %></th>
                                         <th class="pt-4">$<%= item.gia %></th>
                                         <th class="pt-4"><%= item.ngayRaMat.toDateString() %></th>
-                                        <th class="pt-4">
-                                            <button  class="btn btn-warning"><i class="fa fa-eye text-light" aria-hidden="true"></i></button>
-                                            <button onclick="getProductDetails('<%= item.ID %>')" class="btn bg-green change" value="<%= item.ID %>"><i class="fa fa-pen text-light" aria-hidden="true"></i></button>
-                                            <form action="/playstation/admin/gameManagement/delete/<%= item.ID %>" class="d-inline" method="post" onsubmit="return confirm('You want to remove it?')">
-                                                <button class="btn btn-danger px-3"><i class="fa fa-trash text-light" aria-hidden="true"></i></button>
+                                        <th class="pt-4 d-flex mb-0 pb-3">
+                                            <button  class="btn btn-warning me-1"><i class="fa fa-eye text-light" aria-hidden="true"></i></button>
+                                            <button onclick="getProductDetails('<%= item.ID %>')" class="btn bg-green change me-1" value="<%= item.ID %>"><i class="fa fa-pen text-light" aria-hidden="true"></i></button>
+                                            <form action="/playstation/admin/gameManagement/delete/<%= item.ID %>" class="d-inline me-1" method="post" onsubmit="return confirm('You want to remove it?')">
+                                                <button class="btn btn-danger px-3 me-1"><i class="fa fa-trash text-light" aria-hidden="true"></i></button>
+                                            </form>
+                                            <form action="/playstation/admin/gameManagement/addTable/<%= item.ID %>" method="post" class="d-inline" onsubmit="return confirm('Are you sure?')">
+                                                    <div class="">
+                                                        <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                                                            <i class="fa fa-plus" aria-hidden="true"></i>
+                                                        </button>
+                                                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                                                            <button class="dropdown-item" value="new-release" name="typeForm">New release</button>
+                                                            <button class="dropdown-item" value="coming-soon" name="typeForm">Coming soon</button>
+                                                        </ul>
+                                                    </div>
                                             </form>
                                         </th>
+
                                     </tr>
                                 <% }) %>
                             </tbody>

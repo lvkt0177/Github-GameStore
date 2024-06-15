@@ -183,7 +183,7 @@ app.get('/news/test', (req, res) => {
     })
     conn.end();
 })
- 
+  
 
 //============ Admin ==============//
 //Code here....
@@ -302,12 +302,41 @@ app.post('/playstation/admin/gameManagement', upload.single('image'), (req, res)
                 }
             });
         }
-
-
     })
 
     // -------------------
 
+})
+
+app.post('/playstation/admin/gameManagement/addTable/:id', (req, res) => {
+    var conn = connection.create();
+    conn.connect();
+
+    var typeF = req.body.typeForm;
+
+    if (typeF == 'new-release') {
+        console.log("upcominggame");
+        var sql_1 = "Insert INTO populargame(IDGAME) VALUE(?)";
+        conn.query(sql_1, req.params.id, (err, result) => {
+            if (err) throw err;
+            if (result.affectedRows > 0)
+                res.redirect('/playstation/admin/gameManagement')
+        })
+    }
+
+    if (typeF == 'coming-soon') {
+        console.log("populargame");
+        var sql_2 = "Insert INTO upcominggame(IDGAME) VALUE(?)";
+        console.log(sql_2);
+        conn.query(sql_2, req.params.id, (err, result) => {
+            if (err) throw err;
+            if (result.affectedRows > 0)
+                res.redirect('/playstation/admin/gameManagement')
+
+        })
+    }
+
+    conn.end();
 })
 
 app.post('/playstation/admin/gameManagement/delete/:id', (req, res) => {
