@@ -32,7 +32,6 @@
                         <label for="" class="label-label">Name Game</label>
                         <input type="text" name="name" id="" class="form-control" required>
                     </div>
-                    
                     <div class="col col-md-6 mt-3">
                         <label for="" class="label-label">Category</label>
                         <input type="text" name="category" id="" class="form-control" required>
@@ -51,10 +50,10 @@
                     </div>
                     <div class="col col-md-12 mt-3">
                         <label for="" class="label-label">Description</label>
-                        <textarea id="description" name="description" rows="4" cols="56" class="form-control" required></textarea>
+                        <textarea id="" name="description" rows="4" cols="56" class="form-control" required></textarea>
                     </div>
                     <div class="">
-                        <button class="btn bg-green text-light mt-4 me-3" style="width: 130px;height: 40px;"><i class="fa-solid fa-check text-light me-3"></i>Confirm</button>
+                        <button class="btn bg-green text-light mt-4 me-3" name="btn_type" value="formAdd" style="width: 130px;height: 40px;"><i class="fa-solid fa-check text-light me-3"></i>Confirm</button>
                         <button type="button" class="btn bg-danger text-light mt-4 cancle" style="width: 130px;height: 40px;"><i class="fa-solid fa-x me-3"></i>Cancle</button>
                     </div>
                 </div>
@@ -63,26 +62,30 @@
     </section>
 
 
+    <!-- Change/Replace Product -->
      <section class="changeSth">
         <div class="container">
             <form action="" method="post" enctype="multipart/form-data">
-
                 <div class="row">
                     <div class="col col-md-12">
-                        <h3>Add New Game</h3>
-                    </div>
+                        <h3>Change Game</h3>
+                    </div> 
+                    <div class="col col-md-6 mt-3">
+                        <label for="" class="label-label">ID</label>
+                        <input type="text" value="" name="idGame" id="idGame" readonly class="form-control">
+                    </div> 
                     <div class="col col-md-6 mt-3">
                         <label for="" class="label-label">Name Game</label>
                         <input type="text" value="" name="name" id="name" class="form-control" required>
-                    </div>
-                    
+                    </div> 
+
                     <div class="col col-md-6 mt-3">
                         <label for="" class="label-label">Category</label>
                         <input type="text" value="" name="category" id="category" class="form-control" required>
                     </div>
                     <div class="col col-md-6 mt-3">
                         <label for="" class="label-label">Image game</label>
-                        <input type="file" value="" name="image" id="image" class="form-control" accept="image/jpg" required>
+                        <input type="file" name="image" id="image" class="form-control" accept="image/jpg" >
                     </div>
                     <div class="col col-md-6 mt-3">
                         <label for="" class="label-label">Price</label>
@@ -90,20 +93,20 @@
                     </div>
                     <div class="col col-md-6 mt-3">
                         <label for="date" class="label-label">Launch Date</label>
-                        <input type="date" value="" name="date" id="date" class="form-control" required>
+                        <input type="date" value="" name="dateProduct" id="dateInput" class="form-control dateInput" required>
                     </div>
                     <div class="col col-md-12 mt-3">
                         <label for="" class="label-label">Description</label>
                         <textarea id="description" value="" name="description" rows="4" cols="56" class="form-control" required></textarea>
                     </div>
                     <div class="">
-                        <button class="btn bg-green text-light mt-4 me-3" style="width: 130px;height: 40px;"><i class="fa-solid fa-check text-light me-3"></i>Confirm</button>
-                        <button type="button" class="btn bg-danger text-light mt-4 cancle" style="width: 130px;height: 40px;"><i class="fa-solid fa-x me-3"></i>Cancle</button>
+                        <button class="btn bg-green text-light mt-4 me-3" name="btn_type" value="formChange" style="width: 130px;height: 40px;"><i class="fa-solid fa-check text-light me-3"></i>Confirm</button>
+                        <button type="button" class="btn bg-danger text-light mt-4 cancle_1" style="width: 130px;height: 40px;"><i class="fa-solid fa-x me-3"></i>Cancle</button>
                     </div>
                 </div>
             </form>
         </div>
-    </section>
+    </section> 
 
     <section>
         <div class="container-fluid">
@@ -168,36 +171,52 @@
 
 
     var addGames = document.querySelector('.addGame');
-    var changeGames = document.querySelector('.changeSth');
+    var boxChange = document.querySelector('.changeSth');
     var boxAdd = document.querySelector('.addNewSth');
+
     var cancleBox = document.querySelector('.cancle');
+    var cancleBox_Change = document.querySelector('.cancle_1');
+
     var btn_Change = document.querySelectorAll('.change');
 
-    
     addGames.addEventListener('click',()=>{
             boxAdd.style.display = 'block';
     })
+
     cancleBox.addEventListener('click',()=>{
             boxAdd.style.display = 'none';
     })
 
-    
-
+   
+    // ------------------------ Input ---------------------------//
+        var idProduct = document.getElementById('idGame');
+        var nameProduct = document.getElementById('name');
+        var categoryProduct = document.getElementById('category');
+        var imageProduct = document.getElementById('image');
+        var priceProduct = document.getElementById('price');
+        var dateInput = document.querySelector('.dateInput');
+        var descriptionProduct = document.getElementById('description');
+        
     function getProductDetails(id) {
             fetch(`/playstation/admin/gameManagement/${id}`)
                 .then(response => response.json())
                 .then(data => {
-                    alert(`
-                        Product ID: ${data.ID}\n
-                        Product Name: ${data.tenGame}\n
-                        
-                        Product Description: ${data.theLoai}
-                    `);
+                    idProduct.value = `${id}`;
+                    nameProduct.value = data.tenGame;
+                    categoryProduct.value = data.theLoai;
+                    priceProduct.value = data.gia;
+                    dateInput.value = data.ngayRaMat.split("T")[0];
+                    descriptionProduct.value = data.moTa;
                 })
                 .catch(error => console.error('Error:', error));
-        }
+
+            boxChange.style.display = 'block';
+    }
   
 
+     cancleBox_Change.addEventListener('click',()=>{
+            boxChange.style.display = 'none';
+    })
 
 
 </script>

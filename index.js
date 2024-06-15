@@ -22,6 +22,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 //========== Image =============//
 const multer = require('multer');
 const fs = require('fs');
+const { log } = require('console');
 const upload = multer({ dest: 'publics' });
 //=============================//
 
@@ -38,10 +39,9 @@ app.get('/', (req, res) => {
         }
         dataProduct.dataGame = result;
     })
-// 
+    // 
     conn.query("Select gameproduct.* From gameproduct JOIN populargame ON gameproduct.ID = populargame.IDGAME ", (err, result) => {
-        if (err)
-        {
+        if (err) {
             console.log("Lỗi bảng 2", err);
         }
         dataProduct.dataPopular = result;
@@ -55,7 +55,7 @@ app.get('/', (req, res) => {
 
     conn.query("Select tintuc.* FROM tintuc JOIN popularnews ON popularnews.IDNEWS = tintuc.ID", (err, result) => {
         if (err) console.log("Lỗi bảng 4");
-            dataProduct.pNews = result;
+        dataProduct.pNews = result;
     })
 
     conn.query("Select * FROM devices", (err, result) => {
@@ -64,8 +64,7 @@ app.get('/', (req, res) => {
     })
 
     conn.query("Select gameproduct.* From gameproduct JOIN upcominggame ON gameproduct.ID = upcominggame.IDGAME", (err, result) => {
-        if (err)
-        {
+        if (err) {
             console.log("Lỗi bảng 6", err);
         }
         dataProduct.dataUC = result;
@@ -93,7 +92,7 @@ app.get('/game', (req, res) => {
         if (err) throw err;
         dataProduct.category = result;
 
-        res.render('game',{data: dataProduct}); 
+        res.render('game', { data: dataProduct });
         conn.end();
     })
 })
@@ -112,14 +111,12 @@ app.post('/game', (req, res) => {
     if (!req.body.category) {
         sql = "Select * From gameproduct";
     }
-    else if (typeof req.body.category === 'string')
-    {
+    else if (typeof req.body.category === 'string') {
         sql = "Select * From gameproduct where theLoai = '" + req.body.category + "' ";
     }
-    else
-    {
+    else {
         req.body.category.forEach(item => {
-            string += " theLoai = " + '"'+item+'"' + " OR ";
+            string += " theLoai = " + '"' + item + '"' + " OR ";
         });
         whereSQL = string;
         sql = "Select * From gameproduct Where " + whereSQL + "theLoai = ''";
@@ -165,9 +162,9 @@ app.post('/news', (req, res) => {
     conn.query(sql, params, (err, result) => {
         if (err) throw err;
         if (result.affectedRows > 0)
-            res.redirect('/news');    
+            res.redirect('/news');
     })
-    
+
     conn.end();
 })
 //=========================//   
@@ -181,7 +178,7 @@ app.get('/news/test', (req, res) => {
         // res.render('test', { data: result[0].NOIDUNG });
 
         console.log(result[0].MAUSP);
-        
+
         res.render('test', { data: result[0] })
     })
     conn.end();
@@ -191,8 +188,8 @@ app.get('/news/test', (req, res) => {
 //============ Admin ==============//
 //Code here....
 // Home
-app.get('/playstation/admin',(req, res)=> {
-    res.render('adminManager'); 
+app.get('/playstation/admin', (req, res) => {
+    res.render('adminManager');
 })
 
 //------------- List Game ---------------//
@@ -210,7 +207,7 @@ app.get('/playstation/admin/gameManagement/:id', (req, res) => {
     var conn = connection.create();
     conn.connect();
     var params = req.params.id;
-    conn.query("Select * From gameproduct Where ID = ?",params, (err, result) => {
+    conn.query("Select * From gameproduct Where ID = ?", params, (err, result) => {
         if (err) throw err;
         res.send(result[0]);
     })
@@ -218,40 +215,88 @@ app.get('/playstation/admin/gameManagement/:id', (req, res) => {
 })
 
 
-app.post('/playstation/admin/gameManagement',upload.single('image'), (req, res) => {
+app.post('/playstation/admin/gameManagement', upload.single('image'), (req, res) => {
+
+    // type Button
+    var typeButton = req.body.btn_type;
+
     var idMax = 0;
     var conn = connection.create();
     conn.connect();
     var sql_MaxID = "Select MAX(ID)+1 as ID FROM gameproduct";
     conn.query(sql_MaxID, (err, result) => {
         if (err) console.log("Lỗi lấy Max ID");
-            idMax = result[0].ID;
-            // if (idMax == null)
-            //     id = 0
-        // Image
-        // Creat path of Image
-        const imagePath = path.join(__dirname, 'publics/imageGame');
+        idMax = result[0].ID;
 
-        //Image will move into imagePath.
-        fs.renameSync(req.file.path, path.join(imagePath, req.file.originalname));
-        var sql = "INSERT INTO gameproduct(ID,tenGame, theLoai, hinhNen, gia, moTa, ngayRaMat) VALUE (?,?,?,?,?,?,?)";
-        var params = [
-            idMax,
-            req.body.name,
-            req.body.category,
-            req.file.originalname,
-            req.body.price,
-            req.body.description,
-            req.body.date
-        ]
-        conn.query(sql,params,(err, result) => {
-            if (err) throw err;
-            if (result.affectedRows > 0) {
-                res.redirect('/playstation/admin/gameManagement');
-                conn.end();
+        if (typeButton == 'formAdd') {
+            const imagePath = path.join(__dirname, 'publics/imageGame');
+            //Image will move into imagePath.
+            fs.renameSync(req.file.path, path.join(imagePath, req.file.originalname));
+
+            var sql = "INSERT INTO gameproduct(ID,tenGame, theLoai, hinhNen, gia, moTa, ngayRaMat) VALUE (?,?,?,?,?,?,?)";
+            var params = [
+                idMax,
+                req.body.name,
+                req.body.category,
+                req.file.originalname,
+                req.body.price,
+                req.body.description,
+                req.body.date
+            ]
+            conn.query(sql, params, (err, result) => {
+                if (err) throw err;
+                if (result.affectedRows > 0) {
+                    res.redirect('/playstation/admin/gameManagement');
+                    conn.end();
+                }
+            });
+        }
+
+        // Form change
+        if (typeButton == 'formChange') {
+            
+            if (!req.file)
+            {
+                var sql_change = "UPDATE gameproduct SET tenGame = ?,theLoai = ?,gia = ?,moTa = ?, ngayRaMat = ? Where ID = ?";
+                var params_Change = [
+                    req.body.name,
+                    req.body.category,
+                    req.body.price,
+                    req.body.description,
+                    req.body.dateProduct,
+                    req.body.idGame,
+                ] 
             }
-        });
+            else
+            {
+                const imagePath = path.join(__dirname, 'publics/imageGame');
+                //Image will move into imagePath.
+                fs.renameSync(req.file.path, path.join(imagePath, req.file.originalname));
+                
+                var sql_change = "UPDATE gameproduct SET tenGame = ?,theLoai = ?,hinhNen = ?,gia = ?,moTa = ?, ngayRaMat = ? Where ID = ?";
+                var params_Change = [
+                    req.body.name,
+                    req.body.category,
+                    req.file.originalname,
+                    req.body.price,
+                    req.body.description,
+                    req.body.dateProduct,
+                    req.body.idGame,
+                ]
+            }
+            conn.query(sql_change, params_Change, (err, result) => {
+                if (err) throw err;
+                if (result.affectedRows > 0) {
+                    res.redirect('/playstation/admin/gameManagement');
+                    conn.end();
+                }
+            });
+        }
+
+
     })
+
+    // -------------------
 
 })
 
