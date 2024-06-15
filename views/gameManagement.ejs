@@ -32,10 +32,19 @@
                         <label for="" class="label-label">Name Game</label>
                         <input type="text" name="name" id="" class="form-control" required>
                     </div>
-                    <div class="col col-md-6 mt-3">
+                    <div class="col col-md-6 mt-3 ">
                         <label for="" class="label-label">Category</label>
-                        <input type="text" name="category" id="" class="form-control" required>
+                        <input type="checkbox" class="ms-3" name="" id="chbox_category" value="">
+                        <select class="form-select select_ctr" name="category">
+                            <% data.category.forEach(item => { %>
+                                <option value="<%= item.theLoai %>"><%= item.theLoai %></option>
+                            <% }) %>
+                        </select>
+
+                        <input type="text" name="category" id="" class="form-control input_text_ctr">
+
                     </div>
+
                     <div class="col col-md-6 mt-3">
                         <label for="" class="label-label">Image game</label>
                         <input type="file" name="image" id="" class="form-control" accept="image/jpg" required>
@@ -68,7 +77,7 @@
             <form action="" method="post" enctype="multipart/form-data">
                 <div class="row">
                     <div class="col col-md-12">
-                        <h3>Change Game</h3>
+                        <h3>Change Information Game</h3>
                     </div> 
                     <div class="col col-md-6 mt-3">
                         <label for="" class="label-label">ID</label>
@@ -78,11 +87,21 @@
                         <label for="" class="label-label">Name Game</label>
                         <input type="text" value="" name="name" id="name" class="form-control" required>
                     </div> 
-
-                    <div class="col col-md-6 mt-3">
+                    
+                    <div class="col col-md-6 mt-3 ">
                         <label for="" class="label-label">Category</label>
-                        <input type="text" value="" name="category" id="category" class="form-control" required>
+                        <input type="checkbox" class="ms-3" name="" id="chbox_category_change" value="">
+                       
+                        <select class="form-select select_ctr_change" name="category" id="category">
+                            <% data.category.forEach(item => { %>
+                                <option value="<%= item.theLoai %>"><%= item.theLoai %></option>
+                            <% }) %>
+                        </select>
+
+                        <input type="text" name="category" id="" class="form-control input_text_ctr_change" disabled>
+
                     </div>
+                    
                     <div class="col col-md-6 mt-3">
                         <label for="" class="label-label">Image game</label>
                         <input type="file" name="image" id="image" class="form-control" accept="image/jpg" >
@@ -137,7 +156,7 @@
                             </thead>
                             <tbody>
 
-                                <% data.forEach(item => { %>
+                                <% data.game.forEach(item => { %>
                                     <tr>
                                         <th class="idSP"><%= item.ID %></th>
                                         <th><img src="/imageGame/<%= item.hinhNen %>" class="bd-rd" style="width: 60px;height: 60px;" alt=""></th>
@@ -168,12 +187,9 @@
 
 
 <script>
-
-
     var addGames = document.querySelector('.addGame');
     var boxChange = document.querySelector('.changeSth');
     var boxAdd = document.querySelector('.addNewSth');
-
     var cancleBox = document.querySelector('.cancle');
     var cancleBox_Change = document.querySelector('.cancle_1');
 
@@ -212,12 +228,66 @@
 
             boxChange.style.display = 'block';
     }
-  
+    
 
      cancleBox_Change.addEventListener('click',()=>{
             boxChange.style.display = 'none';
     })
 
+
+    var input_ctr = document.querySelector('.input_text_ctr');
+    var input_ctr_change = document.querySelector('.input_text_ctr_change');
+    
+    var select_ctr = document.querySelector('.select_ctr');
+    var select_ctr_change = document.querySelector('.select_ctr_change');
+
+    var checkBox_ctr = document.getElementById('chbox_category');
+    var checkBox_ctr_change = document.getElementById('chbox_category_change');
+
+
+         checkBox_ctr.addEventListener('click',()=>
+         {
+            if(checkBox_ctr.checked)
+            {
+                select_ctr.disabled = true;
+                select_ctr.style.display = 'none';
+                input_ctr.style.display = 'block';
+                input_ctr.disabled = false;
+            }
+            
+            if(!checkBox_ctr.checked)
+            {
+            select_ctr.disabled = false;
+            select_ctr.style.display = 'block';
+            input_ctr.style.display = 'none';
+            input_ctr.disabled = true;
+            }
+        })
+
+        // Change Info Game
+         checkBox_ctr_change.addEventListener('click',()=>
+         {
+            if(checkBox_ctr_change.checked)
+            {
+                select_ctr_change.disabled = true;
+                select_ctr_change.style.display = 'none';
+                input_ctr_change.style.display = 'block';
+                input_ctr_change.disabled = false;
+            }
+            
+            if(!checkBox_ctr_change.checked)
+            {
+            select_ctr_change.disabled = false;
+            select_ctr_change.style.display = 'block';
+            input_ctr_change.style.display = 'none';
+            input_ctr_change.disabled = true;
+            }
+        })
+
+   
+        
+
+    
 
 </script>
 

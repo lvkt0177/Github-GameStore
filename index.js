@@ -183,7 +183,7 @@ app.get('/news/test', (req, res) => {
     })
     conn.end();
 })
-
+ 
 
 //============ Admin ==============//
 //Code here....
@@ -191,15 +191,25 @@ app.get('/news/test', (req, res) => {
 app.get('/playstation/admin', (req, res) => {
     res.render('adminManager');
 })
-
+ 
 //------------- List Game ---------------//
 app.get('/playstation/admin/gameManagement', (req, res) => {
     var conn = connection.create();
+
+    var dataProduct = {};
+
     conn.connect();
     conn.query("Select * From gameproduct", (err, result) => {
-        if (err) throw err;
-        res.render('gameManagement', { data: result });
+        if (err) return;
+        dataProduct.game = result;
     })
+ 
+    conn.query("Select DISTINCT theLoai FROM gameproduct", (err, result) => {
+        if (err) return;
+        dataProduct.category = result;
+        res.render('gameManagement', { data: dataProduct });
+    });
+    
     conn.end();
 })
 
@@ -339,7 +349,7 @@ app.get('/playstation/admin/gamecomingsoon', (req, res) => {
     });
     conn.end();
 })
-
+ 
 //=================================//
 
 
