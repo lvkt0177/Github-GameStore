@@ -54,7 +54,9 @@
                                         <th class="pt-4">$<%= item.gia %></th>
                                         <th class="pt-4"><%= item.ngayRaMat.toDateString() %></th>
                                         <th class="pt-4 text-center">
-                                            <button class="btn btn-danger"><i class="fa fa-trash text-light" aria-hidden="true"></i></button>
+                                            <form action="/playstation/admin/showGame/delete/<%= item.ID %>" method="post" onsubmit="return confirm('You want to remove it?')">
+                                                <button class="btn btn-danger" name="typeForm" value="<%= arr.name %>"><i class="fa fa-trash text-light" aria-hidden="true"></i></button>
+                                            </form>
                                         </th>
                                     </tr>
                                 <% }) %>

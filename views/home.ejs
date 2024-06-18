@@ -64,8 +64,6 @@
         </div>
     </section>
 
-
-
     <section class="product-ps">
         <div class="container">
             <div class="row">
@@ -117,11 +115,9 @@
                                     </div>
                                 </div> 
                             <% }) %>
-
                         </div>
                     </div>
-                    <!-- Click choose and show -->
-                        
+                    <!-- Click choose and show --> 
             </div>
         </div>
     </section>
@@ -142,7 +138,7 @@
             <div class=" row game-new">
                     <% data.dataPopular.forEach(item => { %>
                         <div class="col col-10 col-xl-3 col-lg-4 col-md-6 l-game mt-5 col-sm-12 text-center">
-                            <a href="#" class="">
+                            <a href="/playstation/game/details/<%= item.ID %>" class="">
                                 <div class="info-game text-start">
                                     <h2><%= item.tenGame %></h2>
                                     <p>Genra: <%= item.theLoai %></p>
@@ -160,7 +156,7 @@
             <div class="row game-cs">
                 <% data.dataUC.forEach(item => { %>
                     <div class="col col-12 col-xl-3 col-lg-4 col-md-6 l-game mt-5 col-sm-12">
-                        <a href="#" class="">
+                        <a href="/playstation/game/details/<%= item.ID %>" class="">
                             <div class="info-game text-start">
                                 <h2><%= item.tenGame %></h2>
                                 <p>Genra: <%= item.theLoai %></p>

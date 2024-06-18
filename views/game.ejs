@@ -41,7 +41,7 @@
                 <div class="col col-12 col-md-12 col-lg-8 px-4 col-sm-12">
                     <div class="row">
                         <div class="col col-lg-12">
-                            <a href="" class="link-img-head">
+                            <a href="/playstation/game/details/11" class="link-img-head">
                                 <img src="/imageGame/spider_1.jpg" alt="" class="img-fluid img-head link-game" style="border-radius: 2rem;width: 900px; height: 450px;">
                             </a>
                         </div>
@@ -51,7 +51,7 @@
                             <div class="row align-item d-flex justify-content-center">
                                 <% data.game.forEach(item => { %>
                                     <div class="col col-6 col-md-6 col-lg-6 my-4 col-sm-6 col-xl-4">
-                                        <a href="" class="link-game">
+                                        <a href="/playstation/game/details/<%= item.ID %>" class="link-game">
                                             <div class="img-game">
                                                 <img src="/imageGame/<%= item.hinhNen %>" alt="">
                                             </div>
@@ -65,8 +65,7 @@
                                 <% }) %>
                             </div>
                         </div>
-                        
-
+                    
                     </div>
                 </div>
             </div>
@@ -88,6 +87,7 @@
     })
     
 </script>
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.9.2/umd/popper.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.1.0/js/bootstrap.min.js"></script>
 </body>

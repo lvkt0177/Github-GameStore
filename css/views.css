@@ -11,7 +11,7 @@
 body {
     padding: 0;
     margin: 0;
-
+    font-family: "Montserrat", sans-serif;
 }
 
 a {
@@ -432,3 +432,30 @@ section {
     background-color: #ffff;
     color: rgb(228, 142, 38);
 }
+
+
+
+/* Game detail */
+.bg-black{
+    background-color: rgb(0, 0, 0);
+    margin: 0 12px 0 12px;
+}
+
+.me--2{
+    margin-right: -32px;
+}
+
+.game-details{
+    padding: 5rem 5rem 5rem;
+    border-radius: 16px;
+    background-color: rgba(28, 28, 28, 0.914);
+    position: absolute;
+    top: 10rem;
+    left: 7rem;
+    height: 480px;
+}
+
+.info{
+    margin-top: 10rem;
+}
+/* =========== */

@@ -23,6 +23,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 const multer = require('multer');
 const fs = require('fs');
 const { log } = require('console');
+const e = require('express');
 const upload = multer({ dest: 'publics' });
 //=============================//
 
@@ -127,7 +128,7 @@ app.post('/game', (req, res) => {
             return;
         dataProduct.game = result;
     })
-
+ 
     conn.query("Select Distinct theLoai From gameproduct", (err, result) => {
         if (err)
             return;
@@ -149,7 +150,6 @@ app.get('/news', (req, res) => {
         if (err) throw err;
         res.render('news', { data: result[0] });
     })
-
     conn.end();
 })
 
@@ -167,6 +167,7 @@ app.post('/news', (req, res) => {
 
     conn.end();
 })
+
 //=========================//   
 app.get('/news/test', (req, res) => {
     let conn = connection.create(undefined, undefined, undefined, 'playstation');
@@ -183,7 +184,6 @@ app.get('/news/test', (req, res) => {
     })
     conn.end();
 })
-  
 
 //============ Admin ==============//
 //Code here....
@@ -191,7 +191,7 @@ app.get('/news/test', (req, res) => {
 app.get('/playstation/admin', (req, res) => {
     res.render('adminManager');
 })
- 
+
 //------------- List Game ---------------//
 app.get('/playstation/admin/gameManagement', (req, res) => {
     var conn = connection.create();
@@ -213,6 +213,7 @@ app.get('/playstation/admin/gameManagement', (req, res) => {
     conn.end();
 })
 
+// JSON ----------------------------
 app.get('/playstation/admin/gameManagement/:id', (req, res) => {
     var conn = connection.create();
     conn.connect();
@@ -224,9 +225,19 @@ app.get('/playstation/admin/gameManagement/:id', (req, res) => {
     conn.end();
 })
 
+// ======================== Details ==========================//
+app.get('/playstation/game/details/:id', (req, res) => {
+    var conn = connection.create();
+    conn.connect();
+    var params = req.params.id;
+    conn.query("Select * From gameproduct Where ID = ?", params, (err, result) => {
+        if (err) throw err;
+        res.render('gameDetails', { data: result[0] });
+    })
+    conn.end();
+})
 
 app.post('/playstation/admin/gameManagement', upload.single('image'), (req, res) => {
-
     // type Button
     var typeButton = req.body.btn_type;
 
@@ -303,9 +314,7 @@ app.post('/playstation/admin/gameManagement', upload.single('image'), (req, res)
             });
         }
     })
-
     // -------------------
-
 })
 
 app.post('/playstation/admin/gameManagement/addTable/:id', (req, res) => {
@@ -346,7 +355,7 @@ app.post('/playstation/admin/gameManagement/delete/:id', (req, res) => {
     conn.query(sql, req.params.id, (err, result) => {
         if (err) throw err;
         if (result.affectedRows > 0)
-            res.redirect('/playstation/admin/gameManagement')
+            res.redirect('/playstation/admin/gameManagement');
     })
     conn.end();
 })
@@ -378,9 +387,36 @@ app.get('/playstation/admin/gamecomingsoon', (req, res) => {
     });
     conn.end();
 })
- 
-//=================================//
 
+// Delete 1 in 2 talbe
+app.post('/playstation/admin/showGame/delete/:id', (req, res) => {
+    var conn = connection.create();
+    conn.connect();
+    var typeF = req.body.typeForm;
+    var params = req.params.id;
+    if (typeF == 'Game Coming Soon') {
+        var sql_1 = "Delete FROM upcominggame WHERE IDGAME = ?";
+        conn.query(sql_1, params, (err, result) => {
+            if (err) throw err;
+            if (result.affectedRows > 0) {
+                res.redirect('/playstation/admin/gamecomingsoon');
+            }
+        })
+    }
+    if (typeF == "Game New Releases") {
+        var sql_2 = "Delete FROM populargame WHERE IDGAME = ?";
+        conn.query(sql_2, params, (err, result) => {
+            if (err) throw err;
+            if (result.affectedRows > 0) {
+                res.redirect('/playstation/admin/newReleases');
+            }
+        })
+    }
+    conn.end();
+})
+
+
+//=================================//
 
 //---------- Devices ----------//
 //Code here...

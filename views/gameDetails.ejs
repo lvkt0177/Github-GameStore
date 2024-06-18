@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<meta name="Description" content="Enter your description here"/>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.1.0/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+<link rel="stylesheet" href="/views.css">
+<title><%= data.tenGame %></title>
+</head>
+<body>
+
+    <%- include('partials/navbar') %>
+    <section class="bg-light">
+        <div class="container-fluid">
+            <div class="bg-image" style="
+            background-image: url('/imageGame/<%= data.hinhNen %>');
+            background-size: cover;
+            background-attachment: fixed;
+            height: 500px;">
+                <!-- none -->
+            </div>
+        </div>
+    </section>
+    
+    <section class="text-light">
+        <div class="container">
+            <div class="row">
+                <div class="col col-4  game-details">
+                    <h2 class="mb-4"><%= data.tenGame %></h2>
+                    <p class="mb-4">Sony Interactive Entertainment</p>
+                    <span class="gaming-equipment border border-2 border-light p-1 me-1">PS4</span>
+                    <span class="gaming-equipment border border-2 border-light p-1 me-1">PS5</span>
+                    <span class="gaming-equipment border border-2 border-light p-1 me-1">STANDARD EDITION</span>
+
+                    <!-- Replace -->
+                    <div class="rate d-flex mt-4">
+                        <span class="fs-5 mt-2">4.84</span>
+                        <span><i class="fa fa-star fs-5 me--2" aria-hidden="true"></i></span>
+                        <span><i class="fa fa-star fs-5 me--2" aria-hidden="true"></i></span>
+                        <span><i class="fa fa-star fs-5 me--2" aria-hidden="true"></i></span>
+                        <span><i class="fa fa-star fs-5 me--2" aria-hidden="true"></i></span>
+                        <span><i class="fa fa-star fs-5 me--2" aria-hidden="true"></i></span>
+                    </div>
+
+                    <h1>$<%= data.gia %></h1>
+                    <div class="mt-5">
+                        <form action="" method="post">
+                            <button class="btn btn-danger rounded-pill px-5">Add to Cart</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="bg-black">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col col-5">
+                    
+                </div>
+                <div class="col col-7 text-light">
+                </div>
+
+                <div class="col col-12">
+                    <div class="row d-flex justify-content-center">
+                        <div class="col col-8">
+                            <div class="info text-light bg-dark p-5">
+                                <h3 class="text-center mb-5">Game and Legal Info</h3>
+                                <p>
+                                    <%= data.moTa %>
+                                </p>                                
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.9.2/umd/popper.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.1.0/js/bootstrap.min.js"></script>
+</body>
+</html>
