@@ -27,6 +27,42 @@ const e = require('express');
 const upload = multer({ dest: 'publics' });
 //=============================//
 
+//========== Paragraph =========//
+const striptags = require('striptags');
+app.locals.striptags = striptags;
+
+
+// ======== Test ===========// 
+app.get('/test/noiDung', (req, res) => {
+    var conn = connection.create();
+    conn.connect();
+    var sql = "Select * FROM news WHERE ID = 5";
+    conn.query(sql, (err, result) => {
+        if (err) throw err;
+        res.render('news',{data: result[0]})
+    })
+   
+
+    conn.end();
+})
+
+app.post('/test/noiDung', (req, res) => {
+    var conn = connection.create();
+    conn.connect();
+    var noiDung = req.body.content;
+    console.log(noiDung);
+    var sql = "INSERT INTO news(noiDung) Value (?)";
+    conn.query(sql,req.body.content, (err, result) => {
+        if (err) throw err;
+        if (result.affectedRows > 0)
+            res.redirect('/test/noiDung');
+    })
+
+    conn.end();
+})
+// =========================//
+
+
 //=========== Home ============//
 app.get('/', (req, res) => {
     // res.render('home.html')
@@ -341,7 +377,7 @@ app.post('/playstation/admin/gameManagement/addTable/:id', (req, res) => {
             if (err) throw err;
             if (result.affectedRows > 0)
                 res.redirect('/playstation/admin/gameManagement')
-
+ 
         })
     }
 
@@ -430,7 +466,36 @@ app.get('/playstation/admin/devices', (req, res) => {
     conn.end();
 
 })
-//============================//
+
+app.post('/playstation/admin/devices',upload.single('image'), (req, res) => {
+    var conn = connection.create();
+    const imagePath = path.join(__dirname, 'publics/imageProduct');
+    //Image will move into imagePath...
+    fs.renameSync(req.file.path, path.join(imagePath, req.file.originalname));
+
+    conn.connect();
+    var params = [
+        req.body.name,
+        req.body.producer,
+        req.body.price,
+        req.body.description,
+        req.file.originalname,
+        req.body.quantity,
+        req.body.warranty,
+    ]
+    var sql_1 = "INSERT INTO devices(TENSP,NSX,GIATIEN,MOTA,HINHANH,SOLUONG,BAOHANH) VALUE(?,?,?,?,?,?,?)";
+    conn.query(sql_1, params, (err, result) => {
+        if (err) throw err;
+        if (result.affectedRows > 0) {
+            res.redirect('/playstation/admin/devices')
+        }
+    })
+    conn.end();
+})
+//================================//
+
+
+
 
 app.listen(post, () => {
     console.log("Success");

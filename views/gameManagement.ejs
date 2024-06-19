@@ -13,7 +13,9 @@
 <link rel="stylesheet" href="/admin.css">
 <link rel="icon" type="image/png" href="https://upload.wikimedia.org/wikipedia/commons/9/91/PlayStation_App_Icon.jpg">
 
-<title>List Game</title>
+<script src="https://cdn.tiny.cloud/1/tgfa89yfovqhkmb41kw9f6bt8v5pq9wjirve8sjq9yzonmej/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
+
+<title>Admin - List Game</title>
 </head>
 <body>
 
@@ -38,8 +40,7 @@
                                 <option value="<%= item.theLoai %>"><%= item.theLoai %></option>
                             <% }) %>
                         </select>
-
-                        <input type="text" name="category" id="" class="form-control input_text_ctr">
+                        <input type="text" name="category" id="" class="form-control input_text_ctr" disabled>
 
                     </div>
 
@@ -57,7 +58,9 @@
                     </div>
                     <div class="col col-md-12 mt-3">
                         <label for="" class="label-label">Description</label>
-                        <textarea id="" name="description" rows="4" cols="56" class="form-control" required></textarea>
+                        <!-- <textarea id="" name="description" rows="4" cols="56" class="form-control" required></textarea> -->
+                        <textarea id="mytextarea" value="DSSS" name="description"></textarea>
+                        
                     </div>
                     <div class="">
                         <button class="btn bg-green text-light mt-4 me-3" name="btn_type" value="formAdd" style="width: 130px;height: 40px;"><i class="fa-solid fa-check text-light me-3"></i>Confirm</button>
@@ -68,14 +71,13 @@
         </div>
     </section>
 
-
     <!-- Change/Replace Product -->
      <section class="changeSth">
         <div class="container">
             <form action="" method="post" enctype="multipart/form-data">
                 <div class="row">
                     <div class="col col-md-12">
-                        <h3>Change Information Game</h3>
+                        <h3>Game Information Update</h3>
                     </div> 
                     <div class="col col-md-6 mt-3">
                         <label for="" class="label-label">ID</label>
@@ -95,9 +97,7 @@
                                 <option value="<%= item.theLoai %>"><%= item.theLoai %></option>
                             <% }) %>
                         </select>
-
                         <input type="text" name="category" id="" class="form-control input_text_ctr_change" disabled>
-
                     </div>
                     
                     <div class="col col-md-6 mt-3">
@@ -114,7 +114,8 @@
                     </div>
                     <div class="col col-md-12 mt-3">
                         <label for="" class="label-label">Description</label>
-                        <textarea id="description" value="" name="description" rows="4" cols="56" class="form-control" required></textarea>
+                        <!-- <textarea id="description" value="" name="description" rows="4" cols="56" class="form-control" required></textarea> -->
+                        <textarea id="mytextarea_1" value="" name="description"></textarea>
                     </div>
                     <div class="">
                         <button class="btn bg-green text-light mt-4 me-3" name="btn_type" value="formChange" style="width: 130px;height: 40px;"><i class="fa-solid fa-check text-light me-3"></i>Confirm</button>
@@ -198,6 +199,22 @@
 
 
 <script>
+    // Trình soạn thảo
+    tinymce.init({
+        selector: 'textarea#mytextarea',
+        plugins: 'autolink lists link image',
+        toolbar: 'undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | outdent indent | link image',
+        height: 800, // Chiều cao của vùng soạn thảo
+    });
+    
+    tinymce.init({
+        selector: 'textarea#mytextarea_1',
+        plugins: 'autolink lists link image',
+        toolbar: 'undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | outdent indent | link image',
+        height: 800, // Chiều cao của vùng soạn thảo
+    });
+
+
     var addGames = document.querySelector('.addGame');
     var boxChange = document.querySelector('.changeSth');
     var boxAdd = document.querySelector('.addNewSth');
@@ -222,9 +239,8 @@
         var imageProduct = document.getElementById('image');
         var priceProduct = document.getElementById('price');
         var dateInput = document.querySelector('.dateInput');
-        var descriptionProduct = document.getElementById('description');
-        
-    function getProductDetails(id) {
+        var descriptionProduct = document.getElementById('mytextarea_1');
+        function getProductDetails(id) {
             fetch(`/playstation/admin/gameManagement/${id}`)
                 .then(response => response.json())
                 .then(data => {
@@ -232,8 +248,8 @@
                     nameProduct.value = data.tenGame;
                     categoryProduct.value = data.theLoai;
                     priceProduct.value = data.gia;
+                    tinymce.get("mytextarea_1").setContent(data.moTa, {format: "html"});
                     dateInput.value = data.ngayRaMat.split("T")[0];
-                    descriptionProduct.value = data.moTa;
                 })
                 .catch(error => console.error('Error:', error));
 
@@ -295,10 +311,8 @@
             }
         })
 
-   
-        
 
-    
+
 
 </script>
 

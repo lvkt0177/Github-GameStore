@@ -12,12 +12,65 @@
 <link href="https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="/admin.css">
 <link rel="icon" type="image/png" href="https://upload.wikimedia.org/wikipedia/commons/9/91/PlayStation_App_Icon.jpg">
+<script src="https://cdn.tiny.cloud/1/tgfa89yfovqhkmb41kw9f6bt8v5pq9wjirve8sjq9yzonmej/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
 
-<title></title>
+<title>Admin - Devices</title>
 </head>
 <body>
 
     <%- include('partials/headerAdmin.ejs') %>
+
+    <section class="addNewSth">
+        <div class="container">
+            <form action="" method="post" enctype="multipart/form-data">
+                <div class="row">
+                    <div class="col col-md-12">
+                        <h3>Add New Devices</h3>
+                    </div>
+                    <div class="col col-md-6 mt-3">
+                        <label for="" class="label-label">Name Deviece</label>
+                        <input type="text" name="name" id="" class="form-control" required>
+                    </div>
+                    <div class="col col-md-6 mt-3 ">
+                        <label for="" class="label-label">Producer</label>
+                        <input type="text" name="producer" id="" class="form-control">
+                        <!-- <input type="checkbox" class="ms-3" name="" id="chbox_category" value="">
+                        <select class="form-select select_ctr" name="category">
+                            
+                        </select> -->
+                    </div>
+
+                    <div class="col col-md-6 mt-3">
+                        <label for="" class="label-label">Image Deviece</label>
+                        <input type="file" name="image" id="" class="form-control" accept="image/jpg" required>
+                    </div>
+                    <div class="col col-md-6 mt-3">
+                        <label for="" class="label-label">Price</label>
+                        <input type="number" name="price" id="" class="form-control" required>
+                    </div>
+                    <div class="col col-md-6 mt-3">
+                        <label for="number" class="label-label">Warranty (Years)</label>
+                        <input type="number" name="warranty" id="" class="form-control" required>
+                    </div>
+                    <div class="col col-md-6 mt-3">
+                        <label for="date" class="label-label">Quantity</label>
+                        <input type="number" name="quantity" id="" class="form-control" required>
+                    </div>
+                    
+                    <div class="col col-md-12 mt-3">
+                        <label for="" class="label-label">Description</label>
+                        <!-- <textarea id="" name="description" rows="4" cols="56" class="form-control" required></textarea> -->
+                        <textarea id="mytextarea"  name="description"></textarea>
+                        
+                    </div>
+                    <div class="">
+                        <button class="btn bg-green text-light mt-4 me-3" name="btn_type" value="formAdd" style="width: 130px;height: 40px;"><i class="fa-solid fa-check text-light me-3"></i>Confirm</button>
+                        <button type="button" class="btn bg-danger text-light mt-4 cancle" style="width: 130px;height: 40px;"><i class="fa-solid fa-x me-3"></i>Cancle</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </section>
 
 
      <section>
@@ -31,7 +84,7 @@
                     </div>
 
                     <div class="add text-start mt-3 mb-4">
-                        <button class="bg-green text-light px-3 py-2 bd-rd-05 addGame"><i class="fa fa-plus" aria-hidden="true"></i> Add device</button>
+                        <button class="bg-green text-light px-3 py-2 bd-rd-05 addDevices"><i class="fa fa-plus" aria-hidden="true"></i> Add device</button>
                     </div>
 
                     <div class="list">
@@ -43,9 +96,9 @@
                                     <th>Devices</th>
                                     <th>Manufacturer</th>
                                     <th>Price</th>
-                                    <th>Color</th>
-                                    <th>Guarantee</th>
+                                    <th>Quantity</th>
                                     <th>Warranty</th>
+                                    <th>Tools</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -57,7 +110,7 @@
                                         <th class="pt-4"><%= item.NSX %></th>
                                         <th class="pt-4">$<%= item.GIATIEN %></th>
                                         <th class="pt-4"><%= item.SOLUONG %></th>
-                                        <th class="pt-4"><%= item.BAOHANH %></th>
+                                        <th class="pt-4"><%= item.BAOHANH %> Years</th>
                                         <th class="pt-4">
                                             <button class="btn btn-warning"><i class="fa fa-eye text-light" aria-hidden="true"></i></button>
                                             <button class="btn bg-green"><i class="fa fa-pen text-light" aria-hidden="true"></i></button>
@@ -74,6 +127,30 @@
             </div>
         </div>
     </section>
+
+
+    <script>
+        tinymce.init(
+        {
+            selector: 'textarea#mytextarea',
+            plugins: 'autolink lists link image',
+            toolbar: 'undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | outdent indent | link image',
+            height: 800, // Chiều cao của vùng soạn thảo
+        });
+
+        // ============= BOX ADD =================//
+        var addDevice = document.querySelector('.addDevices');
+        var boxADd = document.querySelector('.addNewSth');
+        var cancleAdd = document.querySelector('.cancle');
+        addDevice.addEventListener('click',()=>{
+            boxADd.style.display = 'block';
+        })
+
+        cancleAdd.addEventListener('click',()=>{
+            boxADd.style.display = 'none';
+        })
+
+    </script>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.9.2/umd/popper.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.1.0/js/bootstrap.min.js"></script>

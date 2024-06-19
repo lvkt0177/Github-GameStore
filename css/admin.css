@@ -120,11 +120,12 @@ a:hover {
     display: none;
     padding: 5rem;
     background-color: rgb(57, 47, 94);
-    position: fixed;
-    top: 20%;
+    position: absolute;
+    top: 3%;
     left: 15%;
     overflow: auto;
     border-radius: 1rem;
+
 }
 
 
