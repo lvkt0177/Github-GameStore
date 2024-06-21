@@ -31,35 +31,135 @@ const upload = multer({ dest: 'publics' });
 const striptags = require('striptags');
 app.locals.striptags = striptags;
 
-
+ 
 // ======== Test ===========// 
 app.get('/test/noiDung', (req, res) => {
     var conn = connection.create();
+    var arrData = {};
     conn.connect();
-    var sql = "Select * FROM news WHERE ID = 5";
+    var sql = "Select * FROM news WHERE ID = 4";
     conn.query(sql, (err, result) => {
-        if (err) throw err;
-        res.render('news',{data: result[0]})
-    })
-   
+        var new_J = {"image":'GOD.jpg'};
+        var del_J = { "image": '2.jpg' };
 
+        arrData.list = result[0];
+        // Parse 
+        arrData.image = JSON.parse(result[0].noiDung); 
+        // cl_json.book[0] = new_J;
+        
+        // cl_json.book.splice(del_J, 1);
+
+        if (err) throw err;
+        res.render('news',{data: arrData})
+    })
     conn.end();
 })
 
 app.post('/test/noiDung', (req, res) => {
     var conn = connection.create();
     conn.connect();
-    var noiDung = req.body.content;
-    console.log(noiDung);
+    var noiDung = {
+        "book": [
+            { "image": req.body.content }
+        ]
+    };
+
+    console.log(JSON.stringify(noiDung));
     var sql = "INSERT INTO news(noiDung) Value (?)";
-    conn.query(sql,req.body.content, (err, result) => {
+    conn.query(sql, JSON.stringify(noiDung) , (err, result) => {
         if (err) throw err;
         if (result.affectedRows > 0)
             res.redirect('/test/noiDung');
     })
-
+    
     conn.end();
 })
+
+// ===========================================
+/* 
+    B1: Select dữ liệu nội dung
+    B2: lấy nội dung chuyển Parse
+    B3: Thay đổi - Xóa --> nội dung -> Replace
+    B4: Chuyển nội dung thành Text
+    B5: Update nội dung
+*/
+
+/*
+    B3: Push vào mảng
+
+*/
+
+// ===========================================
+
+app.post('/test/noiDung/:id', (req, res) => {
+    var conn = connection.create();
+    conn.connect();
+    var sql = "UPDATE news SET noiDung = ? WHERE ID = ? ";
+    let params = []
+    
+        // conn.query(sql, params, (err, result) => {
+        //     if (err) throw err;
+        //     if (result.affectedRows > 0) {
+        //         res.redirect('/test/noiDung')
+        //     }
+    // })
+    
+    var sql_1 = "SELECT NOIDUNG FROM news WHERE ID = ?";
+    conn.query(sql_1, req.params.id, (err, result) => {
+        if (err) throw err;
+        var clone_Json = JSON.parse(result[0].NOIDUNG);
+        
+        // forEach
+        clone_Json.book.forEach((item,index) => {
+            // Replace
+            if (index == req.body.location && req.body.del == undefined) {
+                clone_Json.book[index] = { "image": req.body.text };
+                var new_Json = JSON.stringify(clone_Json);
+                params = [
+                    new_Json,
+                    req.params.id
+                ];
+            }   
+ 
+            // Delete
+            if (index == req.body.del && req.body.location == undefined) {
+                clone_Json.book.splice(req.body.del, 1);
+                var new_Json = JSON.stringify(clone_Json);
+                params = [
+                    new_Json,
+                    req.params.id
+                ]; 
+            }    
+        })
+
+        
+        // Add
+        if (req.body.add == 'btn_Add') {
+            clone_Json.book.push({ "image": req.body.cnt });
+            var new_Json = JSON.stringify(clone_Json);
+            console.log("Z: " + new_Json);
+            params = [
+                new_Json,
+                req.params.id
+            ];
+
+        }
+
+        conn.query(sql, params, (err, result) => {
+            if (err) throw err;
+            if (result.affectedRows > 0) {
+                res.redirect('/test/noiDung');
+                conn.end();
+            }
+        })  
+        
+    })
+})
+
+
+
+
+
 // =========================//
 
 
@@ -273,6 +373,7 @@ app.get('/playstation/game/details/:id', (req, res) => {
     conn.end();
 })
 
+
 app.post('/playstation/admin/gameManagement', upload.single('image'), (req, res) => {
     // type Button
     var typeButton = req.body.btn_type;
@@ -353,6 +454,7 @@ app.post('/playstation/admin/gameManagement', upload.single('image'), (req, res)
     // -------------------
 })
 
+
 app.post('/playstation/admin/gameManagement/addTable/:id', (req, res) => {
     var conn = connection.create();
     conn.connect();
@@ -380,9 +482,9 @@ app.post('/playstation/admin/gameManagement/addTable/:id', (req, res) => {
  
         })
     }
-
     conn.end();
 })
+
 
 app.post('/playstation/admin/gameManagement/delete/:id', (req, res) => {
     var conn = connection.create();
@@ -488,6 +590,19 @@ app.post('/playstation/admin/devices',upload.single('image'), (req, res) => {
         if (err) throw err;
         if (result.affectedRows > 0) {
             res.redirect('/playstation/admin/devices')
+        }
+    })
+    conn.end(); 
+})
+
+app.post('/playstation/admin/devices/delete/:id', (req, res) => {
+    var conn = connection.create();
+    conn.connect();
+    var sql = "DELETE FROM devices WHERE ID = ? ";
+    conn.query(sql, req.params.id, (err, result) => {
+        if (err) throw err;
+        if (result.affectedRows > 0) {
+            res.redirect('/playstation/admin/devices');
         }
     })
     conn.end();

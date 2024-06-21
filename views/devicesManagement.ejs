@@ -111,20 +111,25 @@
                                         <th class="pt-4">$<%= item.GIATIEN %></th>
                                         <th class="pt-4"><%= item.SOLUONG %></th>
                                         <th class="pt-4"><%= item.BAOHANH %> Years</th>
-                                        <th class="pt-4">
+                                        <th class="pt-4 d-flex pb-3">
                                             <button class="btn btn-warning"><i class="fa fa-eye text-light" aria-hidden="true"></i></button>
-                                            <button class="btn bg-green"><i class="fa fa-pen text-light" aria-hidden="true"></i></button>
-                                            <button class="btn btn-danger"><i class="fa fa-trash text-light" aria-hidden="true"></i></button>
+                                            <button class="btn bg-green mx-2"><i class="fa fa-pen text-light" aria-hidden="true"></i></button>
+                                            <form action="/playstation/admin/devices/delete/<%= item.ID %>" class="" method="post" onsubmit="return confirm('You want to remove it?')">
+                                                <button class="btn btn-danger"><i class="fa fa-trash text-light" aria-hidden="true"></i></button>
+                                            </form>
                                         </th>
                                     </tr>
                                 <% }) %>
                             </tbody>
                         </table>
                     </div>
+                    <!-- list -->
 
                 </div>
+                <!-- text-center -->
 
             </div>
+            <!-- row -->
         </div>
     </section>
 
