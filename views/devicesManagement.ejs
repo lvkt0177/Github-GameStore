@@ -22,49 +22,62 @@
 
     <section class="addNewSth">
         <div class="container">
-            <form action="" method="post" enctype="multipart/form-data">
+                                <!-- enctype="multipart/form-data" -->
+            <form action="/playstation/admin/devices" method="post" enctype="multipart/form-data">
                 <div class="row">
+                    
                     <div class="col col-md-12">
                         <h3>Add New Devices</h3>
                     </div>
                     <div class="col col-md-6 mt-3">
                         <label for="" class="label-label">Name Deviece</label>
-                        <input type="text" name="name" id="" class="form-control" required>
+                        <input type="text" name="name" value="1" id="" class="form-control" required>
                     </div>
-                    <div class="col col-md-6 mt-3 ">
+                     <div class="col col-md-6 mt-3 ">
                         <label for="" class="label-label">Producer</label>
-                        <input type="text" name="producer" id="" class="form-control">
-                        <!-- <input type="checkbox" class="ms-3" name="" id="chbox_category" value="">
-                        <select class="form-select select_ctr" name="category">
-                            
-                        </select> -->
+                        <input type="text" name="producer" value="1" id="" class="form-control">
+                        
+                    </div>  
+
+                     <div class="col col-md-6 mt-3">
+                        <label for="" class="label-label">Image Deviece</label>
+                        <input type="file" name="image" id="" class="form-control imgs" accept="image/jpg" required>
+                    </div>
+
+                     <div class="col col-md-6 mt-3">
+                        <label for="" class="label-label">Price</label>
+                        <input type="number" value="1" name="price" id="" class="form-control" required>
+                    </div>
+
+                    <div class="col col-md-12 mt-3">
+                        <!-- <label for="" class="label-label">Price</label> -->
+                        <p>Image details</p>
+                        <input type="file" name="images" id="imgDetails" class="form-control" accept="image/*" multiple>
+                        <div class="d-flex mt-3">
+                            <input type="text" name="nameImg" class="form-control nameImg d-none mb-3" value="">
+                            <button type="button" class="btn_AddImg fs-4">+</button>
+                            <div class=" arrImg d-flex"></div>
+                        </div>
+                    </div>
+                    
+                    <div class="col col-md-6 mt-3">
+                        <label for="number" class="label-label">Warranty (Years)</label>
+                        <input type="number" value="1" name="warranty" id="" class="form-control" required>
                     </div>
 
                     <div class="col col-md-6 mt-3">
-                        <label for="" class="label-label">Image Deviece</label>
-                        <input type="file" name="image" id="" class="form-control" accept="image/jpg" required>
-                    </div>
-                    <div class="col col-md-6 mt-3">
-                        <label for="" class="label-label">Price</label>
-                        <input type="number" name="price" id="" class="form-control" required>
-                    </div>
-                    <div class="col col-md-6 mt-3">
-                        <label for="number" class="label-label">Warranty (Years)</label>
-                        <input type="number" name="warranty" id="" class="form-control" required>
-                    </div>
-                    <div class="col col-md-6 mt-3">
                         <label for="date" class="label-label">Quantity</label>
-                        <input type="number" name="quantity" id="" class="form-control" required>
+                        <input type="number" value="1" name="quantity" id="" class="form-control" required>
                     </div>
                     
                     <div class="col col-md-12 mt-3">
                         <label for="" class="label-label">Description</label>
-                        <!-- <textarea id="" name="description" rows="4" cols="56" class="form-control" required></textarea> -->
-                        <textarea id="mytextarea"  name="description"></textarea>
-                        
+                        <!-- <textarea id="mytextarea"  name="description"></textarea> -->
+                        <input type="text" class="form-control" name="description" value="1" required>
                     </div>
+                     
                     <div class="">
-                        <button class="btn bg-green text-light mt-4 me-3" name="btn_type" value="formAdd" style="width: 130px;height: 40px;"><i class="fa-solid fa-check text-light me-3"></i>Confirm</button>
+                        <button class="btn bg-green text-light mt-4 me-3 btn_confirm" name="btn_type" value="1" style="width: 130px;height: 40px;"><i class="fa-solid fa-check text-light me-3"></i>Confirm</button>
                         <button type="button" class="btn bg-danger text-light mt-4 cancle" style="width: 130px;height: 40px;"><i class="fa-solid fa-x me-3"></i>Cancle</button>
                     </div>
                 </div>
@@ -112,7 +125,7 @@
                                         <th class="pt-4"><%= item.SOLUONG %></th>
                                         <th class="pt-4"><%= item.BAOHANH %> Years</th>
                                         <th class="pt-4 d-flex pb-3">
-                                            <button class="btn btn-warning"><i class="fa fa-eye text-light" aria-hidden="true"></i></button>
+                                            <a href="/playstation/admin/devices/<%= item.ID %>" class="btn btn-warning"><i class="fa fa-eye text-light" aria-hidden="true"></i></a>
                                             <button class="btn bg-green mx-2"><i class="fa fa-pen text-light" aria-hidden="true"></i></button>
                                             <form action="/playstation/admin/devices/delete/<%= item.ID %>" class="" method="post" onsubmit="return confirm('You want to remove it?')">
                                                 <button class="btn btn-danger"><i class="fa fa-trash text-light" aria-hidden="true"></i></button>
@@ -133,13 +146,22 @@
         </div>
     </section>
 
-
+    
     <script>
-        tinymce.init(
+    
+    /*
+      Lấy tên ảnh vừa chọn - Show Ảnh tạm thời
+
+      B1: Bắt sự kiện change
+      B2: 
+
+    */    
+    
+    tinymce.init(
         {
             selector: 'textarea#mytextarea',
-            plugins: 'autolink lists link image',
-            toolbar: 'undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | outdent indent | link image',
+            plugins: 'anchor autolink charmap codesample emoticons image link lists media searchreplace table visualblocks wordcount linkchecker',
+            toolbar: 'undo redo | blocks fontfamily fontsize | bold italic underline strikethrough | link image media table | align lineheight | numlist bullist indent outdent | emoticons charmap | removeformat',
             height: 800, // Chiều cao của vùng soạn thảo
         });
 
@@ -153,6 +175,65 @@
 
         cancleAdd.addEventListener('click',()=>{
             boxADd.style.display = 'none';
+        })
+
+        // ============ Input Image ================//
+        var btn_AddImg = document.querySelector('.btn_AddImg');
+        var input_FileImg = document.getElementById('imgDetails');
+        var boxImg = document.querySelector('.arrImg');
+        var newAddImage = document.querySelector('.img-add');
+        var input_nameImg = document.querySelector('.nameImg');
+        var btn_confirm = document.querySelector('.btn_confirm');
+
+        btn_AddImg.addEventListener('click',()=>{
+            input_FileImg.click();
+        })
+        var array_nameImg = [];
+        var name_Img = "";
+        var count = 0;
+        input_FileImg.addEventListener('change', function() {
+            const file = this.files[0];
+            if (file) {
+                var newImage = document.createElement('img');
+                var newBox = document.createElement('div');
+                // newBox.classList.add('d-inline')
+                newBox.classList.add('box-add')
+                newImage.classList.add('img-add');
+                
+                const reader = new FileReader();
+                reader.addEventListener('load', function() {
+                    newImage.src = reader.result ;
+                    newImage.alt = count;
+                    count++;
+                    array_nameImg.push(JSON.stringify({"image": file.name}));
+                    name_Img = file.name;
+                    
+                });
+                reader.readAsDataURL(file);
+                newBox.appendChild(newImage);
+                boxImg.appendChild(newBox);
+                
+            } else {
+                previewImage.src = '#';
+            }
+        });
+
+        boxImg.addEventListener('click',event =>{
+            var target = event.target;
+
+            if (target.tagName === 'IMG' && target.classList.contains('img-add')) 
+            {
+                count--;
+                array_nameImg.splice(count,1);
+                console.log(array_nameImg);
+                target.remove();
+
+            }
+        })
+           
+        btn_confirm.addEventListener('click',()=>{
+            input_nameImg.value = '['+array_nameImg+']';
+            console.log(input_nameImg);
         })
 
     </script>

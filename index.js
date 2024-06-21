@@ -24,13 +24,32 @@ const multer = require('multer');
 const fs = require('fs');
 const { log } = require('console');
 const e = require('express');
-const upload = multer({ dest: 'publics' });
+
+
+function getRandomInt(min, max) {
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
+const storage = multer.diskStorage({
+    destination: function (req, file, cb) {
+        cb(null, 'publics/imageProduct');
+    },
+    filename: function (req, file, cb) {
+        let randomNumber = getRandomInt(1, 100000000);
+        // Đổi tên file để tránh xung đột, ví dụ: timestamp-origName
+        cb(null, randomNumber + Date.now() + '-' + file.originalname);
+    }
+});
+
+
+    const upload = multer({ dest: 'publics' });
+    const uploads = multer({ storage: storage });
 //=============================//
 
 //========== Paragraph =========//
 const striptags = require('striptags');
 app.locals.striptags = striptags;
-
+ 
  
 // ======== Test ===========// 
 app.get('/test/noiDung', (req, res) => {
@@ -53,7 +72,7 @@ app.get('/test/noiDung', (req, res) => {
         res.render('news',{data: arrData})
     })
     conn.end();
-})
+}) 
 
 app.post('/test/noiDung', (req, res) => {
     var conn = connection.create();
@@ -63,7 +82,6 @@ app.post('/test/noiDung', (req, res) => {
             { "image": req.body.content }
         ]
     };
-
     console.log(JSON.stringify(noiDung));
     var sql = "INSERT INTO news(noiDung) Value (?)";
     conn.query(sql, JSON.stringify(noiDung) , (err, result) => {
@@ -73,7 +91,26 @@ app.post('/test/noiDung', (req, res) => {
     })
     
     conn.end();
+}) 
+
+
+app.post('/test/noiDung/add', (req, res) => {
+    // var conn = connection.create();
+    // conn.connect();
+    
+    // console.log(JSON.stringify(noiDung));
+    // var sql = "INSERT INTO news(noiDung) Value (?)";
+    // conn.query(sql, JSON.stringify(noiDung) , (err, result) => {
+    //     if (err) throw err;
+    //     if (result.affectedRows > 0)
+    // })
+    res.redirect('/test/noiDung');
+    
+    // conn.end();
 })
+
+
+
 
 // ===========================================
 /* 
@@ -114,6 +151,7 @@ app.post('/test/noiDung/:id', (req, res) => {
             // Replace
             if (index == req.body.location && req.body.del == undefined) {
                 clone_Json.book[index] = { "image": req.body.text };
+                console.log(clone_Json);
                 var new_Json = JSON.stringify(clone_Json);
                 params = [
                     new_Json,
@@ -209,6 +247,7 @@ app.get('/', (req, res) => {
         conn.end();
     })
 })
+
 //=============================
 app.get('/game', (req, res) => {
 
@@ -327,7 +366,7 @@ app.get('/news/test', (req, res) => {
 app.get('/playstation/admin', (req, res) => {
     res.render('adminManager');
 })
-
+ 
 //------------- List Game ---------------//
 app.get('/playstation/admin/gameManagement', (req, res) => {
     var conn = connection.create();
@@ -569,31 +608,75 @@ app.get('/playstation/admin/devices', (req, res) => {
 
 })
 
-app.post('/playstation/admin/devices',upload.single('image'), (req, res) => {
+app.get('/playstation/admin/devices/:id', (req, res) => {
     var conn = connection.create();
-    const imagePath = path.join(__dirname, 'publics/imageProduct');
-    //Image will move into imagePath...
-    fs.renameSync(req.file.path, path.join(imagePath, req.file.originalname));
+    conn.connect();
+    var arrDevieces = {};
+    conn.query("Select * From devices Where ID = ?",req.params.id, (err, result) => {
+        if (err) throw err;
+        arrDevieces.info = result[0];
+        arrDevieces.imgInfo = JSON.parse(result[0].CHITIETANH);
 
+        console.log(arrDevieces.imgInfo.img);
+
+        res.render('devieceDetails', { data: arrDevieces });
+    })
+    conn.end();
+}) 
+
+
+const multipleUpload = upload.fields([
+    { name: 'image', maxCount: 1 },       // Để xử lý ảnh đại diện
+    { name: 'images', maxCount: 10 }      // Để xử lý ảnh chi tiết
+]);
+
+app.post('/playstation/admin/devices', multipleUpload, (req, res) => {
+    var conn = connection.create();
+
+    // Add file image
+    const imagePath = path.join(__dirname, 'publics/imageProduct');
+    if (req.files && req.files.image) {
+        const mainImage = req.files.image[0];
+        fs.renameSync(mainImage.path, path.join(imagePath, mainImage.originalname));
+
+        req.files.images.forEach(item => {
+            fs.renameSync(item.path, path.join(imagePath, item.originalname));
+        })
+    }
+
+    // JSON
+    var test = {
+        "imgDetails": []
+    };
+    req.files.images.forEach(item => {
+        test.imgDetails.push(
+            { "image": item.originalname }
+        )
+    })
+
+
+    // Params
     conn.connect();
     var params = [
         req.body.name,
         req.body.producer,
         req.body.price,
         req.body.description,
-        req.file.originalname,
+        req.files.image[0].originalname,
+        JSON.stringify(test),
         req.body.quantity,
         req.body.warranty,
     ]
-    var sql_1 = "INSERT INTO devices(TENSP,NSX,GIATIEN,MOTA,HINHANH,SOLUONG,BAOHANH) VALUE(?,?,?,?,?,?,?)";
+    var sql_1 = "INSERT INTO devices(TENSP,NSX,GIATIEN,MOTA,HINHANH,CHITIETANH,SOLUONG,BAOHANH) VALUE(?,?,?,?,?,?,?,?)";
     conn.query(sql_1, params, (err, result) => {
         if (err) throw err;
         if (result.affectedRows > 0) {
             res.redirect('/playstation/admin/devices')
         }
     })
-    conn.end(); 
+    conn.end();
 })
+
 
 app.post('/playstation/admin/devices/delete/:id', (req, res) => {
     var conn = connection.create();

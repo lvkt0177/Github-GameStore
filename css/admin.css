@@ -138,3 +138,38 @@ a:hover {
 /* Game detail */
 
 
+/* ---------- Devices ---------------------------- */
+
+.btn_AddImg{
+    border-radius: 0.5rem;
+    border: none;
+    padding: 1.8rem 1.8rem;
+    background-color: rgba(224, 236, 248, 0.93);
+}
+
+.btn_AddImg:hover{
+    background-color: rgba(181, 215, 249, 0.823);
+    transition: 0.2s ease-in-out;
+}
+
+.img-add
+{
+    border-radius: 0.5rem;
+    height: 95px;
+    width: 75px;
+    margin: 0 8px 0 8px;
+    cursor: pointer;
+}
+
+
+
+.box-add:hover {    
+    border-radius: 0.5rem;
+    background-repeat: no-repeat;
+    background-size: 25px;
+    background-position: right top;
+}
+
+.box-add:hover .img-add{
+    opacity: 0.5;
+}

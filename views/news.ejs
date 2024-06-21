@@ -58,7 +58,7 @@
                                     <div class="d-flex">
                                         <form action="/test/noiDung/<%= data.list.ID %>" class="" method="post">
                                             <input type="text" value="" name="text" id="" class="form-control">
-                                            <button class="btn btn-warning  mt-3" name="location" value="<%= index %>">Replace</button>      
+                                            <button class="btn btn-warning  mt-3" name="location" value="<%= index %>">Replace</button>   
                                             <button class="btn btn-danger mx-3 mt-3" name="del" value="<%= index %>">Delete</button>
                                             
 
@@ -72,6 +72,19 @@
                             <% }) %>
                     </div>
                     
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="bg-light">
+        <div class="container">
+            <div class="row">
+                <div class="col col-5">
+                    <form action="/test/noiDung/add" method="post" enctype="multipart/form-data">
+                        <input type="file" name="anh" id="" multiple class="form-control">
+                        <button class="btn btn-success mt-4">Click</button>
+                    </form>
                 </div>
             </div>
         </div>
