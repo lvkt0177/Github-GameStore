@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<meta name="Description" content="Enter your description here"/>
+
+<%- include('partials/link') %>
+<script src="https://kit.fontawesome.com/02183315c8.js" crossorigin="anonymous"></script>
+<title>Sign In | Playstation</title>
+</head>
+<body>
+
+
+    <section class="bg-light">
+        <div class="background-sign-in">
+            <div class="">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col">
+                            <!-- img -->
+                            <div class="logo">
+                                <a href="/">
+                                    <img src="/image/logo_1-removebg-preview.png" alt="">
+                                </a>
+                            </div>
+                        </div>
+
+                        <div class="col box-sign-in">
+                            <div class="row">
+                                <div class="back">
+                                    <button style="background: none;border: none;outline: none;width: 50px;height: 50px;"><i class="fa-solid fa-chevron-left text-light fs-3"></i></button>
+                                </div>
+                                <div class="box text-center">
+                                    <h3 class="my-4 text-light">Sign In to Playstation</h3>
+                                    <div class="col col-12">
+                                        <div class="d-flex justify-content-center">
+                                                <div class="" style="width: 50%;">
+                                                    <h4 class="name_account text-start text-light">
+                                                        <!-- User Account -->
+                                                    </h4>
+                                                </div>
+                                        </div>
+                                        
+                                        <div class="wrong_account">
+                                            <% if (data == 0) { %>
+                                            <div class="row d-flex justify-content-center">
+                                                <div class="col col-lg-6 box-wrong d-flex">
+                                                    <div class="bg-wrong"></div>
+                                                    <p class="text-light fs-5 py-3">&emsp13; The Sign-In (email address, username) or password you entered isn't correct.</p>
+                                                </div>
+                                            </div>
+                                            <% } %>
+                                        </div>    
+                                        <form action="/playstation/login" method="post">
+                                            <div class="sign-in text-center">
+                                                <div class="account bd-input">
+                                                    <div class="">
+                                                        <input type="text" name="account" id="" class="input-account text-light" placeholder="Sign-In (Email Address or Username)" required>
+                                                    </div>
+                                                </div>
+
+                                                <div class="password bd-input mt-3">
+                                                    <input type="password" name="password" id="" class="input-password text-light" placeholder="Password" required  >
+                                                </div>
+                                            </div>
+                                            
+                                            <div class="button_s">
+                                                <div class="btn_input">
+                                                    <button type="button" class="mt-3 fs-5">Next</button>
+                                                </div>
+                                            </div>
+                                        </form>
+                                            
+
+                                        <div class="about mt-4">
+                                            <a href="https://www.playstation.com/en-vn/linking-accounts/?smcid=web%3Apdc" class="fs-5">About Sony Account</a>
+                                        </div>
+
+                                         <div class="button_s">
+                                            <div class="btn_input btn_create mt-4 pt-2-5">
+                                                <a href="/playstation/create_account" class="fs-5 text-light">Create an Account</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+        
+                            </div>
+                        </div>
+                        <!-- Sign In -->
+
+                    </div>
+                </div>
+                <!-- container -->
+
+            </div>
+            <!--  -->
+
+        </div>
+        <!-- background-sign-in -->
+    </section>
+
+
+    
+
+    <script>
+        // input
+        var input_account = document.querySelector('.input-account');
+        var input_password = document.querySelector('.input-password');
+        var bd_input = document.querySelectorAll('.bd-input');
+        var box_wrong = document.querySelector('.wrong_account');
+        // button
+        var btn_input = document.querySelector('.btn_input > button');
+
+        // box
+        var box_account = document.querySelector('.account')
+        var box_password = document.querySelector('.password');
+
+        // 
+        var name_account = document.querySelector('.name_account')
+        var button_back = document.querySelector('.back');
+
+        document.addEventListener('click',event =>{
+            bd_input.forEach(element =>{
+                if(element.contains(event.target)){
+                     element.style.border = '2px solid var(--text-color-3) !important';
+                     element.style.padding = '1px'
+                }
+    
+                if(!element.contains(event.target)){
+                     element.style.border = 'none';
+                }
+
+            })
+        })
+
+        btn_input.addEventListener('click',()=>{
+            event_input_account();
+        })
+
+        document.addEventListener('keydown',event =>{
+            if(event.key === 'Enter'){
+                event_input_account();
+            }
+        })
+
+        input_account.addEventListener('change',()=>{
+            box_wrong.style.display = 'none';
+            input_password.value = "";
+        })
+
+        function event_input_account(){
+            if(input_account.value){
+
+                // console.log(input_account.value);
+                name_account.innerHTML = input_account.value;
+                // box none
+                box_account.style.display = 'none';
+                box_password.style.display = 'block';
+
+                btn_input.innerHTML = 'Sign In';
+                button_back.style.display = 'block';
+                box_wrong.style.display = 'none';
+
+            }
+
+            if(input_password.value){
+                // Type button
+                btn_input.type = "";
+            }
+        }
+
+        function event_back(){
+            input_account.value = name_account.innerHTML;
+            name_account.innerHTML = "";
+            box_password.value = "";
+            box_account.style.display = 'block';
+            box_password.style.display = 'none';
+            button_back.style.display = 'none';
+            btn_input.innerHTML = 'Next';
+        }
+
+        // back to the account
+        button_back.addEventListener('click',()=>{
+            event_back();
+
+        })
+       
+        
+
+    </script>
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.9.2/umd/popper.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.1.0/js/bootstrap.min.js"></script>
+</body>
+</html>

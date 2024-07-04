@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<meta name="Description" content="Enter your description here"/>
+
+<%- include('partials/link')  %>
+
+<title>Create an Account | Playstation</title>
+</head>
+<body>
+    <section>
+        <div class="wallpaper">
+            <div class="container">
+                <div class="row d-flex justify-content-center">
+                    <div class="col col-lg-6">
+                        <div class="box-create">
+                            <div class="box-nav">
+                                <a href="/">
+                                    <img src="/image/logo_1-removebg-preview.png" alt="" style="width: 120px;">
+                                </a>
+                            </div>
+                            
+                            <div class="tittle text-center">
+                                <h3 class="">Create your account</h3>
+                            </div>
+                            <div class="row px-5">
+                                <form action="/playstation/create_account" method="post" class="">
+                                    <div class="col col-lg-12 d-block mt-4">
+                                        <label for="" class="label-label mb-2">Email</label>
+                                        <input type="email" name="email" id="" class="form-control" required>
+
+                                        <% if (data.checkMail == 1) { %>
+                                            <p class="text-danger">The email account is already in use</p>
+                                        <% } %>
+                                    </div>
+                                    <div class="col col-lg-12 d-block mt-4">
+                                        <label for="" class="label-label mb-2">Full Name</label>
+                                        <input type="text" name="fullName" id="" class="form-control" required>
+                                    </div>
+                                    <div class="col col-lg-12 d-block mt-4">
+                                        <label for="" class="label-label mb-2">Username</label>
+                                        <input type="text" name="username" id="" pattern="^(?=.*[a-zA-Z])(?=.*[0-9])[a-zA-Z0-9]{5,}$" title="The username must contain at least one letter and one number, and be at least 5 characters long" class="form-control" required>
+                                        <% if (data.checkTK == 1) { %>
+                                            <p class="text-danger">The username is already in use</p>
+                                        <% } %>
+                                    </div>
+                                    <div class="col col-lg-12 d-block mt-4">
+                                        <label for="" class="label-label mb-2">Password</label>
+                                        <input type="password" name="pass" pattern="^(?=.*[a-zA-Z])(?=.*[0-9])[a-zA-Z0-9]{8,}$" title="The password must contain at least one letter and one number, and be at least 8 characters long"  id="pass" class="form-control" required>
+                                    </div>
+
+                                    <div class="col col-lg-12 d-block mt-4">
+                                        <label for="" class="label-label mb-2">Confirm Password</label>
+                                        <input type="password" name="" id="confirmPass" class="form-control" required>
+                                    </div>
+
+                                    <div class="col col-lg-12 d-block mt-4">
+                                        <label for="" class="label-label mb-2">Phone number</label>
+                                        <input type="text" name="phoneNumber" id="" pattern="^[0-9]{10,11}$" title="The title must be at least 10 digits long" class="form-control" required>
+                                        <% if (data.checkPhone == 1) { %>
+                                            <p class="text-danger">The phone number is already in use</p>
+                                        <% } %>
+                                    </div>
+
+                                    <div class="col col-lg-12 mt-5 d-flex justify-content-center">
+                                        <button class="btn btn-primary py-2 create" style="width: 100%;border: none;outline: none;">Create</button>
+                                    </div>
+                                    
+                                    <div class="col col-lg-12 mt-4">
+                                        <div class="d-flex justify-content-center">
+                                            <p>Already have an account? &emsp;</p>
+                                            <a href="/playstation/login" class="">Sign In</a>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        var pass = document.getElementById('pass');
+        var confirmPass = document.getElementById('confirmPass');
+        var create = document.querySelector('.create');
+        
+        document.addEventListener('keydown',event =>{    
+
+            pass.addEventListener('change',()=>{
+                event_pass();
+            })
+
+            confirmPass.addEventListener('change',()=>{
+                event_pass();
+            })
+        })
+        
+       function event_pass(){
+            if(pass.value != confirmPass.value && confirmPass.value != pass.value){
+                    pass.style.background = confirmPass.style.background = '#ffcbcb';
+                    create.style.background = '#ababab';
+                    create.type = 'button';
+                }
+                else{
+                    pass.style.background = confirmPass.style.background = '#ffff'
+                    create.style.background = '#0d6efd';
+                    create.type = '';
+                }
+       }
+
+    </script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.9.2/umd/popper.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.1.0/js/bootstrap.min.js"></script>
+</body>
+</html>

@@ -1,6 +1,7 @@
 :root {
     --text-color-1: rgb(0 112 207);
     --text-color-2: white;
+    --text-color-3: rgb(61, 63, 180);
     --text-bg-black-hover: rgba(41, 39, 39, 0.684);
     --bg-color: rgb(41, 39, 39);
 }
@@ -67,13 +68,25 @@ a {
     cursor: pointer;
 }
 
-.img-slider img{
-    transition: 0.5s ease-in-out;
+.img-slider img {
+    transition: 0.5s ease;
+
 }
 
-.img-slider img:hover{  
-    transform: scale(1.05);
-    transition: 0.5s ease-in-out;
+.img-slider img:hover {
+    transform: scale(1.03);
+    transition: 0.2s ease;
+}
+
+
+/* Slick */
+.slider-nav .slick-center img {
+    border: 4px solid rgb(77, 77, 170);
+    transition: 0.4s ease;
+}
+
+.slider-nav.slick-center p {
+    color: rgb(63, 63, 189);
 }
 
 .info-game {
@@ -436,16 +449,16 @@ section {
 
 
 /* Game detail */
-.bg-black{
+.bg-black {
     background-color: rgb(0, 0, 0);
     margin: 0 12px 0 12px;
 }
 
-.me--2{
+.me--2 {
     margin-right: -32px;
 }
 
-.game-details{
+.game-details {
     padding: 5rem 5rem 5rem;
     border-radius: 16px;
     background-color: rgba(28, 28, 28, 0.914);
@@ -455,7 +468,160 @@ section {
     height: 480px;
 }
 
-.info{
+.info {
     margin-top: 10rem;
 }
+
 /* =========== */
+
+/* Sign in to Playstation */
+
+
+
+.background-sign-in,
+.wallpaper {
+    height: 100vh;
+    display: block;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.wallpaper{
+    height: 110vh;
+}
+
+.background-sign-in{
+    background-image: url(/image/z5588607063304_3f26a2fd0422bd0db08e894c9cdd7c36.jpg);
+}
+
+.back{
+    position: relative;
+    transform: translate(30%,300%);
+    display: none;
+    width: 150px;
+}
+
+.back button:hover{
+    border-radius: 50%;
+    background: rgba(71, 71, 71, 0.452) !important;
+}
+
+.logo img{
+    position: relative;
+    transform: translate(120%,200%);
+}
+
+.box-sign-in {
+    background: rgba(0, 0, 0, 0.822);
+    height: 100vh;
+    backdrop-filter: blur(5px);
+}
+
+.box {
+    position: relative;
+    transform: translate(0, 50%);
+}
+
+.sign-in,
+.button_s {
+    display: flex;
+    justify-content: center;
+
+}
+
+.bd-input,
+.btn_input {
+    width: 50%;
+    /* padding: 1px; */
+    border-radius: 2rem;
+    border: 2px solid rgba(0, 0, 0, 0.822) !important;
+}
+
+.input-account,
+.btn_input button,
+.input-password {
+    width: 100%;
+    height: 50px;
+    padding: 0.5rem;
+    padding-left: 1rem;
+    border-radius: 2rem;
+    border: none;
+    background: rgba(114, 113, 113, 0.384);
+}
+
+.btn_input button {
+    background-color: #ffff;
+    color: black;
+}
+
+.btn_input button:hover{
+    background-color: #ecebeb;
+}
+
+.btn_create{
+    height: 60px;
+    background-color: rgba(56, 55, 55, 0.377);
+    color: #ffff;
+}
+
+.btn_create:hover{
+    background-color: rgba(99, 98, 98, 0.377);
+}
+
+.input-account:focus,
+.input-password:focus {
+    outline: none;
+    border: 2px solid #000000;
+    padding: 0.5rem;
+    padding-left: 1rem;
+}
+
+.password {
+    display: none;
+}
+
+
+
+.box-wrong{
+    background-color: rgba(63, 63, 63, 0.582);
+    margin-bottom: 1rem;
+    border-radius: 1rem;
+    padding: 0 !important;
+    
+}
+
+.bg-wrong{
+    border-bottom-left-radius: 2rem;
+    border-top-left-radius: 2rem;
+    padding: 0 !important;
+    width: 20px;
+    background: red;
+}
+
+.pt-2-5{
+    padding-top: 0.8rem;
+}
+/* ----------- */
+/* Create new Account */
+
+.wallpaper{
+    background-image: url(/image/wallpaper.jpg)
+}
+
+.box-create{
+    height: 100vh;
+    background: rgb(255, 255, 255);
+    margin-top: 4rem;
+}
+
+.box-nav{
+    height: 7vh;
+    width: auto;
+    background: black;
+    display: flex;
+    justify-content: center;
+}
+
+.tittle{
+    margin-top: 0.5rem;
+}

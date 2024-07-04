@@ -13,7 +13,7 @@
 <link rel="stylesheet" href="/admin.css">
 <link rel="icon" type="image/png" href="https://upload.wikimedia.org/wikipedia/commons/9/91/PlayStation_App_Icon.jpg">
 
-<script src="https://cdn.tiny.cloud/1/tgfa89yfovqhkmb41kw9f6bt8v5pq9wjirve8sjq9yzonmej/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
+<script src="https://cdn.tiny.cloud/1/2iaudoekuj3kqz59j4yqxbdopvcemuweofw3fdum7rqkobpr/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
 
 <title>Admin - List Game</title>
 </head>
@@ -155,9 +155,9 @@
                             </thead>
                             <tbody>
 
-                                <% data.game.forEach(item => { %>
+                                <% data.game.forEach((item,index) => { %>
                                     <tr>
-                                        <th class="idSP"><%= item.ID %></th>
+                                        <th class="idSP"><%= index + 1 %></th>
                                         <th><img src="/imageGame/<%= item.hinhNen %>" class="bd-rd" style="width: 60px;height: 60px;" alt=""></th>
                                         <th class="pt-4"><%= item.tenGame %></th>
                                         <th class="pt-4"><%= item.theLoai %></th>
@@ -251,7 +251,7 @@
                     tinymce.get("mytextarea_1").setContent(data.moTa, {format: "html"});
                     dateInput.value = data.ngayRaMat.split("T")[0];
                 })
-                .catch(error => console.error('Error:', error));
+                .catch(error => console.error('Error:', error));    
 
             boxChange.style.display = 'block';
     }
@@ -259,6 +259,16 @@
 
      cancleBox_Change.addEventListener('click',()=>{
             boxChange.style.display = 'none';
+    })
+
+    document.addEventListener('keydown',event=>{
+        if(boxAdd.style.display == 'block')
+            if(event.key === 'Escape')
+                boxAdd.style.display = 'none';
+
+        if(boxChange.style.display == 'block')
+            if(event.key === 'Escape')
+                boxChange.style.display = 'none';
     })
 
 
@@ -310,10 +320,6 @@
             input_ctr_change.disabled = true;
             }
         })
-
-
-
-
 </script>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.9.2/umd/popper.min.js"></script>

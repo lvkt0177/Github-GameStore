@@ -12,6 +12,12 @@ const mysql = require('mysql')
 const connection = require('./connection');
 
 
+// Cookie and Session
+const cookieApp = require('cookie-parser');
+const sessionApp = require('express-session');
+const crypto = require('crypto');
+
+app.use(cookieApp());
 
 // ----------- request name trong thẻ input  ---------------//
 var bodyParser = require('body-parser');
@@ -48,9 +54,80 @@ const storage = multer.diskStorage({
 
 //========== Paragraph =========//
 const striptags = require('striptags');
+const session = require('express-session');
 app.locals.striptags = striptags;
  
  
+
+// Account
+
+const randomText = crypto.randomBytes(64).toString('hex');
+
+console.log(randomText);
+app.use(sessionApp({
+    secret: randomText,
+    resave: false,
+    saveUninitialized: true,
+    cookie: { secure: false }
+}))
+
+
+
+// Login User ========================
+
+// Cookie tựa như CCCD lưu trữ dữ liệu tại Client - Ví
+//
+
+// Session và Cookie: theo dõi danh tính của người dùng và phiên hoạt động của người dùng
+/*
+Session: Thông tin, lưu trữ tại Server.
+Tựa như mã CCCD.
+Truy vấn thông tin ở Server
+ - Hoạt động:  
+
+*/
+
+
+// Loginn
+app.get('/playstation/login', (req, res) => {
+    res.render('userLogin', { data: 1 });
+})
+
+
+app.post('/playstation/login', (req, res) => {
+    let conn = connection.create();
+    conn.connect();
+    var sql = 'SELECT TAIKHOAN,MATKHAU FROM users WHERE TAIKHOAN = ? OR EMAIL = ?';
+    var params = [
+        req.body.account,
+        req.body.account
+    ]
+    var userAccount = req.body.account;
+    conn.query(sql, params, (err, result) => {
+        if (err) throw err;
+        // console.log(result[0]);
+        if (result[0] != undefined) {
+            if (result[0].MATKHAU == req.body.password) {
+                console.log("Thành công");
+                req.session.user = {userAccount}
+                res.redirect('/');
+            }
+            else {
+                res.render('userLogin', { data: 0 });
+            }
+        }
+        else
+            res.render('userLogin', { data: 0 });
+    })
+    conn.end();
+})
+
+app.get('/playstation/logout', (req, res) => {
+        res.clearCookie('connect.sid');
+        res.redirect('/');
+        console.log("Get out of my account");
+})
+
 // ======== Test ===========// 
 app.get('/test/noiDung', (req, res) => {
     var conn = connection.create();
@@ -196,8 +273,6 @@ app.post('/test/noiDung/:id', (req, res) => {
 
 
 
-
-
 // =========================//
 
 
@@ -238,6 +313,19 @@ app.get('/', (req, res) => {
         dataProduct.devices = result;
     })
 
+    // Account 
+    if (req.session.user) {
+        dataProduct.cookieAccount = 1;
+        dataProduct.nameAccount = req.session.user;
+        console.log(dataProduct);
+        console.log("Đăng nhập thành công");
+    }
+    else
+    {
+        dataProduct.cookieAccount = 0; 
+        console.log("Đăng nhập thất bại");
+    }
+
     conn.query("Select gameproduct.* From gameproduct JOIN upcominggame ON gameproduct.ID = upcominggame.IDGAME", (err, result) => {
         if (err) {
             console.log("Lỗi bảng 6", err);
@@ -247,6 +335,82 @@ app.get('/', (req, res) => {
         conn.end();
     })
 })
+
+
+// Create account
+app.get('/playstation/create_account', (req, res) => {
+    var arr_data = {};
+    arr_data.checkPhone = 0;
+    arr_data.checkMail = 0;
+    arr_data.checkTK = 0;
+    res.render('createAccount', {data: arr_data});
+})
+
+app.post('/playstation/create_account', (req, res) => {
+    let conn = connection.create();
+    conn.connect();
+    var arr_data = {};
+    var bool_check = true;
+    var sql_check = "SELECT * FROM users WHERE SDT = ? OR TAIKHOAN = ? OR EMAIL = ?";
+    var params_check = [
+        req.body.phoneNumber,
+        req.body.username,
+        req.body.email
+    ];
+
+    conn.query(sql_check, params_check, (err, result) => {
+        if (err) throw err;
+        result.forEach(item => {
+            if (item.SDT == req.body.phoneNumber) {
+                arr_data.checkPhone = 1;
+                bool_check = false;
+                // console.log("Trùng 1");
+            }
+
+            if (item.TAIKHOAN == req.body.username) {
+                arr_data.checkTK = 1;
+                bool_check = false;
+                // console.log("Trùng 2");
+                
+            }
+
+            if (item.EMAIL == req.body.email) {
+                arr_data.checkMail = 1;
+                bool_check = false;
+                // console.log("Trùng 3");
+            }
+        })
+
+        if (bool_check == true) {
+            var imgDefault = 'user-image.png';
+            var statusDefault = 1;
+            var sql = 'INSERT INTO users(TAIKHOAN,MATKHAU,HOTEN,SDT,EMAIL,TRANGTHAI,HINHNEN) VALUE (?,?,?,?,?,?,?)';
+            var params = [
+                req.body.username,
+                req.body.pass,
+                req.body.fullName,
+                req.body.phoneNumber,
+                req.body.email,
+                statusDefault,
+                imgDefault
+            ]
+            conn.query(sql, params, (err, result) => {
+                if (err) throw err;
+                if (result.affectedRows > 0) {
+                    res.redirect('/playstation/login');
+                }
+            })
+
+        }
+        else {
+            res.render('createAccount', { data: arr_data })
+        }
+
+    })    
+    
+    conn.end();
+})
+
 
 //=============================
 app.get('/game', (req, res) => {
@@ -313,6 +477,7 @@ app.post('/game', (req, res) => {
     })
 
 })
+
 
 //--------- News ----------//
 //Code here...
@@ -608,6 +773,19 @@ app.get('/playstation/admin/devices', (req, res) => {
 
 })
 
+// JSON
+app.get('/playstation/admin/deviceManagement/:id', (req, res) => {
+    var conn = connection.create();
+    conn.connect();
+    conn.query("Select * From devices Where ID = ?", req.params.id, (err, result) => {
+        if (err) throw err;
+        res.send(result[0]);
+        // console.log(result[0]);
+    })
+
+    conn.end();
+})
+
 app.get('/playstation/admin/devices/:id', (req, res) => {
     var conn = connection.create();
     conn.connect();
@@ -616,14 +794,14 @@ app.get('/playstation/admin/devices/:id', (req, res) => {
         if (err) throw err;
         arrDevieces.info = result[0];
         arrDevieces.imgInfo = JSON.parse(result[0].CHITIETANH);
-
-        console.log(arrDevieces.imgInfo.img);
+        // console.log(arrDevieces.imgInfo.imgDetails[0]);
+        // console.log(arrDevieces.imgInfo.img);
 
         res.render('devieceDetails', { data: arrDevieces });
     })
     conn.end();
 }) 
-
+ 
 
 const multipleUpload = upload.fields([
     { name: 'image', maxCount: 1 },       // Để xử lý ảnh đại diện
@@ -643,7 +821,7 @@ app.post('/playstation/admin/devices', multipleUpload, (req, res) => {
             fs.renameSync(item.path, path.join(imagePath, item.originalname));
         })
     }
-
+    
     // JSON
     var test = {
         "imgDetails": []
@@ -653,10 +831,13 @@ app.post('/playstation/admin/devices', multipleUpload, (req, res) => {
             { "image": item.originalname }
         )
     })
+ 
+    // Time unit
+    var timeUnit = req.body.timeUnit;
+    console.log(timeUnit);
 
-
-    // Params
-    conn.connect();
+    // Params 
+    conn.connect(); 
     var params = [
         req.body.name,
         req.body.producer,
@@ -665,9 +846,10 @@ app.post('/playstation/admin/devices', multipleUpload, (req, res) => {
         req.files.image[0].originalname,
         JSON.stringify(test),
         req.body.quantity,
-        req.body.warranty,
+        req.body.date,
+        req.body.warranty + " " + timeUnit,
     ]
-    var sql_1 = "INSERT INTO devices(TENSP,NSX,GIATIEN,MOTA,HINHANH,CHITIETANH,SOLUONG,BAOHANH) VALUE(?,?,?,?,?,?,?,?)";
+    var sql_1 = "INSERT INTO devices(TENSP,NSX,GIATIEN,MOTA,HINHANH,CHITIETANH,SOLUONG,NGAYSX,BAOHANH) VALUE(?,?,?,?,?,?,?,?,?)";
     conn.query(sql_1, params, (err, result) => {
         if (err) throw err;
         if (result.affectedRows > 0) {
@@ -678,6 +860,129 @@ app.post('/playstation/admin/devices', multipleUpload, (req, res) => {
 })
 
 
+app.post('/playstation/admin/devices/update',multipleUpload, (req, res) => {
+    var conn = connection.create();
+    conn.connect();
+    var sql;
+    var params = []
+
+    // Lấy đường dẫn lưu file ảnh
+    var pathImg = path.join(__dirname, '/publics/imageProduct');
+    
+    if (req.files && req.files.image && req.files.images) {
+        console.log("All");
+        // Add just 1 image
+        var imgM = req.files.image[0];
+        fs.renameSync(imgM.path, path.join(pathImg, imgM.originalname));
+
+        // Add array images
+        req.files.images.forEach(item => {
+            fs.renameSync(item.path, path.join(pathImg, item.originalname));
+        })
+
+        var arr_imageDeviceDetails = {
+            "imgDetails": []
+        }
+
+        req.files.images.forEach(item => {
+            arr_imageDeviceDetails.imgDetails.push(
+                {
+                    "image": item.originalname
+                }
+            );
+        })
+
+        // Full
+        sql = `UPDATE devices 
+                    SET TENSP = ?, NSX = ?, GIATIEN = ?,
+                    MOTA = ?, HINHANH = ?,CHITIETANH = ?,
+                    SOLUONG = ?, NGAYSX = ?, BAOHANH = ?
+                    WHERE ID = ?`
+        
+        params = [
+            req.body.name,
+            req.body.producer,
+            req.body.price,
+            req.body.description,
+            req.files.image[0].originalname,
+            JSON.stringify(arr_imageDeviceDetails),
+            req.body.quantity,
+            req.body.date,
+            req.body.warranty + " " + req.body.timeUnit,
+            req.body.idDevice
+        ]
+        // Update Full
+    }
+    else if(req.files.image && !req.files.images)
+    {   
+
+        sql = `UPDATE devices SET TENSP = ?, NSX = ?, GIATIEN = ?,MOTA = ?, HINHANH = ?,SOLUONG = ?, NGAYSX = ?, BAOHANH = ? WHERE ID = ?`
+        params = [
+            req.body.name,
+            req.body.producer,
+            req.body.price,
+            req.body.description,
+            req.files.image[0].originalname,
+            req.body.quantity,
+            req.body.date,
+            req.body.warranty + " " + req.body.timeUnit,
+            req.body.idDevice
+        ]
+    }
+    else if (!req.files.image && req.files.images) {
+        var arr_imageDeviceDetails = {
+            "imgDetails": []
+        }
+
+        req.files.images.forEach(item => {
+            arr_imageDeviceDetails.imgDetails.push(
+                {"image":item.originalname}
+            );
+        })
+
+        console.log("Nothing 1.2");
+        sql = `UPDATE devices SET TENSP = ?, NSX = ?, GIATIEN = ?,MOTA = ?, CHITIETANH = ? ,SOLUONG = ?, NGAYSX = ?, BAOHANH = ? WHERE ID = ?`
+        params = [
+            req.body.name,
+            req.body.producer,
+            req.body.price,
+            req.body.description,
+            JSON.stringify(arr_imageDeviceDetails),
+            req.body.quantity,
+            req.body.date,
+            req.body.warranty + " " + req.body.timeUnit,
+            req.body.idDevice
+        ]
+    }
+    else {
+        console.log("Nothing All");
+        sql = `UPDATE devices 
+                    SET TENSP = ?, NSX = ?, GIATIEN = ?,
+                    MOTA = ?,SOLUONG = ?, NGAYSX = ?, BAOHANH = ?
+                    WHERE ID = ?`
+
+        params = [
+            req.body.name,
+            req.body.producer,
+            req.body.price,
+            req.body.description,
+            req.body.quantity,
+            req.body.date,
+            req.body.warranty + " " + req.body.timeUnit,
+            req.body.idDevice
+        ]
+    }
+
+    conn.query(sql, params, (err, result) => {
+        if (err) throw err;
+        if (result.affectedRows > 0) {
+            res.redirect('/playstation/admin/devices');
+        }
+    })
+    conn.end();
+})
+
+// --
 app.post('/playstation/admin/devices/delete/:id', (req, res) => {
     var conn = connection.create();
     conn.connect();
@@ -691,6 +996,8 @@ app.post('/playstation/admin/devices/delete/:id', (req, res) => {
     conn.end();
 })
 //================================//
+
+
 
 
 

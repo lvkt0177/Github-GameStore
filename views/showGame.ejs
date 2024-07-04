@@ -45,9 +45,9 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <% arr.data.forEach(item => { %>
+                                <% arr.data.forEach((item,index) => { %>
                                     <tr>
-                                        <th><%= item.ID %></th>
+                                        <th><%= index + 1 %></th>
                                         <th><img src="/imageGame/<%= item.hinhNen %>" class="bd-rd" style="width: 60px;height: 60px;" alt=""></th>
                                         <th class="pt-4"><%= item.tenGame %></th>
                                         <th class="pt-4"><%= item.theLoai %></th>

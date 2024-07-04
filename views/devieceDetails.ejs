@@ -7,29 +7,105 @@
 <meta name="Description" content="Enter your description here"/>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.1.0/css/bootstrap.min.css">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-<link rel="stylesheet" href="/admin.css">
 <link rel="icon" type="image/png" href="https://upload.wikimedia.org/wikipedia/commons/9/91/PlayStation_App_Icon.jpg">
-
+<link rel="stylesheet" href="/slick-theme.css">
+<link rel="stylesheet" href="/slick.css">
+<link rel="stylesheet" href="/admin.css">
 <title>Playstation - <%= data.TENSP %></title>
 </head>
 <body class="bg-light text-dark">
 
-        <%- include('partials/navbar') %>
+    <%- include('partials/navbar') %>
 
-    <section>
+    <section class="mt-5">
         <div class="container">
             <div class="row">
-                <div class="col mt-4">
+                <div class="col col-lg-6">
+                    <div class="slider slider-for">
+                        
+                            <div class="col col-lg-12">
+                                <div class="row">
+                                    <div class="col">
+                                        <div class="image-devices">
+                                            <img src="/imageProduct/<%= data.info.HINHANH %>" alt="" style="width: 636px;height: 357px;" >
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        
+                            <% data.imgInfo.imgDetails.forEach(item => { %>
+                                <div class="row">
+                                    <div class="col">
+                                        <div class="image-devices">
+                                            <img src="/imageProduct/<%= item.image %>" alt=""  style="width: 636px;height: 357px;" >
+                                        </div>
+                                    </div>
+                                </div>
+                            <% }) %>
+
                     
-                    <% data.imgInfo.imgDetails.forEach(item => { %>
-                        <img src="/imageProduct/<%= item.image %>" alt="" style="height: 400px;width: 400px;">
-                    <% }) %>
+                    </div>
+                    <!-- ====== Col 12 Info Devices ====== -->
+                
+                 
+                    <!-- Slick Devices -->
+                    <div class="col col-lg-12 mt-3">
+                        <div class="slider slider-nav slick-devices">
+                            <div class="img-slider">
+                                <img src="/imageProduct/<%= data.info.HINHANH %>" alt="" style="width: 175px;height: 98px;">
+                            </div>
+                            <% data.imgInfo.imgDetails.forEach(item => { %>
+                                <div class="img-slider">
+                                    <img src="/imageProduct/<%= item.image %>" alt="" class="img-details" style="width: 175px;height: 98px;">
+                                </div>
+                            <% }) %>
+                            
+                        
+                        </div>
+                    </div>
                 </div>
+
+                <div class="col col-lg-6">
+                    <h1 class="mt-4"><%= data.info.TENSP %></h1>
+                    <h5><%= data.info.NSX %></h5>
+                    <h2 class="mt-4"><p class="fs-1 d-inline">$</p> <%= data.info.GIATIEN %></h2>
+                    <p class="mt-4"><b class="me-3">Release Date:</b><%= data.info.NGAYSX.getFullYear()%>-<%= data.info.NGAYSX.getMonth() + 1 %>-<%= data.info.NGAYSX.getDate() %> </p>
+                    <p class="mt-4"><%- data.info.MOTA %></p>
+
+                    <!-- Add item -->
+                    <button class="btn_AddItem btn btn-light px-5 py-2 text-danger border border-danger border-2 mt-3">Add <i class="fa fa-cart-plus" aria-hidden="true"></i></button>
+                </div>
+                
             </div>
         </div>
     </section>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.9.2/umd/popper.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.1.0/js/bootstrap.min.js"></script>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.9.2/umd/popper.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.1.0/js/bootstrap.min.js"></script>
+    <script src="/slick.min.js"></script>
+<script>
+    $('.slider-for').slick(
+        {
+            slidesToShow: 1,
+            slidesToScroll: 1,
+            arrows: false,
+            fade: true,
+            asNavFor: '.slider-nav'
+        });
+
+    $('.slider-nav').slick(
+        {
+            slidesToShow: 3,
+            slidesToScroll: 1,
+            asNavFor: '.slider-for',
+            dots: true,
+            centerMode: true,
+            focusOnSelect: true
+        });
+
+</script>
+
 </body>
 </html>

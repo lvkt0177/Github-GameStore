@@ -12,7 +12,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="/admin.css">
 <link rel="icon" type="image/png" href="https://upload.wikimedia.org/wikipedia/commons/9/91/PlayStation_App_Icon.jpg">
-<script src="https://cdn.tiny.cloud/1/tgfa89yfovqhkmb41kw9f6bt8v5pq9wjirve8sjq9yzonmej/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
+<script src="https://cdn.tiny.cloud/1/2iaudoekuj3kqz59j4yqxbdopvcemuweofw3fdum7rqkobpr/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
 
 <title>Admin - Devices</title>
 </head>
@@ -30,55 +30,173 @@
                         <h3>Add New Devices</h3>
                     </div>
                     <div class="col col-md-6 mt-3">
-                        <label for="" class="label-label">Name Deviece</label>
-                        <input type="text" name="name" value="1" id="" class="form-control" required>
+                        <label for="" class="label-label">Name Device</label>
+                        <input type="text" name="name" value="" id="" class="form-control" required>
                     </div>
                      <div class="col col-md-6 mt-3 ">
                         <label for="" class="label-label">Producer</label>
-                        <input type="text" name="producer" value="1" id="" class="form-control">
+                        <input type="text" name="producer" value="" id="" class="form-control" required>
                         
                     </div>  
 
-                     <div class="col col-md-6 mt-3">
-                        <label for="" class="label-label">Image Deviece</label>
-                        <input type="file" name="image" id="" class="form-control imgs" accept="image/jpg" required>
-                    </div>
 
                      <div class="col col-md-6 mt-3">
                         <label for="" class="label-label">Price</label>
-                        <input type="number" value="1" name="price" id="" class="form-control" required>
+                        <input type="number" value="" name="price" id="" class="form-control" required>
+                    </div>
+
+                    <div class="col col-md-6 mt-3">
+                        <div class="row">
+                            <div class="col col-lg-8">
+                                <label for="number" class="label-label">Warranty</label>
+                                <input type="number" value="" name="warranty" id="" class="form-control" required>
+                            </div>
+                            <div class="col col-lg-4">
+                                <label for="" class="label-label"></label>
+                                <select class="form-select" name="timeUnit">
+                                    <option value="days">Days</option>
+                                    <option value="months">Months</option>
+                                    <option value="years">Years</option>
+                                </select>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="col col-md-6 mt-3">
+                        <label for="date" class="label-label">Quantity</label>
+                        <input type="number" value="" name="quantity" id="" class="form-control" required>
+                    </div>
+
+                     <div class="col col-md-6 mt-3">
+                        <label for="" class="label-label">Launch Date</label>
+                        <input type="date" value="" name="date" id="" class="form-control" required>
+                    </div>
+
+                    <div class="col col-md-12 mt-3">
+                        <label for="" class="label-label">Image Device</label>
+                        <input type="file" name="image" id="" class="form-control imgs" accept="image/jpg" required>
                     </div>
 
                     <div class="col col-md-12 mt-3">
                         <!-- <label for="" class="label-label">Price</label> -->
                         <p>Image details</p>
-                        <input type="file" name="images" id="imgDetails" class="form-control" accept="image/*" multiple>
+                        <input type="file" name="images" id="imgDetails" class="form-control " accept="" multiple required>
                         <div class="d-flex mt-3">
                             <input type="text" name="nameImg" class="form-control nameImg d-none mb-3" value="">
-                            <button type="button" class="btn_AddImg fs-4">+</button>
+                            <button type="button" class="btn_AddImg fs-4 d-none">+</button>
                             <div class=" arrImg d-flex"></div>
                         </div>
                     </div>
                     
-                    <div class="col col-md-6 mt-3">
-                        <label for="number" class="label-label">Warranty (Years)</label>
-                        <input type="number" value="1" name="warranty" id="" class="form-control" required>
-                    </div>
-
-                    <div class="col col-md-6 mt-3">
-                        <label for="date" class="label-label">Quantity</label>
-                        <input type="number" value="1" name="quantity" id="" class="form-control" required>
-                    </div>
-                    
                     <div class="col col-md-12 mt-3">
                         <label for="" class="label-label">Description</label>
-                        <!-- <textarea id="mytextarea"  name="description"></textarea> -->
-                        <input type="text" class="form-control" name="description" value="1" required>
+                        <textarea id="mytextarea"  name="description"></textarea>
+                        <!-- <input type="text" class="form-control" name="description" value="1" required> -->
                     </div>
                      
                     <div class="">
                         <button class="btn bg-green text-light mt-4 me-3 btn_confirm" name="btn_type" value="1" style="width: 130px;height: 40px;"><i class="fa-solid fa-check text-light me-3"></i>Confirm</button>
                         <button type="button" class="btn bg-danger text-light mt-4 cancle" style="width: 130px;height: 40px;"><i class="fa-solid fa-x me-3"></i>Cancle</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </section>
+
+
+    <section class="changeSth">
+        <div class="container">
+                                <!-- enctype="multipart/form-data" -->
+            <form action="/playstation/admin/devices/update" method="post" enctype="multipart/form-data">
+                <div class="row">
+                    <div class="col col-md-12">
+                        <h3>Change Info Devices</h3>
+                    </div>
+                    <div class="col col-md-6 mt-3">
+                        <label for="" class="label-label">ID Device</label>
+                        <input type="text" name="idDevice" value="" id="" class="form-control idDevice" readonly>
+                    </div>
+                    <div class="col col-md-6 mt-3">
+                        <label for="" class="label-label">Name Device</label>
+                        <input type="text" name="name" value="" id="" class="form-control name" required>
+                    </div>
+                     <div class="col col-md-6 mt-3 ">
+                        <label for="" class="label-label">Producer</label>
+                        <input type="text" name="producer" value="" id="" class="form-control producer" required>
+                    </div>  
+
+                    <div class="col col-md-6 mt-3">
+                        <div class="row">
+                            <div class="col col-lg-8">
+                                <label for="number" class="label-label">Warranty</label>
+                                <input type="number" value="" name="warranty" id="" class="form-control warranty" required>
+                            </div>
+                            <div class="col col-lg-4">
+                                <label for="" class="label-label"></label>
+                                <select name="timeUnit" id="" class="form-select timeUnit">
+                                    <option value="days">Days</option>
+                                    <option value="months">Months</option>
+                                    <option value="years">Years</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="col col-md-4 mt-3">
+                       <label for="" class="label-label">Launch Date</label>
+                       <input type="date" value="" name="date" id="" class="form-control date" required>
+                   </div>
+                   
+                    <div class="col col-md-4 mt-3">
+                        <label for="" class="label-label">Price</label>
+                        <input type="number" value="" name="price" id="" class="form-control price" required>
+                    </div>
+                    
+                    <div class="col col-md-4 mt-3">
+                        <label for="date" class="label-label">Quantity</label>
+                        <input type="number" value="" name="quantity" id="" class="form-control quantity" required>
+                    </div>
+                    
+                     <div class="col col-md-12 mt-3">
+                         <label for="" class="label-label">Image Device</label>
+                         <input type="file" name="image" id="" class="form-control imgs" accept="image/jpg" >
+                         <div class="row">
+                             <div class="col col-5">
+                                 <div class="img_Device my-3">
+                                     <!-- img Here -->
+                                 </div>
+                             </div>
+                         </div>
+                        
+                    </div>
+
+
+                    <div class="col col-md-12 mt-3">
+                        <!-- <label for="" class="label-label">Price</label> -->
+                        <p>Image details</p>
+                        <input type="file" name="images" id="imgDetails" class="form-control " accept="" multiple >
+                        <div class="d-flex mt-3">
+                            <input type="text" name="nameImg" class="form-control nameImg d-none mb-3" value="">
+                            <button type="button" class="btn_AddImg fs-4 d-none">+</button>
+                            <div class=" arrImg d-flex"></div>
+                        </div>
+                        <div class="img_devicesDetail">
+                            <!-- img Here -->
+                             <!-- <img src="" alt=""> -->
+                        </div>
+                    </div>
+                    
+                    
+                    <div class="col col-md-12 mt-3">
+                        <label for="" class="label-label">Description</label>
+                        <textarea id="mytextarea_change"  name="description"></textarea>
+                        <!-- <input type="text" class="form-control" name="description" value="1" required> -->
+                    </div>
+                     
+                    <div class="">
+                        <button class="btn bg-green text-light mt-4 me-3 btn_confirm" name="btn_type" value="1" style="width: 130px;height: 40px;"><i class="fa-solid fa-check text-light me-3"></i>Confirm</button>
+                        <button type="button" class="btn bg-danger text-light mt-4 cancel_change" style="width: 130px;height: 40px;"><i class="fa-solid fa-x me-3"></i>Cancle</button>
                     </div>
                 </div>
             </form>
@@ -99,7 +217,7 @@
                     <div class="add text-start mt-3 mb-4">
                         <button class="bg-green text-light px-3 py-2 bd-rd-05 addDevices"><i class="fa fa-plus" aria-hidden="true"></i> Add device</button>
                     </div>
-
+                    
                     <div class="list">
                         <table class="table table-light text-dark table-hover text-start f-fm">
                             <thead class="thead-light fs-4">
@@ -115,18 +233,18 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <% data.forEach(item => { %>
+                                <% data.forEach((item,index) => { %>
                                     <tr>
-                                        <th><%= item.ID %></th>
+                                        <th><%= index + 1 %></th>
                                         <th><img src="/imageProduct/<%= item.HINHANH %>" class="bd-rd" style="width: 60px;height: 60px;" alt=""></th>
                                         <th class="pt-4"><%= item.TENSP %></th>
                                         <th class="pt-4"><%= item.NSX %></th>
                                         <th class="pt-4">$<%= item.GIATIEN %></th>
                                         <th class="pt-4"><%= item.SOLUONG %></th>
-                                        <th class="pt-4"><%= item.BAOHANH %> Years</th>
+                                        <th class="pt-4"><%= item.BAOHANH %></th>
                                         <th class="pt-4 d-flex pb-3">
                                             <a href="/playstation/admin/devices/<%= item.ID %>" class="btn btn-warning"><i class="fa fa-eye text-light" aria-hidden="true"></i></a>
-                                            <button class="btn bg-green mx-2"><i class="fa fa-pen text-light" aria-hidden="true"></i></button>
+                                            <button class="btn bg-green mx-2 btn_Change" onclick="getIdItem('<%= item.ID %>')"><i class="fa fa-pen text-light" aria-hidden="true"></i></button>
                                             <form action="/playstation/admin/devices/delete/<%= item.ID %>" class="" method="post" onsubmit="return confirm('You want to remove it?')">
                                                 <button class="btn btn-danger"><i class="fa fa-trash text-light" aria-hidden="true"></i></button>
                                             </form>
@@ -148,10 +266,95 @@
 
     
     <script>
-    
+        var btn_Change = document.querySelectorAll('.btn_Change');
+        var cancle_change = document.querySelector('.cancel_change');
+        var box_Change = document.querySelector('.changeSth');
+        // <-- input -->
+        var input_ID = document.querySelector('.idDevice');
+        var input_name = document.querySelector('.name');
+        var input_producer = document.querySelector('.producer');
+        var input_price = document.querySelector('.price');
+        var input_date = document.querySelector('.date');
+        var input_warranty = document.querySelector('.warranty');
+        var input_quantity = document.querySelector('.quantity');
+        var option_timeUnit = document.querySelectorAll('.timeUnit > option')
+
+        // img
+        var output_imgDevice = document.querySelector('.img_Device');
+        var ouput_imgDevicesDetails = document.querySelector('.img_devicesDetail');
+        // <-->
+        var imgDevice = document.createElement('img');
+
+        
+                
+            function getIdItem(id){
+
+                fetch(`/playstation/admin/deviceManagement/${id}`)
+                    .then(response => response.json())
+                    .then(item =>{
+                        // Remove before add Element -->
+                        ouput_imgDevicesDetails.innerHTML = "";
+                        // Img Device
+                        imgDevice.src = `/imageProduct/${item.HINHANH}`;
+                        imgDevice.style.width = '200px';
+                        imgDevice.style.height = '200px';
+                        imgDevice.style.borderRadius = '3%';
+                        output_imgDevice.appendChild(imgDevice);
+
+                        // Img Device Details
+                        var arr_imgDeviceDetail = JSON.parse(item.CHITIETANH).imgDetails;
+                        arr_imgDeviceDetail.forEach(data => {
+                            var imgDeviceDetail= document.createElement('img'); 
+                            imgDeviceDetail.src = `/imageProduct/${data.image}`
+                            imgDeviceDetail.style.width = '100px'; 
+                            imgDeviceDetail.style.height = '100px'; 
+                            imgDeviceDetail.style.borderRadius = '3%';
+                            imgDeviceDetail.style.marginRight = '10px';
+                            ouput_imgDevicesDetails.appendChild(imgDeviceDetail);
+                        });
+
+                        // Value input
+                        input_ID.value = item.ID;
+                        input_name.value = item.TENSP;
+                        input_producer.value = item.NSX;
+                        input_price.value = item.GIATIEN;
+                        input_date.value = item.NGAYSX.split("T")[0];
+                        input_quantity.value = item.SOLUONG;
+                        input_warranty.value = item.BAOHANH.split(' ')[0];
+
+                        option_timeUnit.forEach(valueOption =>{
+                            if(valueOption.value == item.BAOHANH.split(' ')[1]){
+                                valueOption.selected = true;
+                            }
+                        })
+
+                        // tinyMCE
+                        tinymce.get("mytextarea_change").setContent(item.MOTA, {format: "html"});
+                        box_Change.style.display = 'block';
+                    })
+                    // .catch(error => console.error('Error:', error));
+                
+            }
+            
+            document.addEventListener('keydown',event =>{
+                if(box_Change.style.display == 'block'){
+                    if(event.key === 'Escape'){
+                        box_Change.style.display = 'none';
+                    }
+                }
+
+                if(boxADd.style.display == 'block')
+                    if(event.key === 'Escape')
+                        boxADd.style.display = 'none';
+            })
+            
+            cancle_change.addEventListener('click',()=>{
+                box_Change.style.display = 'none';
+            })
+        
+            
     /*
       Lấy tên ảnh vừa chọn - Show Ảnh tạm thời
-
       B1: Bắt sự kiện change
       B2: 
 
@@ -160,6 +363,16 @@
     tinymce.init(
         {
             selector: 'textarea#mytextarea',
+            plugins: 'anchor autolink charmap codesample emoticons image link lists media searchreplace table visualblocks wordcount linkchecker',
+            toolbar: 'undo redo | blocks fontfamily fontsize | bold italic underline strikethrough | link image media table | align lineheight | numlist bullist indent outdent | emoticons charmap | removeformat',
+            height: 800, // Chiều cao của vùng soạn thảo
+        });
+    
+    
+    // Change devices
+    tinymce.init(
+        {
+            selector: 'textarea#mytextarea_change',
             plugins: 'anchor autolink charmap codesample emoticons image link lists media searchreplace table visualblocks wordcount linkchecker',
             toolbar: 'undo redo | blocks fontfamily fontsize | bold italic underline strikethrough | link image media table | align lineheight | numlist bullist indent outdent | emoticons charmap | removeformat',
             height: 800, // Chiều cao của vùng soạn thảo
@@ -184,39 +397,41 @@
         var newAddImage = document.querySelector('.img-add');
         var input_nameImg = document.querySelector('.nameImg');
         var btn_confirm = document.querySelector('.btn_confirm');
-
         btn_AddImg.addEventListener('click',()=>{
             input_FileImg.click();
         })
         var array_nameImg = [];
         var name_Img = "";
         var count = 0;
-        input_FileImg.addEventListener('change', function() {
-            const file = this.files[0];
-            if (file) {
-                var newImage = document.createElement('img');
-                var newBox = document.createElement('div');
-                // newBox.classList.add('d-inline')
-                newBox.classList.add('box-add')
-                newImage.classList.add('img-add');
-                
-                const reader = new FileReader();
-                reader.addEventListener('load', function() {
-                    newImage.src = reader.result ;
-                    newImage.alt = count;
-                    count++;
-                    array_nameImg.push(JSON.stringify({"image": file.name}));
-                    name_Img = file.name;
-                    
-                });
-                reader.readAsDataURL(file);
-                newBox.appendChild(newImage);
-                boxImg.appendChild(newBox);
-                
-            } else {
-                previewImage.src = '#';
-            }
-        });
+        // input_FileImg.addEventListener('change', function() {
+        //     const files = this.files;
+        //     if (files.length) {
+        //         for (let i = 0; i < files.length; i++) {
+        //             const file = files[i];
+        //             if (file) {
+        //                 var newImage = document.createElement('img');
+        //                 var newBox = document.createElement('div');
+        //                 newBox.classList.add('box-add');
+        //                 newImage.classList.add('img-add');
+                        
+        //                 const reader = new FileReader();
+        //                 reader.addEventListener('load', function() {
+        //                     console.log(reader.result);
+        //                     newImage.src = reader.result;
+        //                     newImage.alt = count;
+        //                     count++;
+        //                     array_nameImg.push(JSON.stringify({"image": file.name}));
+        //                     console.log(array_nameImg);
+        //                 });
+        //                 reader.readAsDataURL(file);
+        //                 // newBox.appendChild(newImage);
+        //                 // boxImg.appendChild(newBox);
+        //             } else {
+        //                 previewImage.src = '#';
+        //             }
+        //         }
+        //     }
+        // });
 
         boxImg.addEventListener('click',event =>{
             var target = event.target;
@@ -231,10 +446,10 @@
             }
         })
            
-        btn_confirm.addEventListener('click',()=>{
-            input_nameImg.value = '['+array_nameImg+']';
-            console.log(input_nameImg);
-        })
+        // btn_confirm.addEventListener('click',()=>{
+        //     input_nameImg.value = '['+array_nameImg+']';
+        //     console.log(input_nameImg);
+        // })
 
     </script>
 

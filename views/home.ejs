@@ -13,7 +13,86 @@
 </head>
 <body>
 
-    <%- include('partials/navbar') %>
+        <nav class="navbar navbar-expand-lg navbar-light bg-dark fs-4" style="height: 100px">
+                <div class="container-fluid">
+                    <!-- Logo -->
+                    <!-- <a class="navbar-brand" href="#">Navbar</a> -->
+
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                    </button>
+                    
+                    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                        <li class="nav-item me-3">
+                        <a class="nav-link active text-light" aria-current="page" href="/">Home</a>
+                        </li>
+                        <li class="nav-item me-3">
+                        <a class="nav-link text-light" href="/game">Game</a>
+                        </li>
+                        <li class="nav-item me-3">
+                        <a class="nav-link text-light" href="/">PS5</a>
+                        </li>
+                        <li class="nav-item me-3">
+                        <a class="nav-link text-light" href="/news">News</a>
+                        </li>
+
+
+                        <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle text-light" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            Support
+                        </a>
+                        
+                        <ul class="dropdown-menu bg-dark" aria-labelledby="navbarDropdown">
+                            <li><a class="dropdown-item text-light item" href="#">Action</a></li>
+                            <li><a class="dropdown-item text-light item" href="#">Another action</a></li>
+                            <li><hr class="dropdown-divider text-light item"></li>
+                            <li><a class="dropdown-item text-light item" href="#">Something else here</a></li>
+                        </ul>
+                        </li>
+
+                    </ul>
+                    <div class="d-flex">
+                        <form class="d-flex">
+                            <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+                            <button class="btn btn-outline-success" type="submit">Search</button>
+                        </form>
+
+                        <div class="me-3 btn_user">
+
+                             <% if (data.cookieAccount == 1) { %>
+                                <div class="ms-5">
+                                    <div class="dropdown">
+                                        <button class="btn dropdown-toggle btn_user" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                                            <img src="https://ddragon.leagueoflegends.com/cdn/14.12.1/img/profileicon/5089.png" style="width: 40px; border-radius: 50%;" class="" alt="">
+                                            <span class="text-light"><%= data.nameAccount.userAccount %></span>
+                                        </button>
+                                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                                            <li><a class="dropdown-item" href="#">Action</a></li>
+                                            <li><a class="dropdown-item" href="#">Another action</a></li>
+                                            <li><a class="dropdown-item" href="#">Something else here</a></li>
+                                            <li><hr class="dropdown-divider"></li>
+                                            <li><a class="dropdown-item" href="/playstation/logout">Log Out</a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            <% } %>
+
+                        </div>
+
+                        <div class="me-3 btn_signInr">
+                            <div class="">
+                                <% if (data.cookieAccount == 0) { %>
+                                    <a href="/playstation/login" class="ms-5 btn-primary p-2" style="border-radius: 10%;">Sign In</a>
+                                <% } %>
+                            </div>
+                        </div>
+
+                        
+                    </div>
+                    </div>
+        </div>
+    </nav>
 <!---------------------------------------------------------------->
 
     <section class="slide">
@@ -82,15 +161,16 @@
                                             <div class="row">
                                                 
                                                 <div class="col col-lg-5 info-device">
-                                                    <h4 class="mb-3">Introducing the PS5 console and accessories</h4>
+                                                    <h4 class="">Introducing the PS5 console and accessories</h4>
                                                     <p class="text-primary"><%= item.TENSP %></p>
-                                                    <p class="mb-5"><%= item.MOTA %></p>
-                                                    <a href="" class="text-decoration-none">Find out more</a>
+                                                    <div class="my-4" style="margin-top: -1rem;font-size: 19px;">
+                                                        <%- item.MOTA %>
+                                                    </div>
+                                                    <a href="" class="text-decoration-none" style="margin-bottom: 4rem;">Find out more</a>
                                                 </div>
     
                                                 <div class="col col-lg-7">
                                                     <img src="/imageProduct/<%= item.HINHANH %>" alt="" class="img-fluid">
-                                                  
                                                 </div>
 
                                             </div>
@@ -109,7 +189,7 @@
                         <div class="slider-nav">
                             <% data.devices.forEach(item => { %>
                                 <div class="my-5 mx-3 img-slider">
-                                    <img src="/imageProduct/<%= item.HINHANH %>" class="shadow img-fluid rounded-3" alt=""> 
+                                    <img src="/imageProduct/<%= item.HINHANH %>" class="shadow rounded-3" alt="" style="width: 367px;height: 206px; border-radius: 5% !important;"> 
                                     <div class="text-center mt-3">
                                         <p><%= item.TENSP %></p>
                                     </div>
@@ -238,7 +318,6 @@
                         </div>
 
                     <% }) %>
-                
                 </div>
         </div>
     </section>
@@ -266,8 +345,6 @@
                 <div class="icon col col-12 col-md-3 col-lg-3 text-center col-sm-6">
                     <a href="#" class="text-light btn btn-dark border border-light icon-sm text-center" style="width: 150px;"><i class="fa fa-youtube " aria-hidden="true"></i></a>
                 </div>
-
-
             </div>
         </div>
     </section>
