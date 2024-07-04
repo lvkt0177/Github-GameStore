@@ -5,4 +5,7 @@ Git
 I. Thao tác với Dự án (Thêm, xóa, sửa code)
     1. git add .  OR git add <tên file>
         -> git add . : Cập nhật toàn bộ
-        -> git file: 
+        -> git file: add từng file
+         EX: git file note.text
+
+    2. git commit -m "Message": Nội dung làm, tiêu đề công việc vừa làm
