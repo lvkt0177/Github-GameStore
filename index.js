@@ -48,9 +48,9 @@ const storage = multer.diskStorage({
 });
 
 
-    const upload = multer({ dest: 'publics' });
-    const uploads = multer({ storage: storage });
-//=============================//
+const upload = multer({ dest: 'publics' });
+const uploads = multer({ storage: storage });
+//==========================================//
 
 //========== Paragraph =========//
 const striptags = require('striptags');
@@ -71,10 +71,10 @@ app.use(sessionApp({
     cookie: { secure: false }
 }))
 
-
+function clear_Cookie() {
+}
 
 // Login User ========================
-
 // Cookie tựa như CCCD lưu trữ dữ liệu tại Client - Ví
 //
 
@@ -86,13 +86,13 @@ Truy vấn thông tin ở Server
  - Hoạt động:  
 
 */
-
-
 // Loginn
 app.get('/playstation/login', (req, res) => {
+    if (req.session.user) {
+        res.clearCookie('connect.sid');
+    }
     res.render('userLogin', { data: 1 });
 })
-
 
 app.post('/playstation/login', (req, res) => {
     let conn = connection.create();
@@ -107,12 +107,14 @@ app.post('/playstation/login', (req, res) => {
         if (err) throw err;
         // console.log(result[0]);
         if (result[0] != undefined) {
-            if (result[0].MATKHAU == req.body.password) {
+            if (result[0].MATKHAU == req.body.password)
+            {
                 console.log("Thành công");
                 req.session.user = {userAccount}
                 res.redirect('/');
             }
-            else {
+            else
+            {
                 res.render('userLogin', { data: 0 });
             }
         }
@@ -122,11 +124,13 @@ app.post('/playstation/login', (req, res) => {
     conn.end();
 })
 
+
 app.get('/playstation/logout', (req, res) => {
-        res.clearCookie('connect.sid');
-        res.redirect('/');
-        console.log("Get out of my account");
+    res.clearCookie('connect.sid');
+    console.log("Get out of my account");
+    res.redirect('/');
 })
+
 
 // ======== Test ===========// 
 app.get('/test/noiDung', (req, res) => {
@@ -150,6 +154,7 @@ app.get('/test/noiDung', (req, res) => {
     })
     conn.end();
 }) 
+
 
 app.post('/test/noiDung', (req, res) => {
     var conn = connection.create();
@@ -256,8 +261,8 @@ app.post('/test/noiDung/:id', (req, res) => {
             params = [
                 new_Json,
                 req.params.id
-            ];
-
+            ]; 
+ 
         }
 
         conn.query(sql, params, (err, result) => {
@@ -317,8 +322,15 @@ app.get('/', (req, res) => {
     if (req.session.user) {
         dataProduct.cookieAccount = 1;
         dataProduct.nameAccount = req.session.user;
-        console.log(dataProduct);
-        console.log("Đăng nhập thành công");
+        var params_account = [
+            req.session.user.userAccount,
+            req.session.user.userAccount
+        ]
+        console.log(req.session.user);
+        conn.query("SELECT * FROM users WHERE EMAIL = ? OR TAIKHOAN = ?", params_account, (err, result) => {
+            if (err) throw err;
+            dataProduct.infoAccount = result[0];
+        })
     }
     else
     {
@@ -384,7 +396,7 @@ app.post('/playstation/create_account', (req, res) => {
         if (bool_check == true) {
             var imgDefault = 'user-image.png';
             var statusDefault = 1;
-            var sql = 'INSERT INTO users(TAIKHOAN,MATKHAU,HOTEN,SDT,EMAIL,TRANGTHAI,HINHNEN) VALUE (?,?,?,?,?,?,?)';
+            var sql = 'INSERT INTO users(TAIKHOAN,MATKHAU,HOTEN,SDT,EMAIL,TRANGTHAI,HINHNEN) VALUE(?,?,?,?,?,?,?)';
             var params = [
                 req.body.username,
                 req.body.pass,
@@ -394,21 +406,26 @@ app.post('/playstation/create_account', (req, res) => {
                 statusDefault,
                 imgDefault
             ]
+            console.log(params);
             conn.query(sql, params, (err, result) => {
-                if (err) throw err;
+                if (err) {
+                    conn.end();
+                    return;
+                }
+                console.log(sql);
                 if (result.affectedRows > 0) {
                     res.redirect('/playstation/login');
                 }
             })
 
         }
-        else {
+        else
+        {
             res.render('createAccount', { data: arr_data })
+            conn.end();
         }
 
     })    
-    
-    conn.end();
 })
 
 
@@ -525,8 +542,21 @@ app.get('/news/test', (req, res) => {
     conn.end();
 })
 
+
 //============ Admin ==============//
 //Code here....
+
+// Login Admin
+app.get('/playstation/admin/login', (req, res) => {
+    res.render('loginAdmin')
+})
+
+
+app.post('/playstation/admin/login', (req, res) => {
+    console.log(req.body);
+    res.redirect('/playstation/admin');
+})
+
 // Home
 app.get('/playstation/admin', (req, res) => {
     res.render('adminManager');
@@ -568,7 +598,7 @@ app.get('/playstation/admin/gameManagement/:id', (req, res) => {
 // ======================== Details ==========================//
 app.get('/playstation/game/details/:id', (req, res) => {
     var conn = connection.create();
-    conn.connect();
+    conn.connect(); 
     var params = req.params.id;
     conn.query("Select * From gameproduct Where ID = ?", params, (err, result) => {
         if (err) throw err;
@@ -581,7 +611,6 @@ app.get('/playstation/game/details/:id', (req, res) => {
 app.post('/playstation/admin/gameManagement', upload.single('image'), (req, res) => {
     // type Button
     var typeButton = req.body.btn_type;
-
     var idMax = 0;
     var conn = connection.create();
     conn.connect();
@@ -594,7 +623,6 @@ app.post('/playstation/admin/gameManagement', upload.single('image'), (req, res)
             const imagePath = path.join(__dirname, 'publics/imageGame');
             //Image will move into imagePath.
             fs.renameSync(req.file.path, path.join(imagePath, req.file.originalname));
-
             var sql = "INSERT INTO gameproduct(ID,tenGame, theLoai, hinhNen, gia, moTa, ngayRaMat) VALUE (?,?,?,?,?,?,?)";
             var params = [
                 idMax,
@@ -864,7 +892,7 @@ app.post('/playstation/admin/devices/update',multipleUpload, (req, res) => {
     var conn = connection.create();
     conn.connect();
     var sql;
-    var params = []
+    var params = [];
 
     // Lấy đường dẫn lưu file ảnh
     var pathImg = path.join(__dirname, '/publics/imageProduct');
@@ -982,7 +1010,8 @@ app.post('/playstation/admin/devices/update',multipleUpload, (req, res) => {
     conn.end();
 })
 
-// --
+
+// ============
 app.post('/playstation/admin/devices/delete/:id', (req, res) => {
     var conn = connection.create();
     conn.connect();
@@ -995,13 +1024,29 @@ app.post('/playstation/admin/devices/delete/:id', (req, res) => {
     })
     conn.end();
 })
+
+
 //================================//
+// User Account
+app.get('/playstation/admin/userAccount', (req, res) => {
+    var conn = connection.create();
+    conn.connect();
+    var sql = "Select * FROM users";
+    conn.query(sql, (err, result) => {
+        if (err) throw err;
+        res.render('userAccountManager', { data: result });
+    })
+
+    conn.end();
+})
 
 
 
 
 
 
+
+// ================================//
 app.listen(post, () => {
     console.log("Success");
 })

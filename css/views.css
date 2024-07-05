@@ -15,19 +15,28 @@ body {
     font-family: "Montserrat", sans-serif;
 }
 
+section {
+    background-color: var(--bg-color);
+}
+
+/* Login */
+.btn_user:focus {
+    outline: none;
+    border: none;
+    box-shadow: none;
+}
+
+.btn_user:active {
+    outline: none;
+    border: none;
+    box-shadow: none;
+}
+
+/********/
+
 a {
     text-decoration: none;
 }
-
-.item {
-    color: white !important;
-}
-
-
-.item:hover {
-    color: black !important;
-}
-
 
 
 .l-game {
@@ -116,9 +125,6 @@ a {
 
 /*************************************/
 
-section {
-    background-color: var(--bg-color);
-}
 
 .product-ps {
     background-color: #ffff;
@@ -486,29 +492,29 @@ section {
     background-size: cover;
 }
 
-.wallpaper{
+.wallpaper {
     height: 110vh;
 }
 
-.background-sign-in{
+.background-sign-in {
     background-image: url(/image/z5588607063304_3f26a2fd0422bd0db08e894c9cdd7c36.jpg);
 }
 
-.back{
+.back {
     position: relative;
-    transform: translate(30%,300%);
+    transform: translate(30%, 300%);
     display: none;
     width: 150px;
 }
 
-.back button:hover{
+.back button:hover {
     border-radius: 50%;
     background: rgba(71, 71, 71, 0.452) !important;
 }
 
-.logo img{
+.logo img {
     position: relative;
-    transform: translate(120%,200%);
+    transform: translate(120%, 200%);
 }
 
 .box-sign-in {
@@ -554,17 +560,17 @@ section {
     color: black;
 }
 
-.btn_input button:hover{
+.btn_input button:hover {
     background-color: #ecebeb;
 }
 
-.btn_create{
+.btn_create {
     height: 60px;
     background-color: rgba(56, 55, 55, 0.377);
     color: #ffff;
 }
 
-.btn_create:hover{
+.btn_create:hover {
     background-color: rgba(99, 98, 98, 0.377);
 }
 
@@ -582,15 +588,15 @@ section {
 
 
 
-.box-wrong{
+.box-wrong {
     background-color: rgba(63, 63, 63, 0.582);
     margin-bottom: 1rem;
     border-radius: 1rem;
     padding: 0 !important;
-    
+
 }
 
-.bg-wrong{
+.bg-wrong {
     border-bottom-left-radius: 2rem;
     border-top-left-radius: 2rem;
     padding: 0 !important;
@@ -598,23 +604,24 @@ section {
     background: red;
 }
 
-.pt-2-5{
+.pt-2-5 {
     padding-top: 0.8rem;
 }
+
 /* ----------- */
 /* Create new Account */
 
-.wallpaper{
+.wallpaper {
     background-image: url(/image/wallpaper.jpg)
 }
 
-.box-create{
+.box-create {
     height: 100vh;
     background: rgb(255, 255, 255);
     margin-top: 4rem;
 }
 
-.box-nav{
+.box-nav {
     height: 7vh;
     width: auto;
     background: black;
@@ -622,6 +629,23 @@ section {
     justify-content: center;
 }
 
-.tittle{
+.tittle {
     margin-top: 0.5rem;
+}
+
+
+/*  */
+
+.user_tools{
+    margin-top: -6rem;
+    padding: 1rem;
+}
+
+.user_link {
+    margin-top: 2rem;
+    width: 200px;
+}
+
+.user_link a{
+    color: black;
 }

@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<meta name="Description" content="Enter your description here"/>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.1.0/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+<link rel="stylesheet" href="/views.css">
+<title>Title</title>
+</head>
+<body class="">
+
+    <!-- nav -->
+
+    <section class="bg-light">
+        <div class="container">
+            <div class="row">
+                <div class="col col-lg-3 d-flex justify-content-center" style="height: 110vh;border-right: 1px solid rgb(63, 63, 63);">
+                    <!-- Info -->
+                    <div class="info ">
+                        <div class="img-info d-flex justify-content-center">
+                            <img src="https://static.bigbrain.gg/assets/lol/riot_static/14.13.1/img/profileicon/3008.png" style="width: 150px;height: 150px;border-radius: 50%;" alt="">
+                        </div>
+                        <div class="d-flex justify-content-center mt-2">
+                            <form action="">
+                                <button class="btn_choose_img" style="border: none;outline: none;background-color: #ffff;"><img src="/publics/image/pen.png" style="width: 30px;" alt=""></button>
+                                <input type="file" class="d-none choose_img" name=""  id="" required>
+                            </form>
+                        </div>
+                        
+                        <div class="details-info text-center mt-4">
+                            <p class="fs-3">Name</p>
+                        </div>
+                        
+                        <div class="box user_tools">
+                            <div class="user_link"><i class="fa-solid fa-user fs-4 me-3"></i><a style="text-decoration: none; font-size: 18px;" href="">User profile</a></div>
+                            <div class="user_link"><i class="fa-solid fa-key fs-5 me-3"></i><a style="text-decoration: none; font-size: 18px;" href="">Change password</a></div>
+                        </div>
+
+                    </div>
+                </div>
+                
+                <div class="col col-lg-7 ms-5">
+                    <div class="row">
+                        <div class="info">
+                            <p class="fs-3">User profile</p>
+                        </div>
+                        <div class="col col-lg-12">
+                                <form action="" method="post">
+                                    <div class="row">
+                                            <div class="col col-lg-5">
+                                                <label for="" class="label-label">Username</label>
+                                                <input type="text" class="form-control" name="" readonly>
+                                            </div>
+            
+                                            <div class="col col-lg-5">
+                                                <label for="" class="label-label">Full name</label>
+                                                <input type="text" class="form-control" name="">
+                                            </div>
+                                        
+                                            <div class="col col-lg-5">
+                                                <label for="" class="label-label">Email</label>
+                                                <input type="text" class="form-control" name="">
+                                            </div>
+            
+                                            <div class="col col-lg-5">
+                                                <label for="" class="label-label">Phone number</label>
+                                                <input type="text" class="form-control" name="">
+                                            </div>
+
+                                            <div class="mt-4">
+                                                <button class="btn btn-success">Confirm</button>
+                                            </div>
+                                        
+                                    </div>
+                                </form>
+                            </div>
+                    </div>
+
+                </div>
+
+               
+
+            </div>
+        </div>
+    </section>
+
+    <script>
+        var input_choose_img = document.querySelector('.choose_img');
+        var btn_choose_img = document.querySelector('.btn_choose_img');
+
+        btn_choose_img.addEventListener('click',()=>{
+            input_choose_img.click();
+        })
+
+            
+    </script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.9.2/umd/popper.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.1.0/js/bootstrap.min.js"></script>
+</body>
+</html>

@@ -13,7 +13,7 @@
 </head>
 <body>
 
-        <nav class="navbar navbar-expand-lg navbar-light bg-dark fs-4" style="height: 100px">
+        <nav class="navbar navbar-expand-lg navbar-dark text-d bg-light fs-4" style="height: 100px">
                 <div class="container-fluid">
                     <!-- Logo -->
                     <!-- <a class="navbar-brand" href="#">Navbar</a> -->
@@ -25,33 +25,35 @@
                     <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                         <li class="nav-item me-3">
-                        <a class="nav-link active text-light" aria-current="page" href="/">Home</a>
+                            <a class="nav-link active text-dark" aria-current="page" href="/">Home</a>
                         </li>
                         <li class="nav-item me-3">
-                        <a class="nav-link text-light" href="/game">Game</a>
+                            <a class="nav-link text-dark" href="/game">Game</a>
                         </li>
                         <li class="nav-item me-3">
-                        <a class="nav-link text-light" href="/">PS5</a>
+                            <a class="nav-link text-dark" href="/">PS5</a>
                         </li>
                         <li class="nav-item me-3">
-                        <a class="nav-link text-light" href="/news">News</a>
+                            <a class="nav-link text-dark" href="/news">News</a>
                         </li>
 
 
                         <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle text-light" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        <a class="nav-link dropdown-toggle text-dark" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                             Support
                         </a>
                         
-                        <ul class="dropdown-menu bg-dark" aria-labelledby="navbarDropdown">
-                            <li><a class="dropdown-item text-light item" href="#">Action</a></li>
-                            <li><a class="dropdown-item text-light item" href="#">Another action</a></li>
-                            <li><hr class="dropdown-divider text-light item"></li>
-                            <li><a class="dropdown-item text-light item" href="#">Something else here</a></li>
+                        <ul class="dropdown-menu bg-light" aria-labelledby="navbarDropdown">
+                            <li><a class="dropdown-item" href="#">Action</a></li>
+                            <li><a class="dropdown-item" href="#">Another action</a></li>
+                            <li><hr class="dropdown-divider text-dark"></li>
+                            <li><a class="dropdown-item text-dark" href="#">Something else here</a></li>
                         </ul>
                         </li>
 
                     </ul>
+
+                    <!-- 3 -->
                     <div class="d-flex">
                         <form class="d-flex">
                             <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
@@ -64,15 +66,19 @@
                                 <div class="ms-5">
                                     <div class="dropdown">
                                         <button class="btn dropdown-toggle btn_user" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
-                                            <img src="https://ddragon.leagueoflegends.com/cdn/14.12.1/img/profileicon/5089.png" style="width: 40px; border-radius: 50%;" class="" alt="">
-                                            <span class="text-light"><%= data.nameAccount.userAccount %></span>
+                                            <img src="https://ddragon.leagueoflegends.com/cdn/14.12.1/img/profileicon/5089.png" style="width: 30px; border-radius: 50%;" class="" alt="">
+                                            <span class="text-dark ms-3"><%= data.infoAccount.TAIKHOAN %></span>
                                         </button>
                                         <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                                            <li><a class="dropdown-item" href="#">Action</a></li>
-                                            <li><a class="dropdown-item" href="#">Another action</a></li>
-                                            <li><a class="dropdown-item" href="#">Something else here</a></li>
+                                            <li><a class="dropdown-item" href="#">Cart</a></li>
+                                            <li><a class="dropdown-item" href="#">Views</a></li>
+                                            <li><a class="dropdown-item" href="#">Something else</a></li>
+
+                                            <!--  -->
                                             <li><hr class="dropdown-divider"></li>
-                                            <li><a class="dropdown-item" href="/playstation/logout">Log Out</a></li>
+                                            <!--  -->
+
+                                            <li><a class="dropdown-item text-danger" style="font-weight: 500;" href="/playstation/logout">Log Out</a></li>
                                         </ul>
                                     </div>
                                 </div>
@@ -83,12 +89,10 @@
                         <div class="me-3 btn_signInr">
                             <div class="">
                                 <% if (data.cookieAccount == 0) { %>
-                                    <a href="/playstation/login" class="ms-5 btn-primary p-2" style="border-radius: 10%;">Sign In</a>
+                                    <a href="/playstation/login" class="ms-5 btn-primary px-2 py-1" style="border-radius: 8%;">Sign In</a>
                                 <% } %>
                             </div>
                         </div>
-
-                        
                     </div>
                     </div>
         </div>

@@ -1,5 +1,6 @@
 :root {
     --bg-color: rgb(44, 36, 73);
+    --bg-color-hover: rgb(57, 47, 95);
     --bg-dashboar: rgb(35, 28, 62);
     --font: "Montserrat", sans-serif;
     --color-hover: rgb(244, 92, 97);
@@ -198,5 +199,52 @@ a:hover {
 
 /*****************/
 
+
+/*  */
+
+/* Login */
+
+section.login{
+    font-family: "Dosis", sans-serif;
+}
+
+.box-sign-in{
+    height: 70vh;
+    background-color: rgba(13, 27, 75, 0.37);
+    padding-top: 4rem;
+    border-radius: 2rem;
+}
+
+.input_account{
+    width: 320px;
+    border: none;
+    border-bottom: 1px solid rgb(255, 255, 255);
+    background: none;
+    outline: none;
+    font-size: 18px;
+    color: #ffff;
+}
+
+.input_account::placeholder{
+    color: #ffff;
+}
+
+.form-button button{
+    width: 300px;
+    height: 50px;
+    outline: none;
+    border: none;
+    background-color: var(--bg-color);
+    color: #ffff;
+    border-radius: 1rem;
+}
+
+.box-form a:hover{
+    color: #ffff;
+}
+
+.form-button button:hover{
+    background-color: var(--bg-color-hover);
+}
 
 /*  */

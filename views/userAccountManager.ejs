@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<meta name="Description" content="Enter your description here"/>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.1.0/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+<link href="https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/admin.css">
+<link rel="icon" type="image/png" href="https://upload.wikimedia.org/wikipedia/commons/9/91/PlayStation_App_Icon.jpg">
+<script src="https://cdn.tiny.cloud/1/2iaudoekuj3kqz59j4yqxbdopvcemuweofw3fdum7rqkobpr/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
+<title>Admin - User Account Manager</title>
+
+</head>
+<body>
+
+    <%- include('partials/headerAdmin.ejs') %>
+
+    <section>
+        <div class="container-fluid">
+            <div class="row">
+                <%- include('partials/navbarAdmin.ejs') %>
+
+                <div class="col col-md-10 mt-5 text-center">
+                    <div class="head">
+                        <h2 class="mb-5">User Account</h2>
+                    </div>
+
+                    <div class="list">
+                        <table class="table table-light text-dark table-hover text-start f-fm">
+                            <thead class="thead-light fs-4">
+                                <tr>
+                                    <th>#</th>
+                                    <th>Image</th>
+                                    <th>Username</th>
+                                    <th>Password</th>
+                                    <th>Full name</th>
+                                    <th>Phone number</th>
+                                    <th>Email</th>
+                                    <th>Status</th>
+                                    <th>Tools</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                    <% data.forEach((item,index) => { %>
+                                        <tr>
+                                            <th><%= index + 1 %></th>
+                                            <th><img src="/image/<%= item.HINHNEN %>" alt="" style="width: 60px;height: 60px;"></th>
+                                            <th><%= item.TAIKHOAN %></th>
+                                            <th><%= item.MATKHAU %></th>
+                                            <th><%= item.HOTEN %></th>
+                                            <th><%= item.SDT %></th>
+                                            <th><%= item.EMAIL %></th>
+                                            <th><%= item.TRANGTHAI %></th>
+                                            <th></th>
+                                        </tr>
+                                    <% }) %>
+                            </tbody>
+                        </table>
+                    </div>
+                    <!-- list -->
+
+                </div>
+                <!-- text-center -->
+
+            </div>
+            <!-- row -->
+        </div>
+    </section>
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.9.2/umd/popper.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.1.0/js/bootstrap.min.js"></script>
+</body>
+</html>
