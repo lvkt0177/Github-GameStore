@@ -5,99 +5,244 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta http-equiv="X-UA-Compatible" content="ie=edge">
 <meta name="Description" content="Enter your description here"/>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.1.0/css/bootstrap.min.css">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+<%- include('partials/link') %>
 
-<link rel="stylesheet" href="/views.css">
-<title>Title</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+<title>Playstation</title>
 </head>
 <body class="">
 
     <!-- nav -->
+    <%- include('partials/navbar'      ) %>
 
-    <section class="bg-light">
-        <div class="container">
+
+    <section class="bg-light ">
+        <div class="container shadow">
             <div class="row">
-                <div class="col col-lg-3 d-flex justify-content-center" style="height: 110vh;border-right: 1px solid rgb(63, 63, 63);">
+                <div class="col col-lg-4 d-flex justify-content-center" style="height: 110vh;border-right: 1px solid rgb(63, 63, 63);">
                     <!-- Info -->
                     <div class="info ">
                         <div class="img-info d-flex justify-content-center">
-                            <img src="https://static.bigbrain.gg/assets/lol/riot_static/14.13.1/img/profileicon/3008.png" style="width: 150px;height: 150px;border-radius: 50%;" alt="">
+                            <img class="img_User" src="/image/<%= data.info.HINHNEN %>" style="width: 150px;height: 150px;border-radius: 50%;" alt="">
                         </div>
                         <div class="d-flex justify-content-center mt-2">
                             <form action="">
-                                <button class="btn_choose_img" style="border: none;outline: none;background-color: #ffff;"><img src="/publics/image/pen.png" style="width: 30px;" alt=""></button>
-                                <input type="file" class="d-none choose_img" name=""  id="" required>
+                                <button class="btn_choose_img" type="button" style="border: none;outline: none;background-color: #ffff;"><img src="/image/pen.png" style="width: 30px;" alt=""></button>
+                                <input type="file" class="d-none" name="image"  id="choose_img" >
                             </form>
                         </div>
                         
                         <div class="details-info text-center mt-4">
-                            <p class="fs-3">Name</p>
+                            <p class="fs-3"><%= data.info.TAIKHOAN %></p>
                         </div>
                         
                         <div class="box user_tools">
-                            <div class="user_link"><i class="fa-solid fa-user fs-4 me-3"></i><a style="text-decoration: none; font-size: 18px;" href="">User profile</a></div>
-                            <div class="user_link"><i class="fa-solid fa-key fs-5 me-3"></i><a style="text-decoration: none; font-size: 18px;" href="">Change password</a></div>
+                            <div class="user_link"><i class="fa-solid fa-user fs-3 me-3"></i><button class="btn_userProfile" style="text-decoration: none; font-size: 18px;" href="/playstation/userAccount/<%= data.info.ID %>">User profile</button></div>
+                            <div class="user_link"><i class="fa-solid fa-key fs-4 me-3"></i><button  class="btn_changePass" style="text-decoration: none; font-size: 18px;" href="">Change password</button></div>
                         </div>
 
                     </div>
                 </div>
                 
-                <div class="col col-lg-7 ms-5">
+                <div class="col col-lg-7 ms-5 profile ">
                     <div class="row">
                         <div class="info">
-                            <p class="fs-3">User profile</p>
+                            <p class="fs-1">User profile</p>
                         </div>
                         <div class="col col-lg-12">
-                                <form action="" method="post">
+                                <form action="/playstation/userAccount" method="post">
                                     <div class="row">
-                                            <div class="col col-lg-5">
+                                            <div class="col col-lg-5 mt-3">
                                                 <label for="" class="label-label">Username</label>
-                                                <input type="text" class="form-control" name="" readonly>
-                                            </div>
-            
-                                            <div class="col col-lg-5">
-                                                <label for="" class="label-label">Full name</label>
-                                                <input type="text" class="form-control" name="">
-                                            </div>
-                                        
-                                            <div class="col col-lg-5">
-                                                <label for="" class="label-label">Email</label>
-                                                <input type="text" class="form-control" name="">
-                                            </div>
-            
-                                            <div class="col col-lg-5">
-                                                <label for="" class="label-label">Phone number</label>
-                                                <input type="text" class="form-control" name="">
+                                                <input type="text" value="<%= data.info.TAIKHOAN %>" class="form-control" name="username" readonly>
                                             </div>
 
-                                            <div class="mt-4">
-                                                <button class="btn btn-success">Confirm</button>
+                                            <div class="col col-lg-5 mt-3 d-none">
+                                                <label for="" class="label-label">Username</label>
+                                                <input type="text" value="<%= data.info.ID %>" class="form-control user_input" name="id" readonly>
+                                            </div>
+            
+                                            <div class="col col-lg-5 mt-3">
+                                                <label for="" class="label-label">Full name</label>
+                                                <input type="text" value="<%= data.info.HOTEN %>" class="form-control user_input" name="fullName">
+                                            </div>
+                                        
+                                            <div class="col col-lg-5 mt-3">
+                                                <label for="" class="label-label">Email</label>
+                                                <input type="email" value="<%= data.info.EMAIL %>" class="form-control user_input" name="email">
+                                            </div>
+            
+                                            <div class="col col-lg-5 mt-3">
+                                                <label for="" class="label-label">Phone number</label>
+                                                <input type="text" value="<%= data.info.SDT %>" class="form-control user_input" name="phoneNumber">
+                                            </div>
+
+                                            <div class="mt-4 d-flex">
+                                                <button disabled  class="btn btn-success px-4 py-2 btn_confirm">Confirm</button>
+                                                <% if (data.confirm == 1) { %>
+                                                    <div class=" ms-3">
+                                                        <span class="text-success d-flex mt-3"><p class="fs-5">Update successful!</p></span>
+                                                    </div>
+                                                <% } %>
                                             </div>
                                         
                                     </div>
                                 </form>
                             </div>
                     </div>
+                </div>
+                <!-- Profile -->
+
+                <div class="col col-lg-7 ms-5 changePass info">
+                    <div class="tittle info">
+                            <p class="fs-1">Change Password</p>
+                    </div>
+
+                    <div class="form-change-pass">
+                        <form action="/playstation/userAccount/changePassword" method="post">
+                            <label for="" class="label-label mb-2">Current Password </label>
+                            <input type="password" name="current_pass" class="form-control mb-1" required>
+                            <input type="text" value="<%= data.checkPass %>" class="checkPass d-none">
+                            <% if (data.checkPass == 1) { %>
+                                <p class="fs-5 text-danger">Password mismatch!</p>
+                            <% } %>
+                            
+                            <label for="" class="label-label mb-2">New Password </label>
+                            <input type="password" name="new_password" class="new_password form-control mb-1" required>
+
+                            <label for="" class="label-label mb-2">Confirm New Password</label>
+                            <input type="password" name="" class="confirm_password form-control mb-2" required>
+
+                            <label for="" class="check_showPass"><input type="checkbox" name="" id="" class="me-3">Show all passwords</label>
+
+                            <div class="mt-4">
+                                <button disabled name="btn_ID" value="<%= data.info.ID %>" class="btn btn-success px-4 py-2 btn_confirm_changePass">Change</button>
+                            </div>
+                        </form>
+                    </div>
 
                 </div>
-
-               
 
             </div>
         </div>
     </section>
 
     <script>
-        var input_choose_img = document.querySelector('.choose_img');
-        var btn_choose_img = document.querySelector('.btn_choose_img');
+        var input_choose_img = document.getElementById('choose_img');
+        var btnChooseImg = document.querySelector('.btn_choose_img');
+        var imgUser = document.querySelector('.img_User');
 
-        btn_choose_img.addEventListener('click',()=>{
+        // input
+        var userInput = document.querySelectorAll('.user_input');
+        var new_password = document.querySelector('.new_password');
+        var confirm_password = document.querySelector('.confirm_password');
+        var checkPass = document.querySelector('.checkPass');
+        // 
+        var btn_confirm = document.querySelector('.btn_confirm');
+        var btn_userProfile = document.querySelector('.btn_userProfile');
+        var btn_changePass = document.querySelector('.btn_changePass');
+        var btn_confirm_changePass = document.querySelector('.btn_confirm_changePass');
+        // 
+        var check_showPass = document.querySelector('.check_showPass');
+        var input_checkShowPass = document.querySelector('.check_showPass > input')
+        var input_pass = document.querySelectorAll('.form-change-pass .form-control')
+        var count_checkPass = 0;
+
+        // box
+        var box_profile = document.querySelector('.profile');
+        var box_changePass = document.querySelector('.changePass');
+
+        if(checkPass.value == 0){
+            box_profile.style.display = 'block';
+            box_changePass.style.display = 'none';
+            btn_userProfile.style.borderBottom = '1px solid black';
+        }
+
+        if(checkPass.value == 1){
+            box_profile.style.display = 'none';
+            box_changePass.style.display = 'block';
+            btn_changePass.style.borderBottom = '1px solid black';
+        }
+
+        
+        btnChooseImg.addEventListener('click',()=>{
             input_choose_img.click();
         })
 
-            
+       input_choose_img.addEventListener('change', function() {
+            const files = this.files;
+            if (files.length) {
+                const reader = new FileReader();
+                reader.addEventListener('load', () => {
+                    imgUser.src = reader.result;
+                });
+                reader.readAsDataURL(files[0]);
+            }
+        });
+
+        userInput.forEach(item => {
+            item.addEventListener('change',()=>{
+                btn_confirm.disabled = false;
+            })
+        });
+        
+
+        function showPass(typePass){
+            input_pass.forEach(item =>{
+                item.type = typePass;
+            })
+        }
+
+        // Box
+        check_showPass.addEventListener('click',()=>{
+            count_checkPass++;
+            if(count_checkPass == 1){
+                input_checkShowPass.checked = true;
+                showPass('text')
+            }
+
+            if(count_checkPass == 2){
+                input_checkShowPass.checked = false;
+                count_checkPass = 0;
+                showPass('password')
+            }
+        })
+        
+        btn_userProfile.addEventListener('click',()=>{
+            box_profile.style.display = 'block';
+            box_changePass.style.display = 'none';
+            btn_userProfile.style.borderBottom = '1px solid black';
+            btn_changePass.style.border = 'none';
+        })
+
+        btn_changePass.addEventListener('click',()=>{
+            box_profile.style.display = 'none';
+            box_changePass.style.display = 'block';
+            btn_changePass.style.borderBottom = '1px solid black';
+            btn_userProfile.style.border = 'none';
+        })
+
+        // Change Pass
+        new_password.addEventListener('change',()=>{
+            event_pass();
+        })
+
+        confirm_password.addEventListener('change',()=>{
+            event_pass();
+        })
+
+        function event_pass(){
+            if(new_password.value != confirm_password.value && confirm_password.value != new_password.value){
+                new_password.style.background = confirm_password.style.background = '#ffcbcb';
+                btn_confirm_changePass.disabled = true;
+            }
+            else
+            {
+                new_password.style.background = confirm_password.style.background = '#ffff';
+                btn_confirm_changePass.disabled = false;
+            }
+        }
+
     </script>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.9.2/umd/popper.min.js"></script>

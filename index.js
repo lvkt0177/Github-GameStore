@@ -1010,7 +1010,7 @@ app.post('/playstation/admin/devices/update',multipleUpload, (req, res) => {
     conn.end();
 })
 
-
+ 
 // ============
 app.post('/playstation/admin/devices/delete/:id', (req, res) => {
     var conn = connection.create();
@@ -1041,11 +1041,101 @@ app.get('/playstation/admin/userAccount', (req, res) => {
 })
 
 
+app.get('/playstation/userAccount/:id', (req, res) => {
+    if (!req.session.user) {
+        res.redirect('/')
+    }
+    var conn = connection.create();
+    conn.connect();
+    var arr_data = {};
+    arr_data.confirm = 0;
+    arr_data.checkPass = 0;
+    var sql = "SELECT * FROM users WHERE ID = ?";
+    conn.query(sql, req.params.id, (err, result) => {
+        if (err) throw err;
+        arr_data.info = result[0];
+        res.render('userDetails', { data: arr_data });
+    })
+})
+    
+// Replace / Change
+app.post('/playstation/userAccount', (req, res) => {
+    var conn = connection.create();
+    conn.connect();
+    var arr_data = {};
+    arr_data.confirm = 1;
+    arr_data.checkPass = 0;
 
+    var sql = "UPDATE users SET HOTEN = ?,EMAIL = ?,SDT = ? WHERE ID = ?";
+    var params = [
+        req.body.fullName,
+        req.body.email,
+        req.body.phoneNumber,
+        req.body.id
+    ]
+    conn.query(sql, params, (err, result) => {
+        if (err) throw err;
+        if (result.affectedRows > 0) {
+            console.log("Change");  
+        }
+        else
+        {
+            arr_data.confirm = 0;
+        }
+    })
 
+    conn.query('SELECT * FROM users WHERE ID = ?', req.body.id, (err, result) => {
+        if (err) return;
 
+            arr_data.info = result[0];
+            res.render('userDetails', { data: arr_data })
+            conn.end();
+    })
+})
+ 
 
+app.post('/playstation/userAccount/changePassword', (req, res) => {
+    var conn = connection.create();
+    conn.connect();
+    var arr_data = {};
+    conn.query("SELECT * FROM users WHERE ID = ?", req.body.btn_ID, (err, result) => {
+        if (err) throw err;
+        arr_data.info = result[0];
+        if (req.body.current_pass == result[0].MATKHAU)
+        {
+            var sql = "UPDATE users SET MATKHAU = ? WHERE ID = ?";
+            var params =
+                [
+                    req.body.new_password,
+                    req.body.btn_ID
+                ]
+            conn.query(sql, params, (err, result) => {
+                console.log("1");
+                if (err) throw err;
+                if (result.affectedRows > 0)
+                {
+                    res.redirect(`/playstation/userAccount/${req.body.btn_ID}`);
+                }
+                else
+                {
+                    res.redirect(`/playstation/userAccount/${req.body.btn_ID}`);
+                }
+                conn.end();
+            })
+        }
+        // 
+        else
+        {
+            arr_data.checkPass = 1;
+            res.render('userDetails',{data: arr_data})
+        }
 
+    })
+
+    
+
+    
+})
 // ================================//
 app.listen(post, () => {
     console.log("Success");

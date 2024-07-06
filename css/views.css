@@ -638,14 +638,16 @@ a {
 
 .user_tools{
     margin-top: -6rem;
-    padding: 1rem;
+    padding: 0.5rem;
 }
 
 .user_link {
     margin-top: 2rem;
-    width: 200px;
 }
 
-.user_link a{
+.user_link button{
     color: black;
+    outline: none;
+    border: none;
+    background-color: #ffff;
 }
