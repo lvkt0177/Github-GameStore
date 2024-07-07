@@ -35,12 +35,9 @@
                             <thead class="thead-light fs-4">
                                 <tr>
                                     <th>#</th>
-                                    <th>Image</th>
-                                    <th>Username</th>
-                                    <th>Password</th>
-                                    <th>Full name</th>
-                                    <th>Phone number</th>
                                     <th>Email</th>
+                                    <th>Password</th>
+                                    <th>Phone number</th>
                                     <th>Status</th>
                                     <th>Tools</th>
                                 </tr>
@@ -49,12 +46,11 @@
                                     <% data.forEach((item,index) => { %>
                                         <tr>
                                             <th class="pt-4"><%= index + 1 %></th>
-                                            <th class="pt-4"><img src="/image/<%= item.HINHNEN %>" alt="" style="width: 40px;height: 40px;"></th>
-                                            <th class="pt-4"><%= item.TAIKHOAN %></th>
+                                            <th class="pt-4"><%= item.EMAIL %></th>
                                             <th class="pt-4"><%= item.MATKHAU %></th>
                                             <th class="pt-4"><%= item.HOTEN %></th>
                                             <th class="pt-4"><%= item.SDT %></th>
-                                            <th class="pt-4"><%= item.EMAIL %></th>
+                                            <th class="pt-4"><%= item.TRANGTHAI %></th>
                                             <th class="pt-4">
                                                 <div class="d-flex">
                                                     <form action="/playstation/admin/userAccount/changeStatus/<%= item.ID %>" method="post">

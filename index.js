@@ -71,8 +71,6 @@ app.use(sessionApp({
     cookie: { secure: false }
 }))
 
-function clear_Cookie() {
-}
 
 // Login User ========================
 // Cookie tựa như CCCD lưu trữ dữ liệu tại Client - Ví
@@ -97,7 +95,7 @@ app.get('/playstation/login', (req, res) => {
 app.post('/playstation/login', (req, res) => {
     let conn = connection.create();
     conn.connect();
-    var sql = 'SELECT TAIKHOAN,MATKHAU FROM users WHERE TAIKHOAN = ? OR EMAIL = ?';
+    var sql = 'SELECT TAIKHOAN,MATKHAU,TRANGTHAI FROM users WHERE TAIKHOAN = ? OR EMAIL = ?';
     var params = [
         req.body.account,
         req.body.account
@@ -107,7 +105,7 @@ app.post('/playstation/login', (req, res) => {
         if (err) throw err;
         // console.log(result[0]);
         if (result[0] != undefined) {
-            if (result[0].MATKHAU == req.body.password)
+            if (result[0].MATKHAU == req.body.password && result[0].TRANGTHAI == 1)
             {
                 console.log("Thành công");
                 req.session.user = {userAccount}
@@ -543,18 +541,34 @@ app.get('/news/test', (req, res) => {
 })
 
 
-//============ Admin ==============//
+//======================= Admin =========================//
 //Code here....
 
 // Login Admin
 app.get('/playstation/admin/login', (req, res) => {
-    res.render('loginAdmin')
+
+    res.render('loginAdmin',{data: 1});
 })
 
 
+
 app.post('/playstation/admin/login', (req, res) => {
+    var conn = connection.create();
+    conn.connect();
     console.log(req.body);
-    res.redirect('/playstation/admin');
+    var sql = "SELECT * FROM adminaccount WHERE EMAIL = ?";
+    conn.query(sql, req.body.email, (err, result) => {
+        if (err) throw err; 
+        if (req.body.password == result[0].MATKHAU)
+        {
+            res.redirect('/playstation/admin');
+        }
+        else
+        {
+            res.render('loginAdmin', { data: 0 });            
+        }
+    })
+    conn.end();
 })
 
 // Home
@@ -768,7 +782,8 @@ app.post('/playstation/admin/showGame/delete/:id', (req, res) => {
         var sql_1 = "Delete FROM upcominggame WHERE IDGAME = ?";
         conn.query(sql_1, params, (err, result) => {
             if (err) throw err;
-            if (result.affectedRows > 0) {
+            if (result.affectedRows > 0)
+            {
                 res.redirect('/playstation/admin/gamecomingsoon');
             }
         })
@@ -1024,7 +1039,7 @@ app.post('/playstation/admin/devices/delete/:id', (req, res) => {
     })
     conn.end();
 })
-
+ 
 
 //================================//
 // User Account
@@ -1040,9 +1055,50 @@ app.get('/playstation/admin/userAccount', (req, res) => {
     conn.end();
 })
 
+app.post('/playstation/admin/userAccount/changeStatus/:id', (req, res) => {
+    var conn = connection.create();
+    conn.connect();
+    var sql = "Update users SET TRANGTHAI = ? WHERE ID = ?";
+    var params = [
+        req.body.type_Status,
+        req.params.id
+    ]
+    conn.query(sql, params, (err, result) => {
+        if (err) throw err;
+        if (result.affectedRows > 0) {
+            res.redirect('/playstation/admin/userAccount')
+        }
+        else
+        {
+            res.redirect('/playstation/admin/userAccount')
+        }
+    })
+    conn.end();
+})
+
+
+app.post('/playstation/admin/userAccount/delete/:id', (req, res) => {
+    var conn = connection.create();
+    conn.connect();
+    var sql = "DELETE FROM users WHERE ID = ?";
+    
+    conn.query(sql, req.params.id, (err, result) => {
+        if (err) throw err;
+        if (result.affectedRows > 0) {
+            res.redirect('/playstation/admin/userAccount')
+        }
+        else
+        {
+            res.redirect('/playstation/admin/userAccount')
+        }
+    })
+    conn.end();
+})
+
 
 app.get('/playstation/userAccount/:id', (req, res) => {
-    if (!req.session.user) {
+    if (!req.session.user)
+    {
         res.redirect('/')
     }
     var conn = connection.create();
@@ -1123,7 +1179,7 @@ app.post('/playstation/userAccount/changePassword', (req, res) => {
                 conn.end();
             })
         }
-        // 
+        //  
         else
         {
             arr_data.checkPass = 1;
@@ -1131,10 +1187,6 @@ app.post('/playstation/userAccount/changePassword', (req, res) => {
         }
 
     })
-
-    
-
-    
 })
 // ================================//
 app.listen(post, () => {
