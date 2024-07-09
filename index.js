@@ -72,6 +72,30 @@ app.use(sessionApp({
 }))
 
 
+app.use((req, res, next) => {
+    if (req.session.admin) {
+        res.locals.admin = req.session.admin;
+    }
+    next();
+});
+
+
+function Login_userAccount(req, res, next) {
+    if (!req.session.user) {
+        return res.redirect('/')
+    }
+    next();
+}
+
+
+function adminAccount(req, res, next) {
+    if (!req.session.admin) {
+        console.log("Errol Function");
+        return res.redirect('/playstation/admin/login');
+    }
+    next();
+}
+
 // Login User ========================
 // Cookie tựa như CCCD lưu trữ dữ liệu tại Client - Ví
 //
@@ -95,7 +119,7 @@ app.get('/playstation/login', (req, res) => {
 app.post('/playstation/login', (req, res) => {
     let conn = connection.create();
     conn.connect();
-    var sql = 'SELECT TAIKHOAN,MATKHAU,TRANGTHAI FROM users WHERE TAIKHOAN = ? OR EMAIL = ?';
+    var sql = 'SELECT * FROM users WHERE TAIKHOAN = ? OR EMAIL = ?';
     var params = [
         req.body.account,
         req.body.account
@@ -107,8 +131,13 @@ app.post('/playstation/login', (req, res) => {
         if (result[0] != undefined) {
             if (result[0].MATKHAU == req.body.password && result[0].TRANGTHAI == 1)
             {
-                console.log("Thành công");
-                req.session.user = {userAccount}
+                req.session.user = {
+                    id: result[0].ID,
+                    user: userAccount,
+                    check: 1,
+                    image: result[0].HINHNEN,
+                    fullName : result[0].HOTEN
+                }
                 res.redirect('/');
             }
             else
@@ -273,13 +302,13 @@ app.post('/test/noiDung/:id', (req, res) => {
         
     })
 })
-
-
-
 // =========================//
 
 
 //=========== Home ============//
+
+ 
+
 app.get('/', (req, res) => {
     // res.render('home.html')
     let dataProduct = {};
@@ -317,17 +346,19 @@ app.get('/', (req, res) => {
     })
 
     // Account 
-    if (req.session.user) {
+    if (req.session.user)
+    {
         dataProduct.cookieAccount = 1;
         dataProduct.nameAccount = req.session.user;
         var params_account = [
-            req.session.user.userAccount,
-            req.session.user.userAccount
+            req.session.user.user,
+            req.session.user.user
         ]
         console.log(req.session.user);
         conn.query("SELECT * FROM users WHERE EMAIL = ? OR TAIKHOAN = ?", params_account, (err, result) => {
             if (err) throw err;
             dataProduct.infoAccount = result[0];
+            console.log(dataProduct.infoAccount);
         })
     }
     else
@@ -442,6 +473,24 @@ app.get('/game', (req, res) => {
         dataProduct.game = result;
         // 
     })
+     
+    if (req.session.user) {
+        dataProduct.cookieAccount = 1;
+        dataProduct.nameAccount = req.session.user;
+        var params_account = [
+            req.session.user.user,
+            req.session.user.user
+        ]
+        console.log(req.session.user);
+        conn.query("SELECT * FROM users WHERE EMAIL = ? OR TAIKHOAN = ?", params_account, (err, result) => {
+            if (err) throw err;
+            dataProduct.infoAccount = result[0];
+        })
+    }
+    else {
+        dataProduct.cookieAccount = 0;
+        console.log("Đăng nhập thất bại");
+    }
 
     conn.query("Select Distinct theLoai From gameproduct", (err, result) => {
         if (err) throw err;
@@ -544,13 +593,14 @@ app.get('/news/test', (req, res) => {
 //======================= Admin =========================//
 //Code here....
 
+
+
 // Login Admin
 app.get('/playstation/admin/login', (req, res) => {
-
     res.render('loginAdmin',{data: 1});
 })
 
-
+ 
 
 app.post('/playstation/admin/login', (req, res) => {
     var conn = connection.create();
@@ -559,29 +609,54 @@ app.post('/playstation/admin/login', (req, res) => {
     var sql = "SELECT * FROM adminaccount WHERE EMAIL = ?";
     conn.query(sql, req.body.email, (err, result) => {
         if (err) throw err; 
+
         if (req.body.password == result[0].MATKHAU)
         {
+            // set session
+            req.session.admin = { 
+                username: req.body.email,
+                fullname: result[0].HOTEN
+            };
+            console.log(req.session.admin);
             res.redirect('/playstation/admin');
         }
         else
-        {
+        { 
+            console.log("Thất bại");
             res.render('loginAdmin', { data: 0 });            
-        }
+        } 
     })
     conn.end();
+}) 
+
+// Logout
+app.post('/playstation/admin/logout', (req, res) => {
+    // res.clearCookie('connect.sid');
+    delete req.session.admin;
 })
 
+
 // Home
-app.get('/playstation/admin', (req, res) => {
-    res.render('adminManager');
+app.get('/playstation/admin',adminAccount, (req, res) => {
+    var conn = connection.create();
+    conn.connect();
+    if (req.session.admin) {
+        conn.query("SELECT * FROM adminaccount WHERE EMAIL = ?", req.session.admin.username, (err, result) => {
+            if (err) throw err;
+            res.render('adminManager', { data: result[0] });
+        })
+    }
+    else
+    {
+        res.redirect('/playstation/admin/login');    
+    }
+    conn.end();
 })
  
 //------------- List Game ---------------//
-app.get('/playstation/admin/gameManagement', (req, res) => {
+app.get('/playstation/admin/gameManagement', adminAccount , (req, res) => {
     var conn = connection.create();
-
     var dataProduct = {};
-
     conn.connect();
     conn.query("Select * From gameproduct", (err, result) => {
         if (err) return;
@@ -593,12 +668,12 @@ app.get('/playstation/admin/gameManagement', (req, res) => {
         dataProduct.category = result;
         res.render('gameManagement', { data: dataProduct });
     });
-    
     conn.end();
 })
 
 // JSON ----------------------------
-app.get('/playstation/admin/gameManagement/:id', (req, res) => {
+app.get('/playstation/admin/gameManagement/:id',adminAccount, (req, res) => {
+    
     var conn = connection.create();
     conn.connect();
     var params = req.params.id;
@@ -611,18 +686,40 @@ app.get('/playstation/admin/gameManagement/:id', (req, res) => {
 
 // ======================== Details ==========================//
 app.get('/playstation/game/details/:id', (req, res) => {
+    
     var conn = connection.create();
     conn.connect(); 
+    var dataProduct = {};
+    if (req.session.user) {
+        dataProduct.cookieAccount = 1;
+        dataProduct.nameAccount = req.session.user;
+        var params_account = [
+            req.session.user.user,
+            req.session.user.user
+        ]
+        console.log(req.session.user);
+        conn.query("SELECT * FROM users WHERE EMAIL = ? OR TAIKHOAN = ?", params_account, (err, result) => {
+            if (err) throw err;
+            dataProduct.infoAccount = result[0];
+        })
+    }
+    else {
+        dataProduct.cookieAccount = 0;
+        res.redirect('/playstation/login')
+    }
+
     var params = req.params.id;
     conn.query("Select * From gameproduct Where ID = ?", params, (err, result) => {
         if (err) throw err;
-        res.render('gameDetails', { data: result[0] });
+        dataProduct.details = result[0];
+        res.render('gameDetails', { data: dataProduct });
     })
     conn.end();
 })
 
 
 app.post('/playstation/admin/gameManagement', upload.single('image'), (req, res) => {
+    
     // type Button
     var typeButton = req.body.btn_type;
     var idMax = 0;
@@ -745,7 +842,8 @@ app.post('/playstation/admin/gameManagement/delete/:id', (req, res) => {
 })
 
 //----------- New releases ---------//
-app.get('/playstation/admin/newReleases', (req, res) => {
+app.get('/playstation/admin/newReleases', adminAccount, (req, res) => {
+    
     var arrData = {};
     arrData.name = "Game New Releases";
     var conn = connection.create();
@@ -759,7 +857,8 @@ app.get('/playstation/admin/newReleases', (req, res) => {
 })
 
 //---------- Game coming Soon ----------//
-app.get('/playstation/admin/gamecomingsoon', (req, res) => {
+app.get('/playstation/admin/gamecomingsoon', adminAccount, (req, res) => {
+    
     var arrData = {};
     arrData.name = "Game Coming Soon";
     var conn = connection.create();
@@ -786,7 +885,7 @@ app.post('/playstation/admin/showGame/delete/:id', (req, res) => {
             {
                 res.redirect('/playstation/admin/gamecomingsoon');
             }
-        })
+        }) 
     }
     if (typeF == "Game New Releases") {
         var sql_2 = "Delete FROM populargame WHERE IDGAME = ?";
@@ -805,7 +904,8 @@ app.post('/playstation/admin/showGame/delete/:id', (req, res) => {
 
 //---------- Devices ----------//
 //Code here...
-app.get('/playstation/admin/devices', (req, res) => {
+app.get('/playstation/admin/devices', adminAccount, (req, res) => {
+    
     var conn = connection.create();
     conn.connect();
     conn.query("Select * From devices", (err, result) => {
@@ -813,11 +913,11 @@ app.get('/playstation/admin/devices', (req, res) => {
         res.render('devicesManagement', { data: result });
     })
     conn.end();
-
 })
 
 // JSON
-app.get('/playstation/admin/deviceManagement/:id', (req, res) => {
+app.get('/playstation/admin/deviceManagement/:id', adminAccount, (req, res) => {
+    
     var conn = connection.create();
     conn.connect();
     conn.query("Select * From devices Where ID = ?", req.params.id, (err, result) => {
@@ -829,7 +929,8 @@ app.get('/playstation/admin/deviceManagement/:id', (req, res) => {
     conn.end();
 })
 
-app.get('/playstation/admin/devices/:id', (req, res) => {
+app.get('/playstation/admin/devices/:id', adminAccount, (req, res) => {
+    
     var conn = connection.create();
     conn.connect();
     var arrDevieces = {};
@@ -1043,7 +1144,8 @@ app.post('/playstation/admin/devices/delete/:id', (req, res) => {
 
 //================================//
 // User Account
-app.get('/playstation/admin/userAccount', (req, res) => {
+app.get('/playstation/admin/userAccount', adminAccount, (req, res) => {
+    
     var conn = connection.create();
     conn.connect();
     var sql = "Select * FROM users";
@@ -1054,7 +1156,7 @@ app.get('/playstation/admin/userAccount', (req, res) => {
 
     conn.end();
 })
-
+ 
 app.post('/playstation/admin/userAccount/changeStatus/:id', (req, res) => {
     var conn = connection.create();
     conn.connect();
@@ -1185,9 +1287,10 @@ app.post('/playstation/userAccount/changePassword', (req, res) => {
             arr_data.checkPass = 1;
             res.render('userDetails',{data: arr_data})
         }
-
     })
 })
+
+
 // ================================//
 app.listen(post, () => {
     console.log("Success");

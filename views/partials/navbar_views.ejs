@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand-lg navbar-dark text-d bg-light fs-4" style="height: 100px">
+ <nav class="navbar navbar-expand-lg navbar-dark text-d bg-light fs-4" style="height: 100px">
                 <div class="container-fluid">
                     <!-- Logo -->
                     <!-- <a class="navbar-brand" href="#">Navbar</a> -->
@@ -47,17 +47,16 @@
 
                         <div class="me-3 btn_user">
 
-                            <!-- Log IN -->
-                             <% if (user.check == 1) { %>
+                             <% if (data.cookieAccount == 1) { %>
                                 <div class="ms-5">
                                     <div class="dropdown">
                                         <button class="btn dropdown-toggle btn_user" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
                                             <img src="https://ddragon.leagueoflegends.com/cdn/14.12.1/img/profileicon/5089.png" style="width: 30px; border-radius: 50%;" class="" alt="">
-                                            <span class="text-dark ms-3"><%= user.userAccount %></span>
+                                            <span class="text-dark ms-3"><%= data.infoAccount.TAIKHOAN %></span>
                                         </button>
                                         <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
                                             <li><a class="dropdown-item" href="#">Cart</a></li>
-                                            <li><a class="dropdown-item" href="/playstation/userAccount/<%= user.id %>">Views</a></li>
+                                            <li><a class="dropdown-item" href="/playstation/userAccount/<%= data.infoAccount.ID %>">Views</a></li>
                                             <li><a class="dropdown-item" href="#">Something else</a></li>
 
                                             <!--  -->
@@ -72,10 +71,9 @@
 
                         </div>
 
-                        <!-- Logout -->
                         <div class="me-3 btn_signInr">
                             <div class="">
-                                <% if (user.check != 1) { %>
+                                <% if (data.cookieAccount == 0) { %>
                                     <a href="/playstation/login" class="ms-5 btn-primary px-2 py-1" style="border-radius: 8%;">Sign In</a>
                                 <% } %>
                             </div>

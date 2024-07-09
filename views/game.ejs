@@ -11,13 +11,12 @@
 <title>Game</title>
 </head>
 <body style="background-color: rgb(33, 37, 41) !important; ">
-    <%- include('partials/navbar') %>
+
+    <%- include('partials/navbar_views.ejs') %>
 
     <section class="bg-product text-light mt-5">
         <div class="container">
             <div class="row">
-
-                
                 <div class="col col-md-12 col-lg-4 col-xs-4 form-game mb-5">
                     <form action="" method="post">
                         <span class="tittle fs-1 mb-4">Categories</span><br><br>
@@ -29,8 +28,6 @@
                             <br>
                         <% }) %>
                             
-
-
                         <br>
                         <!-- <span class="tittle fs-1 mb-4">Platforms</span> -->
                             <input class="btn-submit" type="submit" value="Find">

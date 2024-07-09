@@ -12,15 +12,16 @@
 <link rel="stylesheet" href="/views.css">
 <link rel="icon" type="image/png" href="https://upload.wikimedia.org/wikipedia/commons/9/91/PlayStation_App_Icon.jpg">
 
-<title><%= data.tenGame %> - Playstation</title>
+<title><%= data.details.tenGame %> - Playstation</title>
 </head>
 <body>
 
-    <%- include('partials/navbar') %>
+    <%- include('partials/navbar_views.ejs') %>
+
     <section class="bg-light">
         <div class="container-fluid">
             <div class="bg-image" style="
-            background-image: url('/imageGame/<%= data.hinhNen %>');
+            background-image: url('/imageGame/<%= data.details.hinhNen %>');
             background-size: cover;
             background-attachment: fixed;
             height: 500px;">
@@ -33,7 +34,7 @@
         <div class="container">
             <div class="row">
                 <div class="col col-4  game-details">
-                    <h2 class="mb-4"><%= data.tenGame %></h2>
+                    <h2 class="mb-4"><%= data.details.tenGame %></h2>
                     <p class="mb-4">Sony Interactive Entertainment</p>
                     <span class="gaming-equipment border border-2 border-light p-1 me-1">PS4</span>
                     <span class="gaming-equipment border border-2 border-light p-1 me-1">PS5</span>
@@ -49,7 +50,7 @@
                         <span><i class="fa fa-star fs-5 me--2" aria-hidden="true"></i></span>
                     </div>
 
-                    <h1>$<%= data.gia %></h1>
+                    <h1>$<%= data.details.gia %></h1>
                     <div class="mt-5">
                         <form action="" method="post">
                             <button class="btn btn-danger rounded-pill px-5">Add to Cart</button>
@@ -75,7 +76,7 @@
                             <div class="info text-light bg-dark p-5">
                                 <h3 class="text-center mb-5">Game and Legal Info</h3>
                                 <p class="text-light">
-                                    <%- data.moTa %>
+                                    <%- data.details.moTa %>
                                 </p>                                
                             </div>
                         </div>
