@@ -15,7 +15,8 @@
 </head>
 <body class="bg-light text-dark">
 
-    <%- include('partials/navbar') %>
+        <%- include('partials/navbar') %>
+    
 
     <section class="mt-5">
         <div class="container">
@@ -42,12 +43,9 @@
                                     </div>
                                 </div>
                             <% }) %>
-
-                    
                     </div>
                     <!-- ====== Col 12 Info Devices ====== -->
-                
-                 
+
                     <!-- Slick Devices -->
                     <div class="col col-lg-12 mt-3">
                         <div class="slider slider-nav slick-devices">
@@ -59,8 +57,6 @@
                                     <img src="/imageProduct/<%= item.image %>" alt="" class="img-details" style="width: 175px;height: 98px;">
                                 </div>
                             <% }) %>
-                            
-                        
                         </div>
                     </div>
                 </div>
@@ -73,7 +69,13 @@
                     <p class="mt-4"><%- data.info.MOTA %></p>
 
                     <!-- Add item -->
-                    <button class="btn_AddItem btn btn-light px-5 py-2 text-danger border border-danger border-2 mt-3">Add <i class="fa fa-cart-plus" aria-hidden="true"></i></button>
+                     <form action="/playstation/devices/details/addToCart" method="post">
+                        <div class="d-none">
+                            <input type="text" name="idUser" value="<%= user.id %>" id="">
+                            <input type="text" name="price" value="<%= data.info.GIATIEN %>" id="">
+                        </div>
+                         <button name="devicesID" value="<%= data.info.ID %>" class="btn_AddItem btn btn-light px-5 py-2 text-danger border border-danger border-2 mt-3">Add <i class="fa fa-cart-plus" aria-hidden="true"></i></button>
+                     </form>
                 </div>
                 
             </div>
@@ -85,6 +87,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.9.2/umd/popper.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.1.0/js/bootstrap.min.js"></script>
     <script src="/slick.min.js"></script>
+
 <script>
     $('.slider-for').slick(
         {

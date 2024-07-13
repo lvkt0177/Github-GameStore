@@ -79,6 +79,13 @@ app.use((req, res, next) => {
     next();
 });
 
+app.use((req, res, next) => {
+    if (req.session.user) {
+        res.locals.user = req.session.user;
+    }
+    next();
+});
+
 
 function Login_userAccount(req, res, next) {
     if (!req.session.user) {
@@ -354,11 +361,9 @@ app.get('/', (req, res) => {
             req.session.user.user,
             req.session.user.user
         ]
-        console.log(req.session.user);
         conn.query("SELECT * FROM users WHERE EMAIL = ? OR TAIKHOAN = ?", params_account, (err, result) => {
             if (err) throw err;
             dataProduct.infoAccount = result[0];
-            console.log(dataProduct.infoAccount);
         })
     }
     else
@@ -481,7 +486,6 @@ app.get('/game', (req, res) => {
             req.session.user.user,
             req.session.user.user
         ]
-        console.log(req.session.user);
         conn.query("SELECT * FROM users WHERE EMAIL = ? OR TAIKHOAN = ?", params_account, (err, result) => {
             if (err) throw err;
             dataProduct.infoAccount = result[0];
@@ -509,7 +513,6 @@ app.post('/game', (req, res) => {
     conn.connect();
     var sql = "";
     var dataProduct = {};
-
     console.log(req.body.category)
 
     if (!req.body.category) {
@@ -543,6 +546,294 @@ app.post('/game', (req, res) => {
 })
 
 
+// ======================== Details ==========================//
+app.get('/playstation/game/details/:id', (req, res) => {
+    var conn = connection.create();
+    conn.connect();
+    var dataProduct = {};
+    if (!req.session.user) {
+        res.redirect(`/playstation/login`)
+    }
+
+    var params = req.params.id;
+    conn.query("Select * From gameproduct Where ID = ?", params, (err, result) => {
+        if (err) throw err;
+        dataProduct.details = result[0];
+        res.render('gameDetails', { data: dataProduct });
+    })
+    conn.end();
+})
+
+
+app.get('/playstation/devices/:id', (req, res) => {
+    var conn = connection.create();
+    conn.connect();
+    var arrDevieces = {};
+    if (!req.session.user)
+    {
+        res.redirect('/playstation/login');
+    }
+    conn.query("Select * From devices Where ID = ?", req.params.id, (err, result) => {
+        if (err) throw err;
+        arrDevieces.info = result[0];
+        arrDevieces.imgInfo = JSON.parse(result[0].CHITIETANH);
+        // console.log(arrDevieces.imgInfo.imgDetails[0]);
+        // console.log(arrDevieces.imgInfo.img);
+        res.render('devieceDetails', { data: arrDevieces });
+    })
+    conn.end();
+})
+
+app.get('/playstation/admin/devices/:id', (req, res) => {
+    var conn = connection.create();
+    conn.connect();
+    var arrDevieces = {};
+    
+    conn.query("Select * From devices Where ID = ?", req.params.id, (err, result) => {
+        if (err) throw err;
+        arrDevieces.info = result[0];
+        arrDevieces.imgInfo = JSON.parse(result[0].CHITIETANH);
+        // console.log(arrDevieces.imgInfo.imgDetails[0]);
+        // console.log(arrDevieces.imgInfo.img);
+        res.render('devieceDetails', { data: arrDevieces });
+    })
+    conn.end();
+})
+
+
+
+
+// ========================= Add to Cart ================================//
+app.post('/playstation/game/details/addToCart', (req, res) => {
+    var conn = connection.create();
+    conn.connect();
+    // Variable
+    var status = '0';
+    var quantity = 1;
+
+    var sql_check_Cart = "Select COUNT(*) as Count FROM cart WHERE userID = ?";
+    // -------------------- 
+    conn.query(sql_check_Cart, req.body.idUser, (err, result) => {
+        if (result[0].Count == 0) {
+            console.log("BẮT ĐIỀU KIỆN");
+
+            // -------------Create Cart for User 
+            conn.query("Insert INTO cart (userID) Value(?)", req.body.idUser, (err, result) => {
+                if (err) throw err;
+                if (result.affectedRows > 0) {
+
+                    // --------------------
+                    conn.query("SELECT * FROM cart WHERE userID = ?", req.body.idUser, (err, result) => {
+                        if (err) throw err;
+                        
+                        var sql_Cart_Item = "INSERT INTO cart_item (iDCart, game_ID, quantity, price, status) Value(?,?,?,?,?)";
+                        var params_Cart_Item = [
+                                    result[0].ID,
+                                    req.body.idGame,
+                                    quantity,
+                                    req.body.price,
+                                    status
+                                ]
+                        
+                        conn.query(sql_Cart_Item, params_Cart_Item, (err, result) => {
+                            if (err) throw err;
+                            if (result.affectedRows > 0) {
+                                console.log("Add thành công");
+                                res.redirect('/');
+                            }
+                        })
+                        
+                    })
+                }
+            })
+        }
+        else
+        {
+            // --------------------
+            conn.query("SELECT * FROM cart WHERE userID = ?", req.body.idUser, (err, result) => {
+                if (err) throw err;
+
+                var sql_Cart_Item = "INSERT INTO cart_item (iDCart, game_ID, quantity, price, status) Value(?,?,?,?,?)";
+                var params_Cart_Item = [
+                    result[0].ID,
+                    req.body.idGame,
+                    quantity,
+                    req.body.price,
+                    status
+                ]
+
+                conn.query(sql_Cart_Item, params_Cart_Item, (err, result) => {
+                    if (err) throw err;
+                    if (result.affectedRows > 0) {
+                        console.log("Add thành công k cần Tạo Cart");
+                        res.redirect('/');
+                    }
+                })
+
+            })
+        }
+    })
+})
+
+
+app.post('/playstation/devices/details/addToCart', (req, res) => {
+    var conn = connection.create();
+    conn.connect();
+    // Variable
+    var status = '0';
+    var quantity = 1;
+
+    var sql_check_Cart = "Select COUNT(*) as Count FROM cart WHERE userID = ?";
+    // -------------------- 
+    conn.query(sql_check_Cart, req.body.idUser, (err, result) => {
+        if (result[0].Count == 0) {
+            console.log("BẮT ĐIỀU KIỆN");
+
+            // -------------Create Cart for User 
+            conn.query("Insert INTO cart (userID) Value(?)", req.body.idUser, (err, result) => {
+                if (err) throw err;
+                if (result.affectedRows > 0) {
+
+                    // --------------------
+                    conn.query("SELECT * FROM cart WHERE userID = ?", req.body.idUser, (err, result) => {
+                        if (err) throw err;
+                        
+                        var sql_Cart_Item = "INSERT INTO cart_item (iDCart, devices_ID, quantity, price, status) Value(?,?,?,?,?)";
+                        var params_Cart_Item = [
+                            result[0].ID,
+                            req.body.devicesID,
+                            quantity,
+                            req.body.price,
+                            status
+                        ]; 
+                        
+                        conn.query(sql_Cart_Item, params_Cart_Item, (err, result) => {
+                            if (err) throw err;
+                            if (result.affectedRows > 0) {
+                                console.log("Add thành công");
+                                res.redirect('/');
+                            }
+                        })
+                        
+                    })
+                }
+            })
+        }
+        else
+        {
+            // --------------------
+            conn.query("SELECT * FROM cart WHERE userID = ?", req.body.idUser, (err, result) => {
+                if (err) throw err;
+
+                var sql_Cart_Item = "INSERT INTO cart_item (iDCart, devices_ID, quantity, price, status) Value(?,?,?,?,?)";
+                var params_Cart_Item = [
+                    result[0].ID,
+                    req.body.devicesID,
+                    quantity,
+                    req.body.price,
+                    status
+                ]
+
+                conn.query(sql_Cart_Item, params_Cart_Item, (err, result) => {
+                    if (err) throw err;
+                    if (result.affectedRows > 0) {
+                        console.log("Add thành công k cần Tạo Cart");
+                        res.redirect('/');
+                    }
+                })
+
+            })
+        }
+    })
+})
+
+
+
+
+
+
+
+// Delete Item in Table Cart_Item
+
+app.post('/playstation/Cart/deleteItem/:id', (req, res) => {
+    var conn = connection.create();
+    conn.connect();
+
+    var sql = `DELETE FROM cart_item WHERE ID = ${req.params.id}`;
+
+    conn.query(sql, (err, result) => {
+        if (err) throw err;
+        console.log(sql);
+        if (result.affectedRows > 0) {
+            res.redirect(`/playstation/userAccount/cart/${req.body.userID}`);
+        }
+        else
+            res.redirect(`/playstation/userAccount/cart/${req.body.userID}`);
+    })
+
+    conn.end();
+})
+
+
+// Show Cart
+app.get('/playstation/userAccount/cart/:id', (req, res) => {
+    if (!req.session.user) {
+        res.redirect('/playstation/login')
+    }
+    var conn = connection.create();
+    conn.connect();
+
+    conn.query('SELECT ID FROM Cart WHERE userID = ?',req.params.id, (err, result) => {
+        if (err) throw err;
+        if (result.length > 0) {
+            const cartId = result[0].ID;
+            console.log(result[0]);
+            // Truy vấn các mục trong giỏ hàng 
+            const query = `
+        SELECT ci.id, ci.quantity, ci.price, ci.status, 
+               g.tenGame, g.theLoai, g.hinhNen, g.gia AS game_gia, g.moTa AS game_moTa, g.ngayRaMat,
+               d.TENSP, d.NSX, d.GIATIEN, d.MOTA AS device_moTa, d.HINHANH, d.CHITIETANH, d.SOLUONG, d.NGAYSX, d.BAOHANH
+        FROM cart_item ci
+        LEFT JOIN gameproduct g ON ci.game_id = g.id
+        LEFT JOIN devices d ON ci.devices_ID = d.id
+        WHERE ci.iDCart = ?
+      `;
+
+            conn.query(query, cartId, (err, results) => {
+                if (err) throw err;
+
+                // Xử lý và gửi dữ liệu
+                const cartItems = results.map(item => ({
+                    // ID cart_item
+                    id: item.id,
+                    name: item.tenGame || item.TENSP, // Lấy tên từ bảng tương ứng
+                    category: item.theLoai || null,
+                    image: item.hinhNen || item.HINHANH,
+                    price: item.price,
+                    description: item.game_moTa || item.device_moTa,
+                    releaseDate: item.ngayRaMat || null,
+                    manufacturer: item.NSX || null,
+                    detailedImage: item.CHITIETANH || null,
+                    quantityInStock: item.SOLUONG || null,
+                    manufactureDate: item.NGAYSX || null,
+                    warranty: item.BAOHANH || null,
+                    cartQuantity: item.quantity,
+                    status: item.status,
+                    product_type: item.tenGame ? 'game' : 'devices' // Xác định loại sản phẩm
+                }));
+
+                console.log(cartItems.length);
+                res.render('userCart', { data: cartItems });
+            });
+        }
+        conn.end();
+    })
+})
+
+
+
+
+// ==================================================//
 //--------- News ----------//
 //Code here...
 app.get('/news', (req, res) => {
@@ -592,9 +883,6 @@ app.get('/news/test', (req, res) => {
 
 //======================= Admin =========================//
 //Code here....
-
-
-
 // Login Admin
 app.get('/playstation/admin/login', (req, res) => {
     res.render('loginAdmin',{data: 1});
@@ -683,40 +971,6 @@ app.get('/playstation/admin/gameManagement/:id',adminAccount, (req, res) => {
     })
     conn.end();
 })
-
-// ======================== Details ==========================//
-app.get('/playstation/game/details/:id', (req, res) => {
-    
-    var conn = connection.create();
-    conn.connect(); 
-    var dataProduct = {};
-    if (req.session.user) {
-        dataProduct.cookieAccount = 1;
-        dataProduct.nameAccount = req.session.user;
-        var params_account = [
-            req.session.user.user,
-            req.session.user.user
-        ]
-        console.log(req.session.user);
-        conn.query("SELECT * FROM users WHERE EMAIL = ? OR TAIKHOAN = ?", params_account, (err, result) => {
-            if (err) throw err;
-            dataProduct.infoAccount = result[0];
-        })
-    }
-    else {
-        dataProduct.cookieAccount = 0;
-        res.redirect('/playstation/login')
-    }
-
-    var params = req.params.id;
-    conn.query("Select * From gameproduct Where ID = ?", params, (err, result) => {
-        if (err) throw err;
-        dataProduct.details = result[0];
-        res.render('gameDetails', { data: dataProduct });
-    })
-    conn.end();
-})
-
 
 app.post('/playstation/admin/gameManagement', upload.single('image'), (req, res) => {
     
@@ -929,23 +1183,6 @@ app.get('/playstation/admin/deviceManagement/:id', adminAccount, (req, res) => {
     conn.end();
 })
 
-app.get('/playstation/admin/devices/:id', adminAccount, (req, res) => {
-    
-    var conn = connection.create();
-    conn.connect();
-    var arrDevieces = {};
-    conn.query("Select * From devices Where ID = ?",req.params.id, (err, result) => {
-        if (err) throw err;
-        arrDevieces.info = result[0];
-        arrDevieces.imgInfo = JSON.parse(result[0].CHITIETANH);
-        // console.log(arrDevieces.imgInfo.imgDetails[0]);
-        // console.log(arrDevieces.imgInfo.img);
-
-        res.render('devieceDetails', { data: arrDevieces });
-    })
-    conn.end();
-}) 
- 
 
 const multipleUpload = upload.fields([
     { name: 'image', maxCount: 1 },       // Để xử lý ảnh đại diện
@@ -1244,7 +1481,6 @@ app.post('/playstation/userAccount', (req, res) => {
 
     conn.query('SELECT * FROM users WHERE ID = ?', req.body.id, (err, result) => {
         if (err) return;
-
             arr_data.info = result[0];
             res.render('userDetails', { data: arr_data })
             conn.end();
@@ -1289,6 +1525,7 @@ app.post('/playstation/userAccount/changePassword', (req, res) => {
         }
     })
 })
+
 
 
 // ================================//

@@ -651,3 +651,10 @@ a {
     border: none;
     background-color: #ffff;
 }
+
+
+/* Cart Item */
+.delete_Cart_Item:hover{
+    background: #dc3545 !important;
+    color: #ffff !important;
+}

@@ -30,9 +30,9 @@
                         <li class="nav-item me-3">
                             <a class="nav-link text-dark" href="/game">Game</a>
                         </li>
-                        <li class="nav-item me-3">
+                        <!-- <li class="nav-item me-3">
                             <a class="nav-link text-dark" href="/">PS5</a>
-                        </li>
+                        </li> -->
                         <li class="nav-item me-3">
                             <a class="nav-link text-dark" href="/news">News</a>
                         </li>
@@ -70,7 +70,7 @@
                                             <span class="text-dark ms-3"><%= data.infoAccount.TAIKHOAN %></span>
                                         </button>
                                         <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                                            <li><a class="dropdown-item" href="#">Cart</a></li>
+                                            <li><a class="dropdown-item" href="/playstation/userAccount/cart/<%= data.infoAccount.ID %>">Cart</a></li>
                                             <li><a class="dropdown-item" href="/playstation/userAccount/<%= data.infoAccount.ID %>">Views</a></li>
                                             <li><a class="dropdown-item" href="#">Something else</a></li>
 
@@ -170,7 +170,7 @@
                                                     <div class="my-4" style="margin-top: -1rem;font-size: 19px;">
                                                         <%- item.MOTA %>
                                                     </div>
-                                                    <a href="" class="text-decoration-none" style="margin-bottom: 4rem;">Find out more</a>
+                                                    <a href="/playstation/devices/<%= item.ID %>" class="text-decoration-none" style="margin-bottom: 4rem;">Buy now</a>
                                                 </div>
     
                                                 <div class="col col-lg-7">

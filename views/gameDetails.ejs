@@ -15,9 +15,9 @@
 <title><%= data.details.tenGame %> - Playstation</title>
 </head>
 <body>
-
-    <%- include('partials/navbar_views.ejs') %>
-
+    
+    <%- include('partials/navbar') %>
+    
     <section class="bg-light">
         <div class="container-fluid">
             <div class="bg-image" style="
@@ -49,10 +49,17 @@
                         <span><i class="fa fa-star fs-5 me--2" aria-hidden="true"></i></span>
                         <span><i class="fa fa-star fs-5 me--2" aria-hidden="true"></i></span>
                     </div>
-
+                    
                     <h1>$<%= data.details.gia %></h1>
                     <div class="mt-5">
-                        <form action="" method="post">
+                        <form action="/playstation/game/details/addToCart" method="post">
+                            <div class="d-none">
+                                <% if (user.check != 0) { %>
+                                    <input type="text" name="idUser" value="<%= user.id %>">
+                                    <input type="text" name="idGame" value="<%= data.details.ID %>">
+                                    <input type="text" name="price"  value="<%= data.details.gia %>">
+                                <% } %>
+                            </div>
                             <button class="btn btn-danger rounded-pill px-5">Add to Cart</button>
                         </form>
                     </div>

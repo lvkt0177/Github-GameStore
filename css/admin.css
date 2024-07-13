@@ -55,9 +55,9 @@ a {
     color: #ffff;
 }
 
-li {
+.link-dashboard li {
+    margin-top: 1rem;
     list-style: none;
-    margin-top: 1.4rem;
 }
 
 a:hover {
@@ -209,7 +209,7 @@ section.login{
 }
 
 .box-sign-in{
-    height: 70vh;
+    height: 80vh;
     background-color: rgba(13, 27, 75, 0.37);
     padding-top: 4rem;
     border-radius: 2rem;
