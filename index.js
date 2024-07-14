@@ -584,21 +584,23 @@ app.get('/playstation/devices/:id', (req, res) => {
     conn.end();
 })
 
-app.get('/playstation/admin/devices/:id', (req, res) => {
-    var conn = connection.create();
-    conn.connect();
-    var arrDevieces = {};
-    
-    conn.query("Select * From devices Where ID = ?", req.params.id, (err, result) => {
-        if (err) throw err;
-        arrDevieces.info = result[0];
-        arrDevieces.imgInfo = JSON.parse(result[0].CHITIETANH);
-        // console.log(arrDevieces.imgInfo.imgDetails[0]);
-        // console.log(arrDevieces.imgInfo.img);
-        res.render('devieceDetails', { data: arrDevieces });
-    })
-    conn.end();
-})
+// app.get('/playstation/admin/devices/:id', (req, res) => {
+//     var conn = connection.create();
+//     conn.connect();
+//     var arrDevieces = {};
+//     if (!req.session.admin) {
+//         res.redirect('/playstation/admin/login')
+//     }
+//     conn.query("Select * From devices Where ID = ?", req.params.id, (err, result) => {
+//         if (err) throw err;
+//         arrDevieces.info = result[0];
+//         arrDevieces.imgInfo = JSON.parse(result[0].CHITIETANH);
+//         // console.log(arrDevieces.imgInfo.imgDetails[0]);
+//         // console.log(arrDevieces.imgInfo.img);
+//         res.render('devieceDetails', { data: arrDevieces });
+//     })
+//     conn.end();
+// })
 
 
 
@@ -747,14 +749,7 @@ app.post('/playstation/devices/details/addToCart', (req, res) => {
     })
 })
 
-
-
-
-
-
-
 // Delete Item in Table Cart_Item
-
 app.post('/playstation/Cart/deleteItem/:id', (req, res) => {
     var conn = connection.create();
     conn.connect();
@@ -789,15 +784,15 @@ app.get('/playstation/userAccount/cart/:id', (req, res) => {
             const cartId = result[0].ID;
             console.log(result[0]);
             // Truy vấn các mục trong giỏ hàng 
-            const query = `
-        SELECT ci.id, ci.quantity, ci.price, ci.status, 
-               g.tenGame, g.theLoai, g.hinhNen, g.gia AS game_gia, g.moTa AS game_moTa, g.ngayRaMat,
-               d.TENSP, d.NSX, d.GIATIEN, d.MOTA AS device_moTa, d.HINHANH, d.CHITIETANH, d.SOLUONG, d.NGAYSX, d.BAOHANH
-        FROM cart_item ci
-        LEFT JOIN gameproduct g ON ci.game_id = g.id
-        LEFT JOIN devices d ON ci.devices_ID = d.id
-        WHERE ci.iDCart = ?
-      `;
+                const query = `
+            SELECT ci.id, ci.quantity, ci.price, ci.status, 
+                g.tenGame, g.theLoai, g.hinhNen, g.gia AS game_gia, g.moTa AS game_moTa, g.ngayRaMat,
+                d.TENSP, d.NSX, d.GIATIEN, d.MOTA AS device_moTa, d.HINHANH, d.CHITIETANH, d.SOLUONG, d.NGAYSX, d.BAOHANH
+            FROM cart_item ci
+            LEFT JOIN gameproduct g ON ci.game_id = g.id
+            LEFT JOIN devices d ON ci.devices_ID = d.id
+            WHERE ci.iDCart = ?
+            `;
 
             conn.query(query, cartId, (err, results) => {
                 if (err) throw err;
@@ -822,9 +817,12 @@ app.get('/playstation/userAccount/cart/:id', (req, res) => {
                     product_type: item.tenGame ? 'game' : 'devices' // Xác định loại sản phẩm
                 }));
 
-                console.log(cartItems.length);
                 res.render('userCart', { data: cartItems });
             });
+        }
+        else
+        {
+            res.render('userCart', { data: [] });
         }
         conn.end();
     })
@@ -1526,7 +1524,96 @@ app.post('/playstation/userAccount/changePassword', (req, res) => {
     })
 })
 
+// ============ Cart ===============//
 
+app.get('/playstation/admin/orders', (req, res) => {
+    if(!req.session.admin)
+    {
+        res.redirect('/playstation/admin/login');
+    }
+    var conn = connection.create();
+    conn.connect();
+    // Truy vấn các mục trong giỏ hàng 
+    const query = `
+    SELECT ci.ID as ID_CART_ITEM,ci.quantity as QUANTITY,ci.price AS PRICE,ci.status as STATUS, cart.*, users.*, gameproduct.*, devices.*
+    FROM cart_item ci
+    JOIN cart ON ci.iDCart = cart.id
+    JOIN users ON cart.userID = users.id
+    LEFT JOIN gameproduct ON ci.game_ID = gameproduct.ID
+    LEFT JOIN devices ON ci.devices_ID = devices.ID;
+
+    `;
+
+    conn.query(query, (err, results) => {
+        if (err) throw err;
+        // Xử lý và gửi dữ liệu
+        // console.log(results);
+        const orders = results.map(item => ({
+            // ID cart_item
+            id: item.ID_CART_ITEM,
+            name: item.tenGame || item.TENSP, // Lấy tên từ bảng tương ứng
+            username: item.TAIKHOAN,
+            email: item.EMAIL,
+            phoneNumber: item.SDT,
+            category: item.theLoai || null,
+            image: item.hinhNen || item.HINHANH,
+            price: item.PRICE,
+            description: item.game_moTa || item.device_moTa,
+            releaseDate: item.ngayRaMat || null,
+            manufacturer: item.NSX || null,
+            detailedImage: item.CHITIETANH || null,
+            quantityInStock: item.SOLUONG || null,
+            manufactureDate: item.NGAYSX || null,
+            warranty: item.BAOHANH || null,
+            cartQuantity: item.QUANTITY,
+            status: item.STATUS,
+            product_type: item.tenGame ? 'game' : 'devices' // Xác định loại sản phẩm
+        }));
+
+        console.log(orders);
+        res.render('ordersManagement', { data: orders });
+        // res.redirect('/playstation/admin')
+    });
+    conn.end();
+})
+
+
+app.post('/playstation/Cart/admin/deleteItem/:id', (req, res) => {
+    var conn = connection.create();
+    conn.connect();
+    var sql = `DELETE FROM cart_item WHERE ID = ${req.params.id}`;
+
+    conn.query(sql, (err, result) => {
+        if (err) throw err;
+        console.log(sql);
+        if (result.affectedRows > 0) {
+            res.redirect('/playstation/admin/orders');
+        }
+        else
+            res.redirect('/playstation/admin/orders');
+    })
+    conn.end();
+})
+
+app.post('/playstation/admin/orders/changeStatus/:id', (req, res) => {
+    var conn = connection.create();
+    conn.connect();
+    
+    var sql = 'UPDATE cart_item SET status = ?  WHERE ID = ?';
+    var params = [
+        req.body.type_Status,
+        req.params.id
+    ]
+    conn.query(sql,params, (err, result) => {
+        if (err) throw err;
+        if (result.affectedRows > 0) {
+            res.redirect('/playstation/admin/orders');
+        }
+        else
+            res.redirect('/playstation/admin/orders');
+    })
+    conn.end();
+})
 
 // ================================//
 app.listen(post, () => {

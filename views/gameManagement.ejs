@@ -164,9 +164,6 @@
                                         <th class="pt-4">$<%= item.gia %></th>
                                         <th class="pt-4"><%= item.ngayRaMat.toDateString() %></th>
                                         <th class="pt-4 d-flex mb-0 pb-3">
-                                            <a href="/playstation/game/details/<%= item.ID %>" class="btn btn-warning me-1">
-                                                <i class="fa fa-eye text-light" aria-hidden="true"></i>
-                                            </a>
                                             <button onclick="getProductDetails('<%= item.ID %>')" class="btn bg-green change me-1" value="<%= item.ID %>"><i class="fa fa-pen text-light" aria-hidden="true"></i></button>
                                             <form action="/playstation/admin/gameManagement/delete/<%= item.ID %>" class="d-inline me-1" method="post" onsubmit="return confirm('You want to remove it?')">
                                                 <button class="btn btn-danger px-3 me-1"><i class="fa fa-trash text-light" aria-hidden="true"></i></button>

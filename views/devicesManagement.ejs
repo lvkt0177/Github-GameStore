@@ -243,7 +243,6 @@
                                         <th class="pt-4"><%= item.SOLUONG %></th>
                                         <th class="pt-4"><%= item.BAOHANH %></th>
                                         <th class="pt-4 d-flex pb-3">
-                                            <a href="/playstation/admin/devices/<%= item.ID %>" class="btn btn-warning"><i class="fa fa-eye text-light" aria-hidden="true"></i></a>
                                             <button class="btn bg-green mx-2 btn_Change" onclick="getIdItem('<%= item.ID %>')"><i class="fa fa-pen text-light" aria-hidden="true"></i></button>
                                             <form action="/playstation/admin/devices/delete/<%= item.ID %>" class="" method="post" onsubmit="return confirm('You want to remove it?')">
                                                 <button class="btn btn-danger"><i class="fa fa-trash text-light" aria-hidden="true"></i></button>

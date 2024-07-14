@@ -14,6 +14,7 @@
 </head>
 <body>
 
+
     <%- include('partials/navbar') %>
 
 
@@ -21,6 +22,9 @@
     <div class="container">
         <div class="text-center mt-5">
             <h2>Your Cart</h2>
+        </div>
+        <div class="">
+            <h4>Quantity: <%= data.length %></h4>
         </div>
         <div class="row">
    
@@ -58,14 +62,14 @@
                                                 <!-- Status -->
                                                 <td>
                                                     <% if (item.status == 0) { %>
-                                                        Pending . . .
+                                                        <h5 class="text-danger">Pending</h5>
                                                     <% } %>
 
                                                     <% if (item.status == 1) { %>
-                                                        Processing . . .
+                                                        <h5 class="text-warning">Processing</h5>
                                                     <% } %>
                                                     <% if (item.status == 2) { %>
-                                                        Completed
+                                                        <h5 class="text-success">Completed</h5>
                                                     <% } %>
                                                 </td>
                                             <% } %>
@@ -80,14 +84,14 @@
                                                 <!-- Status -->
                                                 <td>
                                                     <% if (item.status == 0) { %>
-                                                        Pending . . .
+                                                        <h5 class="text-danger">Pending</h5>
                                                     <% } %>
 
                                                     <% if (item.status == 1) { %>
-                                                        Processing . . .
+                                                        <h5 class="text-warning">Processing</h5>
                                                     <% } %>
                                                     <% if (item.status == 2) { %>
-                                                        Completed
+                                                        <h5 class="text-success">Completed</h5>
                                                     <% } %>
                                                 </td>
                                             <% } %>
