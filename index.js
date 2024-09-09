@@ -326,6 +326,8 @@ app.get('/', (req, res) => {
         if (err) {
             console.log("Lỗi bảng 1", err);
         }
+        console.log(result);
+        
         dataProduct.dataGame = result;
     })
     // 
@@ -609,7 +611,9 @@ app.get('/playstation/devices/:id', (req, res) => {
 app.post('/playstation/game/details/addToCart', (req, res) => {
     var conn = connection.create();
     conn.connect();
+
     // Variable
+    
     var status = '0';
     var quantity = 1;
 
@@ -785,12 +789,12 @@ app.get('/playstation/userAccount/cart/:id', (req, res) => {
             console.log(result[0]);
             // Truy vấn các mục trong giỏ hàng 
                 const query = `
-            SELECT ci.id, ci.quantity, ci.price, ci.status, 
-                g.tenGame, g.theLoai, g.hinhNen, g.gia AS game_gia, g.moTa AS game_moTa, g.ngayRaMat,
-                d.TENSP, d.NSX, d.GIATIEN, d.MOTA AS device_moTa, d.HINHANH, d.CHITIETANH, d.SOLUONG, d.NGAYSX, d.BAOHANH
+            SELECT  ci.id, ci.quantity, ci.price, ci.status, 
+                    g.tenGame, g.theLoai, g.hinhNen, g.gia AS game_gia, g.moTa AS game_moTa, g.ngayRaMat,
+                    d.TENSP, d.NSX, d.GIATIEN, d.MOTA AS device_moTa, d.HINHANH, d.CHITIETANH, d.SOLUONG, d.NGAYSX, d.BAOHANH
             FROM cart_item ci
-            LEFT JOIN gameproduct g ON ci.game_id = g.id
-            LEFT JOIN devices d ON ci.devices_ID = d.id
+                LEFT JOIN gameproduct g ON ci.game_id = g.id
+                LEFT JOIN devices d ON ci.devices_ID = d.id
             WHERE ci.iDCart = ?
             `;
 
@@ -959,7 +963,6 @@ app.get('/playstation/admin/gameManagement', adminAccount , (req, res) => {
 
 // JSON ----------------------------
 app.get('/playstation/admin/gameManagement/:id',adminAccount, (req, res) => {
-    
     var conn = connection.create();
     conn.connect();
     var params = req.params.id;
@@ -1525,7 +1528,6 @@ app.post('/playstation/userAccount/changePassword', (req, res) => {
 })
 
 // ============ Cart ===============//
-
 app.get('/playstation/admin/orders', (req, res) => {
     if(!req.session.admin)
     {
